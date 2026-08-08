@@ -1,0 +1,45 @@
+{
+
+    "manifest_version": 3,
+    "name": "Library Detector (Academic Tool)",
+    "short_name": "LD(AT)",
+    "version": "1.5",
+  
+    "description": "Detect JavaScript libraries used on the current web page. This tool is supported by academic software engineering researches.",
+  
+    "icons": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "permissions": [
+      "activeTab"
+    ],
+    "host_permissions": [
+      "*://*/*"
+    ],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "action": {
+      "default_icon": "icons/icon48.png",
+      "default_title": "LibDetector",
+      "default_popup": "popup/DtrMenu.html"
+    },
+    "content_scripts": [
+      {
+          "matches": ["http://*/*", "https://*/*"],
+          "js": ["content_scripts/inject.js"],
+          "run_at": "document_idle",
+          "all_frames": false
+      }
+    ],
+    "web_accessible_resources": [{
+        "resources": ["data/*.json", "data/versions/*.json", "content_scripts/detect.js"],
+        "matches": ["http://*/*", "https://*/*"]
+      }
+    ]
+  
+  }
+  

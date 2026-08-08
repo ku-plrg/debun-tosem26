@@ -1,0 +1,55 @@
+# Without this, `COPY . .` pulls in ~1.7 GB of corpora and built databases that the
+# image deliberately does not bake in (they are fetched by download-data.sh and
+# constructed by build-db.sh inside the container).
+node_modules
+.git
+.DS_Store
+.omc
+
+# Raw corpora (symlinks on the author's machine; downloaded via download-data.sh)
+src/data/cdn
+src/data/npm
+src/data/data-never-remove
+src/data/original
+src/data/swc
+src/data/terser
+
+# Hash databases constructed by build-db.sh. The re-included files are the same ~45 MB the
+# repository commits, so every table prints inside the image with no download; keep this in
+# step with .gitignore. (Docker's last-match-wins means a `!` under an excluded directory
+# works here, unlike in git.)
+src/data/debun-hashes
+src/data/fingerprint-cache/*
+!src/data/fingerprint-cache/cdn-alllibs.json
+!src/data/fingerprint-cache/cdn-allhash.json
+!src/data/fingerprint-cache/web-blacklist-0.6.json
+src/data/fingerprint-cache-*
+src/data/allWebHashes/*
+!src/data/allWebHashes/*.json
+src/data/allWebHashes/*-cnt.json
+src/data/allWebHashes/*-cfg.json
+src/data/allWebHashes/*-f.json
+src/data/allWebHashes/*-fb.json
+src/data/allWebHashes/*-fbc.json
+src/data/model-detect/*/*
+!src/data/model-detect/*/summary.csv
+src/data/web-detect-eval
+src/data/threshold-sweep/t*/detection.csv
+src/data/threshold-sweep/t*/metrics.json
+
+# Crawled website scripts (crawl-sites.sh / detect write here)
+src/data/crawled
+
+# Working dirs and logs. The POG-ablation extraction is kept: it lets Table 2 re-score
+# inside the image without the raw corpora. Keep in step with .gitignore.
+*.log
+!src/data/original.log
+!src/data/swc.log
+!src/data/terser.log
+tmp
+.baselines-build
+src/baselines/.ptd-cache
+__pycache__
+*.py[cod]
+src/evaluation/rq1-performance/work
+src/evaluation/rq1-performance/env

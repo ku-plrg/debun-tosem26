@@ -1,0 +1,121 @@
+node_modules
+.DS_Store
+
+# Editor / agent tooling state
+.omc
+.omx
+
+# Python bytecode — the vendored upstream scripts are imported wherever they are
+# run from, so this cannot be scoped to one directory.
+__pycache__/
+*.py[cod]
+
+# Raw corpora (fetched by corpora-files.sh / npm-files.sh)
+src/data/cdn
+src/data/npm
+src/data/data-never-remove
+src/data/original
+src/data/swc
+src/data/terser
+
+# Fingerprint hash databases (fetched by download-files.sh, or built by build-db.sh).
+#
+# What the paper's tables *read* is committed; what only *re-derives* them is not.
+# Everything named with a `!` below is an input some table cannot be printed without,
+# and together they are ~45 MB — small enough to clone, so no download stands between
+# a fresh checkout and any table in the paper. The big files (the npm side of the
+# index, the flat DB, the raw corpora) are needed only to rebuild or to run `detect`
+# on a new website, and stay on Zenodo.
+#
+# Contents, not the directory itself: git ignores a re-include under an excluded
+# directory, so `src/data/fingerprint-cache` as a whole would silently drop the files
+# the RQ tables need.
+src/data/debun-hashes
+src/data/fingerprint-cache/*
+!src/data/fingerprint-cache/cdn-alllibs.json
+# score_u (paper Table 4) scores the websites against the cdn hash DB directly.
+!src/data/fingerprint-cache/cdn-allhash.json
+!src/data/fingerprint-cache/web-blacklist-0.6.json
+src/data/fingerprint-cache-*
+# Website fingerprints: the full model only (18 MB). The `-<model>` variants are 97 MB
+# and exist solely to produce the per-model summaries committed under model-detect/.
+src/data/allWebHashes/*
+!src/data/allWebHashes/*.json
+src/data/allWebHashes/*-cnt.json
+src/data/allWebHashes/*-cfg.json
+src/data/allWebHashes/*-f.json
+src/data/allWebHashes/*-fb.json
+src/data/allWebHashes/*-fbc.json
+# The Table 7 pipeline injects its cdnjs corpus here as `ptvc*` sites and deletes them
+# when it finishes; a run that dies partway would otherwise leave them staged for commit.
+src/data/allWebHashes/ptvc*.json
+# Per-model detection summaries — the five non-full columns of paper Table 3. These are
+# all the table reads; the caches that produce them are the ablation-caches Zenodo tier.
+src/data/model-detect/*/*
+!src/data/model-detect/*/summary.csv
+src/data/threshold-sweep/t*/detection.csv
+src/data/threshold-sweep/t*/metrics.json
+src/data/web-detect-eval
+
+# Crawled website scripts — `detect`, `crawl-sites.sh`, and the perf harness all write
+# here (~374 MB for the 56 Table 1 sites). Third-party code; never redistributed.
+src/data/crawled/
+
+# Run logs / scratch
+*.log
+src/data/*.log
+# ...except the POG-ablation hash extraction, which is an evaluation input, not a log. 36 MB
+# for the three, and with them `RQ1_SCORE_ONLY=1 run RQ2` re-scores Table 2 offline; the raw
+# original/swc/terser corpora they were extracted from are a Zenodo download (see ZENODO.md).
+!src/data/original.log
+!src/data/swc.log
+!src/data/terser.log
+
+# PTV-vs-DEBUN reproduction scratch (corpus downloads, injected sites, per-run outputs).
+# The pipeline scripts + vendored libs_data under src/other-tool/ptv-repro/ ARE committed.
+tmp/
+
+# Committed fixtures & small reference outputs are NOT ignored:
+#   src/data/birth_sanitized.json
+#   src/data/other-tool/*.json
+#   src/data/threshold-sweep/t84/summary.csv
+#   src/results/rq2-ablation/score.csv
+
+# baseline regeneration working dirs and the inputs ./baseline-files.sh fetches
+src/data/baselines/
+.baselines-build/
+src/baselines/.ptd-cache/
+
+# The two upstream checkouts ./baseline-repos.sh clones. Neither is licensed, so they are
+# cloned per-reviewer rather than redistributed with this artifact.
+src/baselines/upstream-repos/
+
+# RQ1 timing measurement: scripts + per-site results ARE committed under
+# src/evaluation/rq1-performance/; only raw working data and built environments are ignored.
+src/evaluation/rq1-performance/work/
+src/evaluation/rq1-performance/env/
+src/evaluation/rq1-performance/tranco.csv
+
+# Working notes, not part of the submission archive: the Zenodo payload plan and the
+# per-table reproducibility status. Kept on disk, out of the repository.
+ZENODO.md
+REPRODUCIBILITY.md
+src/other-tool/ptv-repro/REPRODUCTION.md
+src/other-tool/ptv-repro/PTV-vs-Debun-report.md
+
+# Zenodo upload tarballs built by make-zenodo-payload.sh
+zenodo-payload/
+
+# The D-Bundlr / Aletheia inputs, when staged at the repo root instead of via
+# ./baseline-files.sh (which puts them in src/data/baselines/). 871 MB, one file of it 96 MB
+# — `git add -A` will happily stage the lot, so name it explicitly. This is the payload of
+# baseline-inputs.tar.gz; see ZENODO.md.
+/tosem/
+
+# Author-side: builds the Zenodo payload from a fully populated working tree.
+make-zenodo-payload.sh
+
+# bundle-venn-csv.py's own output directory. Its two CSVs are byte-identical copies of the
+# committed venn-libraries.csv / venn-versions.csv, and the generator creates the directory
+# itself, so shipping them would be one more copy to keep in step.
+figures-bundle/

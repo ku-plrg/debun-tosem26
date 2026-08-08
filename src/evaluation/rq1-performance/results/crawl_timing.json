@@ -1,0 +1,75 @@
+{
+ "rows": [
+  {
+   "site": "google.com",
+   "crawlMs": 6353,
+   "files": 8
+  },
+  {
+   "site": "microsoft.com",
+   "crawlMs": 14402,
+   "files": 159
+  },
+  {
+   "site": "facebook.com",
+   "crawlMs": 3674,
+   "files": 22
+  },
+  {
+   "site": "cloudflare.com",
+   "crawlMs": 93881,
+   "files": 0,
+   "crawlError": "uncaught: ENOTDIR: not a directory, unlink '<crawl-root>/cloudflare.com/www.cloudflare.com/go9u/caTNWlTOY52mUaPrM2gED3nxCMLr_BUdsxjGrRSy6-jYSt3f'"
+  },
+  {
+   "site": "mail.ru",
+   "crawlMs": 116453,
+   "files": 57
+  },
+  {
+   "site": "youtube.com",
+   "crawlMs": 8384,
+   "files": 19
+  },
+  {
+   "site": "apple.com",
+   "crawlMs": 2692,
+   "files": 19
+  },
+  {
+   "site": "amazonaws.com",
+   "crawlMs": 5716,
+   "files": 46
+  },
+  {
+   "site": "instagram.com",
+   "crawlMs": 4298,
+   "files": 29
+  },
+  {
+   "site": "dzen.ru",
+   "crawlMs": 144633,
+   "files": 30
+  },
+  {
+   "site": "twitter.com",
+   "crawlMs": 36932,
+   "files": 427
+  },
+  {
+   "site": "office.com",
+   "crawlMs": 10297,
+   "files": 14
+  },
+  {
+   "site": "linkedin.com",
+   "crawlMs": 4291,
+   "files": 10
+  },
+  {
+   "site": "live.com",
+   "crawlMs": 3901,
+   "files": 28
+  }
+ ]
+}

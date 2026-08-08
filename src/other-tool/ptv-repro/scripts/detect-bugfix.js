@@ -1,0 +1,1979 @@
+(() => {
+    /**
+     * Check and set a global guard variable.
+     * If this content script is injected into the same page again,
+     * it will do nothing next time.
+     */
+    if (window.DetectorHasRun) {
+        return;
+    }
+    window.DetectorHasRun = true;
+
+    class Version {
+        constructor(vlist, vstr = '') { 
+            // vlist: all possible versions of a library   e.g. ['1.1.1', '1.1.2', '1.1.3']
+            // vstr: the string displayed in UI            e.g. '1.1.1~1.1.3'
+            if (vstr === null || vstr=== undefined || !vlist || !Array.isArray(vlist) || vstr == 'unknown' || vlist.length == 0 || !vlist[0]) {
+                this.version_list = []
+                this.version_string = 'unknown'
+            }
+            else {
+                // for (let i = 0; i < vlist.length; i++)
+                //     vlist[i] = String(vlist[i])
+                this.version_list = vlist   
+                if (vstr == '')
+                    this.version_string = vlist.join(', ')
+                else
+                    this.version_string = String(vstr)
+            }   
+        }
+
+        isUnknown() {
+            return this.version_list.length == 0
+        }
+    }
+
+    class PropertyRecord {
+        // The property path staring from `window`
+        constructor(path_list = [], ptr = window, par_ptrs = [], ptvBundleLocation = null) { 
+            this.path_list = [...path_list]
+            this.ptr = ptr
+            this.par_ptrs = [...par_ptrs]      // Parent pointers
+            this.ptvBundleLocation = ptvBundleLocation
+        }
+
+        copy(PR) {
+            this.path_list = [...PR.path_list]
+            this.par_ptrs = [...PR.par_ptrs]
+            this.ptr = PR.ptr
+            this.ptvBundleLocation = PR.ptvBundleLocation
+        }
+
+        isProxy(proxy) {
+            // Check whether an object is a proxy
+            // https://stackoverflow.com/questions/36372611/how-to-test-if-an-object-is-a-proxy
+            return proxy == null ? false : !!proxy[Symbol.for("__isProxy")];
+        }
+
+        grow(attribute_name) {  // PR is an instance of PropertyRecord
+            if (this.ptr == undefined || this.ptr == null) return false  
+            this.path_list.push(attribute_name)
+            this.par_ptrs.push(this.ptr) 
+            let old_ptr = this.ptr
+            try{
+                this.ptr = this.ptr[attribute_name]
+            }
+            catch{
+                // Uncaught (in promise) DOMException: Failed to read a named property 
+                // 'amplify' from 'Window': Blocked a frame with origin "https://ieeexplore.ieee.org" 
+                // from accessing a cross-origin frame.
+                return false
+            }
+            if (this.isProxy(old_ptr)) {
+                // Reject proxy object
+                console.log('Warning: Proxy object detected.')
+                console.log(this.path_list)
+                return false
+            }
+            
+            return true
+        }
+
+        growFrom(PR, attribute_name) {  // PR is an instance of PropertyRecord
+            if (PR.ptr == undefined || PR.ptr == null) return false
+            this.length = PR.path_list.length
+            this.path_list = [...PR.path_list]
+            this.par_ptrs = [...PR.par_ptrs]
+            this.path_list.push(attribute_name)
+            this.par_ptrs.push(PR.ptr)
+            try{
+                this.ptr = PR.ptr[attribute_name]
+            }
+            catch{
+                // Uncaught (in promise) DOMException: Failed to read a named property 
+                // 'amplify' from 'Window': Blocked a frame with origin "https://ieeexplore.ieee.org" 
+                // from accessing a cross-origin frame.
+                return false
+            }
+            return true
+        }
+
+        isWindow() {
+            return (this.ptr == window) 
+        }
+
+        depth() {
+            return this.path_list.length
+        }
+
+        hasCircle() {
+            // Prevent loop in the object tree
+            // Check whether v points to some parent variable
+            if (this.path_list.length < 1 || this.ptr === undefined) 
+                return false
+
+            if (typeof this.ptr != 'object' && typeof this.ptr != 'function')
+                return false
+
+            for (let par_ptr of this.par_ptrs) {
+                if (par_ptr == this.ptr) return true
+            }
+            return false
+        }
+
+        getAttr() {
+            try{
+                // Get attributes, i.e., child properties, and return as a string list
+                if (this.ptr == undefined || this.ptr == null) {
+                    return [];
+                }
+                if (typeof (this.ptr) == 'object' || typeof (this.ptr) == 'function') {
+                    let vlist = Object.getOwnPropertyNames(this.ptr);
+                    vlist = vlist.filter(val => !["prototype"].includes(val));
+                    return vlist
+                }    
+                return []
+            } catch (error) {
+                return []
+            } 
+        }
+
+        str() {
+            if (this.path_list.length == 0)
+                return 'window'
+            
+            return `window${this.path_list.map(v => this.formatPathSegment(v)).join('')}`    
+        }
+
+        formatPathSegment(v) {
+            const text = String(v)
+            if (/^[A-Za-z_$][A-Za-z0-9_$]*$/.test(text))
+                return `.${text}`
+            return `[${JSON.stringify(text)}]`
+        }
+        
+    }
+
+    class Library {
+        constructor(libindex, detectLocationRecord) {
+            this.index = libindex;                // the library index with respect to the libraries.json list
+            // let pr = new PropertyRecord()
+            // pr.copy(detectLocationRecord)
+            this.detectLocationRecord = detectLocationRecord;       // PropertyRecord instance
+            this.version = null             // <Version> instance
+        }       
+
+        locationPtr() {
+            return this.detectLocationRecord.ptr
+        }
+
+        compareWithPTree(root) {
+            if (!root)
+                return true
+            // Compare the pTree from the detection location with the pTree "root". Return true if matches, false if not.
+            const q = [root]
+            const q2 = [this.detectLocationRecord]
+            // const q2 = [new PropertyRecord()]
+            let first_round_flag = true
+            while (q.length) {
+                let vertex = q.shift()
+                let pr = q2.shift()
+                
+                // Skip checking the "window" vertex
+                if (first_round_flag) {
+                    first_round_flag = false
+                }
+                else {
+                    if (!this.checkComply(pr.ptr, vertex['d'])) return false
+                }
+                
+                for (let child of vertex['c']) {
+                    q.push(child)
+                    let new_pr = new PropertyRecord()
+                    let success = new_pr.growFrom(pr, child['n'])
+                    if (!success) return false
+                    q2.push(new_pr)
+                }
+            }
+            return true
+        }
+
+        isArraySetMap(v) {
+            if (Array.isArray(v))   return true;
+            if (Object.getPrototypeOf(v) === Set.prototype)   return true;
+            if (Object.getPrototypeOf(v) === Map.prototype)   return true;
+            return false;
+        }
+
+        checkComply(property, _dict) {
+            // Check whether the property complies with the "d" field (_dict) in pTree
+            if (_dict == undefined || _dict == null) return true
+            if (_dict['t'] == undefined || _dict['t'] == null) return true
+
+            if (property === undefined) {
+                if (_dict['t'] == 1) return true;
+                else return false;
+            }
+            if (property === null) {
+                if (_dict['t'] == 2) return true;
+                else return false;
+            }
+            if (this.isArraySetMap(property)) {
+                if (_dict['t'] == 3) return true
+                else return false;    // NEED CHANGE TO MD5 CHECK !!
+            }
+            if (typeof (property) == 'string') {
+                if (_dict['t'] == 4 && _dict['v'] == property.slice(0, 24).replace(/<|>/g, '_')) return true;
+                else return false;
+            }
+            if (typeof (property) == 'object') {
+                if (_dict['t'] == 5) return true;
+                else return false;
+            }
+            if (typeof (property) == 'function') {
+                if (_dict['t'] == 6) return true;
+                else return false;        
+            }
+            if (typeof (property) == 'number') {
+                if (_dict['t'] == 7 && _dict['v'] == property.toFixed(2)) return true;
+                else return false;
+            }
+            if (typeof (property) == 'boolean') {
+                if (_dict['t'] == 8 && _dict['v'] == property) return true;
+                else return false;
+            }
+            // Other condition
+            if (_dict['t'] == typeof (property)) return true;
+            else return false;
+        }
+    }
+
+    class Libraries {
+        constructor(libInfoList) {
+            this.libs = []                      // a list of <Library> instances
+            this.libInfoList = libInfoList      // a list read from libraries.json
+            this.VerDe = new VersionDetermine()
+        }
+
+        addLib(libindex, detectLocationRecord) {
+            for (let lib of this.libs) {
+                if (lib.index == libindex && lib.detectLocationRecord && detectLocationRecord && lib.detectLocationRecord.ptr === detectLocationRecord.ptr)
+                    return
+            }
+            let lib = new Library(libindex, detectLocationRecord)
+            this.libs.push(lib)
+        }
+
+        addLibv(libindex, version) {    // version is of <Version> type
+            let lib = new Library(libindex, null)
+            lib.version = version
+            this.libs.push(lib)
+        }
+
+        prefindLibs() {
+            // Used for some frameworks, cannot use pTree method to detect
+            for (let index in this.libInfoList) {
+                const v_func = this.libInfoList[index]['idfunc']    // library identification function, which returns a truth value (whether the lib is found) and the version
+
+                if (this.VerDe[v_func] != undefined && typeof this.VerDe[v_func] == 'function') {
+                    // Invoke functions in <VersionDetermine> class
+                    try {
+                        let [libfound, _version] = this.VerDe[v_func](window)
+                        if (libfound) {
+                            if (!_version) {
+                                _version = new Version(null)
+                            }
+                            this.addLibv(index, _version)
+                        }
+                    }
+                    catch (e)  {console.log(e)}
+                }
+            }
+        }
+
+        featureExistsAt(libInfo, pr) {
+            if (!libInfo['feature1'] || libInfo['feature1'].length == 0 || libInfo['feature1'][0].length == 0) {
+                // The feature field is empty
+                return false
+            }
+
+            let j = 0
+            while (true) {
+                j += 1
+                let featureName = `feature${j}`
+                if (! libInfo.hasOwnProperty(featureName)) {
+                    break
+                }
+
+                let properties = libInfo[featureName]
+                let feature_hold = true
+                for (let property of properties) {
+                    let _pr = new PropertyRecord()
+                    _pr.copy(pr)
+                    for (let v of property) {
+                        if (!_pr.grow(v)){
+                            feature_hold = false
+                            break
+                        }
+                    }
+                    if (_pr.ptr === undefined) feature_hold = false
+
+                    if (!feature_hold) break
+                }
+                if (feature_hold) {
+                    return true
+                }
+            }
+
+            return false
+        }
+
+        featureRootAliases(libInfo) {
+            const aliases = []
+            let j = 0
+            while (true) {
+                j += 1
+                let featureName = `feature${j}`
+                if (! libInfo.hasOwnProperty(featureName)) {
+                    break
+                }
+
+                for (let property of libInfo[featureName]) {
+                    if (property.length > 0 && !aliases.includes(property[0]))
+                        aliases.push(property[0])
+                }
+            }
+            return aliases
+        }
+
+        normalizeName(text) {
+            return String(text || '').toLowerCase().replace(/[^a-z0-9]/g, '')
+        }
+
+        moduleIdHasName(moduleId) {
+            return /[A-Za-z]/.test(String(moduleId))
+        }
+
+        plausibleNamesForLibrary(libInfo, aliases) {
+            const names = []
+            const addName = (value) => {
+                const normalized = this.normalizeName(value)
+                if (normalized.length >= 3 && !names.includes(normalized))
+                    names.push(normalized)
+            }
+
+            addName(libInfo.libname)
+            addName(libInfo.versionfile ? libInfo.versionfile.replace(/\.json$/i, '') : '')
+
+            if (libInfo.url) {
+                const parts = String(libInfo.url).split(/[/?#]/)[0].split('/')
+                addName(parts[parts.length - 1])
+            }
+
+            return names
+        }
+
+        isPlausibleVarStorageModuleMatch(moduleId, libInfo, aliases) {
+            if (!this.moduleIdHasName(moduleId))
+                return true
+
+            const moduleName = this.normalizeName(moduleId)
+            const names = this.plausibleNamesForLibrary(libInfo, aliases)
+            if (names.length == 0)
+                return false
+
+            return names.some(name => moduleName.includes(name) || name.includes(moduleName))
+        }
+
+        createVarStorageAliasRecord(moduleId, moduleExports) {
+            const moduleLocations = window.varStorage && window.varStorage.moduleLocations
+            const captureLocation = moduleLocations && moduleLocations[moduleId] ? moduleLocations[moduleId] : {}
+            return new PropertyRecord(['varStorage', 'modules', moduleId], moduleExports, [window], {
+                detection_source: 'varStorage.modules',
+                path: `window.varStorage.modules[${JSON.stringify(String(moduleId))}]`,
+                module_id: String(moduleId),
+                capture: captureLocation.capture || 'module-exports',
+                script_url: captureLocation.script_url || '',
+                webpack_pattern: captureLocation.webpack_pattern || '',
+                bundler: captureLocation.bundler || 'webpack',
+                require_name: captureLocation.require_name || '',
+                module_id_parameter: captureLocation.module_id_parameter || '',
+            })
+        }
+
+        varStorageExportCandidates(moduleExports) {
+            const candidates = [{ value: moduleExports, export_path: 'module.exports' }]
+            if (
+                moduleExports &&
+                (typeof moduleExports == 'object' || typeof moduleExports == 'function') &&
+                moduleExports.default &&
+                moduleExports.default !== moduleExports &&
+                (typeof moduleExports.default == 'object' || typeof moduleExports.default == 'function')
+            ) {
+                candidates.push({ value: moduleExports.default, export_path: 'module.exports.default' })
+            }
+            return candidates
+        }
+
+        findVarStorageLibs() {
+            const storage = window.varStorage
+            const modules = storage && storage.modules
+            if (!modules || (typeof modules != 'object' && typeof modules != 'function'))
+                return
+
+            for (let [moduleId, moduleExports] of Object.entries(modules)) {
+                for (let exportCandidateInfo of this.varStorageExportCandidates(moduleExports)) {
+                    const exportCandidate = exportCandidateInfo.value
+                    if (!exportCandidate || (typeof exportCandidate != 'object' && typeof exportCandidate != 'function'))
+                        continue
+
+                    for (let i in this.libInfoList) {
+                        let libInfo = this.libInfoList[i]
+                        const aliases = this.featureRootAliases(libInfo)
+                        if (aliases.length == 0)
+                            continue
+                        if (!this.isPlausibleVarStorageModuleMatch(moduleId, libInfo, aliases))
+                            continue
+
+                        const pr = this.createVarStorageAliasRecord(moduleId, exportCandidate)
+                        if (pr.ptvBundleLocation)
+                            pr.ptvBundleLocation.export_path = exportCandidateInfo.export_path
+                        if (this.featureExistsAt(libInfo, pr)) {
+                            this.addLib(i, pr)
+                        }
+                    }
+                }
+            }
+        }
+
+        findLibs(blacklist, depth_limit=3, size_limit=10000) {
+            let visited_vertex_num = 1
+
+            this.findVarStorageLibs()
+
+            // Stop the program after 5 seconds
+            let timeout = false
+            setTimeout(() => {
+                timeout = true
+            }, "5000")
+
+            // Find potential libraries in the web context pTree
+            const window_pr = new PropertyRecord()
+            const q = [window_pr]
+            while (q.length) {
+                if (timeout) break
+
+                let pr = q.shift()
+                if (pr.hasCircle())
+                    continue
+
+                // console.log(pr.path_list)
+                
+                let children = pr.getAttr();
+                for (let i in this.libInfoList) {
+                    let libInfo = this.libInfoList[i]
+                    if (this.featureExistsAt(libInfo, pr)) {
+                        this.addLib(i, pr)
+                    }
+                }
+                // Remove global variables in blacklist
+                if (pr.isWindow()){
+                    children = children.filter(val => !blacklist.includes(val));
+                }
+                    
+                if (pr.depth() < depth_limit) {
+                    for (let child_v of children) {
+                        if (visited_vertex_num >= size_limit) {
+                            // Prevent web out of memory crash
+                            break
+                        }
+                        let new_pr = new PropertyRecord()
+                        new_pr.growFrom(pr, child_v)
+                        q.push(new_pr)
+                        visited_vertex_num += 1
+                    }
+                }    
+            }
+        }
+
+        async checkVersion(baseurl) {
+            // Determine the version of each library
+            for (let lib of this.libs) {
+                // Step1: pre function checking
+                lib.version_source = 'none'
+                const libInfo = this.libInfoList[lib.index]
+                const v_func = libInfo['function']
+
+                if (this.VerDe[v_func] != undefined && typeof this.VerDe[v_func] == 'function') {
+                    // Invoke functions in <VersionDetermine> class
+                    try {
+                        lib.version = this.VerDe[v_func](lib.locationPtr())
+                    }
+                    catch (e)  {console.log(e)}
+                }
+
+                if (!lib.version instanceof Version) {
+                    console.log(`Warning: function ${v_func} must return as a <Version> object.`)
+                    continue
+                }
+
+                if (lib.version && (lib.version instanceof Version) && !lib.version.isUnknown()) lib.version_source = 'label'
+                // Step2: pTree-based match checking
+                if (!lib.version || lib.version.isUnknown()) {
+                    console.log('start checking version through pTree comparison.')
+                    lib.version = new Version([])
+                    if (libInfo.hasOwnProperty('versionfile')) {
+
+                        let file_exist = true
+                        const response = await fetch(`${baseurl}/versions/${libInfo['versionfile']}`).catch(err => {
+                            file_exist = false
+                          })
+                        if (file_exist && response.status == 200) {
+                            // Version file exists
+                            const version_dict = await response.json()
+                            for (let [_, version_entry] of Object.entries(version_dict)) {
+                                if (version_entry['comparison_result'] === undefined) {
+                                    version_entry['comparison_result'] = lib.compareWithPTree(version_entry['pTree'])
+                                }
+                                if (version_entry['comparison_result'] == true) {
+                                    // Ensure no supertree matching
+                                    let have_S_match = false
+                                    for (let S_index of version_entry['Sm']) {
+                                        let S_entry = version_dict[S_index]
+                                        if (!S_entry)
+                                            continue
+                                        if (S_entry['comparison_result'] === undefined) {
+                                            S_entry['comparison_result'] = lib.compareWithPTree(S_entry['pTree'])
+                                        }
+                                        if (S_entry['comparison_result'] == true) {
+                                            have_S_match = true
+                                            break
+                                        }
+                                    }
+                                    if (!have_S_match) {
+                                        // Find the correct version
+                                        lib.version = new Version(version_entry['version_list'], version_entry['version'])
+                                        lib.version_source = 'pTree'
+                                        break
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            console.log(`${libInfo.libname} have an incorrect version file name given in the <libraries.json> file.`)
+                        }
+                    }
+                    else {
+                        console.log(`${libInfo.libname} does not have version file given in the <libraries.json> file.`)
+                    }
+                }
+
+                // Step3: post function checking
+                const post_v_func = libInfo['postfunction'] 
+                if (this.VerDe[post_v_func] != undefined && lib.version.isUnknown()) {
+                    try {
+                        lib.version = this.VerDe[post_v_func](lib.locationPtr())
+                        lib.version_source = 'postfunc'
+                    }
+                    catch (e)  {console.log(e)}
+                }
+
+                if (!lib.version instanceof Version) {
+                    console.log(`Warning: function ${post_v_func} must return as a <Version> object.`)
+                }
+
+            }
+
+        }
+
+        detectionLocationDetail(lib) {
+            const record = lib.detectLocationRecord
+            const detail = {
+                location: record ? record.str() : '',
+                path: record ? record.path_list.map(value => String(value)) : [],
+                source: 'window'
+            }
+
+            if (record && record.ptvBundleLocation) {
+                Object.assign(detail, record.ptvBundleLocation)
+                detail.source = record.ptvBundleLocation.detection_source || 'varStorage.modules'
+                return detail
+            }
+
+            if (
+                record &&
+                record.path_list.length >= 2 &&
+                record.path_list[0] == 'varStorage' &&
+                record.path_list[1] != 'modules' &&
+                window.varStorage &&
+                window.varStorage.entryLocations &&
+                window.varStorage.entryLocations[record.path_list[1]]
+            ) {
+                const entryLocation = window.varStorage.entryLocations[record.path_list[1]]
+                Object.assign(detail, entryLocation)
+                detail.source = 'varStorage.entry'
+            }
+
+            return detail
+        }
+
+        appendUniqueLocation(entry, detail) {
+            const location = detail.location || ''
+            if (location && !entry.locations.includes(location))
+                entry.locations.push(location)
+
+            const detailKey = JSON.stringify(detail)
+            if (!entry.location_details.some(item => JSON.stringify(item) == detailKey))
+                entry.location_details.push(detail)
+        }
+
+        convertToJson() {
+            const json_output = []
+            for (let lib of this.libs) {
+                const detail = this.detectionLocationDetail(lib)
+                json_output.push({
+                    libname: this.libInfoList[lib.index]['libname'],
+                    url: this.libInfoList[lib.index]['url'],
+                    version: lib.version.version_string,
+                    location: detail.location,
+                    location_detail: detail
+                })
+            }
+            // Sort based on libname
+            json_output.sort((a, b) => { return a.libname.localeCompare(b.libname)})
+            return json_output
+        }
+
+        convertToJson2() {
+            const json_output = []
+            for (let lib of this.libs) {
+                let _libname = this.libInfoList[lib.index]['libname']
+                let _version = lib.version.version_list
+
+                const detail = this.detectionLocationDetail(lib)
+                let existing_entry = null
+                for (let entry of json_output) {
+                    if (_libname != entry.libname)
+                        continue
+                    if (_version.length != entry.version.length)
+                        continue
+                    let has_dif = false
+                    for (let i = 0; i < _version.length; i++) {
+                        if (_version[i] != entry.version[i]) {
+                            has_dif = true
+                            break
+                        }
+                        
+                    }
+                    if (!has_dif) {
+                        existing_entry = entry
+                        break
+                    }
+                }
+                if (existing_entry) {
+                    this.appendUniqueLocation(existing_entry, detail)
+                }
+                else {
+                    const entry = {
+                        libname: _libname,
+                        version: _version,
+                        version_source: lib.version_source || 'none',
+                        locations: [],
+                        location_details: [],
+                    }
+                    this.appendUniqueLocation(entry, detail)
+                    json_output.push(entry)
+                }     
+            }
+            // Sort based on libname
+            json_output.sort((a, b) => { return a.libname.localeCompare(b.libname)})
+            return json_output
+        }
+    }
+
+    /**
+     * Listen for messages from the content script.
+     */
+    window.addEventListener("message", async function (event) {
+        if (event.data.type == 'detect') {
+            const baseurl = event.data.url
+            const response1 = await this.fetch(`${baseurl}/blacklist.json`)
+            const blacklist = await response1.json()
+            const response2 = await this.fetch(`${baseurl}/libraries.json`)
+            const libInfoList = await response2.json()
+            // console.log(blacklist)
+
+            // Used to calculate spending time
+            let start_time = Date.now()
+
+            // Find all keywords in the web object tree
+            let L = new Libraries(libInfoList)
+            L.prefindLibs()
+            L.findLibs(blacklist, 2)
+            console.log('libs found')
+            console.log(L)
+            await L.checkVersion(baseurl)
+
+            let end_time = Date.now()
+
+            console.log(L.libs)
+
+            console.log('=== Detection Result ===')
+            console.log(L.convertToJson2())
+
+            this.window.postMessage({type: 'response', detected_libs: L.convertToJson()}, "*")
+
+            // Only used for Selenium automation
+            var detectTimeMeta = document.getElementById('lib-detect-time')
+            detectTimeMeta.setAttribute("content", end_time - start_time);
+
+            var detectResultMeta = document.getElementById('lib-detect-result')
+
+            var result_json = L.convertToJson2()
+
+            // Some website doesn't have the JSON.stringify function, such as: https://fizon.de/
+            try{ var result_str = JSON.stringify(result_json) } catch (e1) {
+                try { var result_str = JSON.encode(result_json) } catch(e2) {
+                    try { var result_str = JSON.objToJSON(result_json) } catch(e3) {
+                        console.log('Warning: JSON stringify failed.')
+                        var result_str = '[]'
+                    }
+                }
+            }
+            
+            detectResultMeta.setAttribute("content", result_str);
+        }
+    });
+
+    class VersionDetermine {
+        constructor () {
+        }
+
+        id_react (win) {
+            function isMatch(node) {
+                return node!=null && node._reactRootContainer!=null;
+            }
+            function nodeFilter(node) {
+                return isMatch(node) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+            }
+            var reactRoot = document.getElementById('react-root');
+            var altHasReact = document.querySelector('*[data-reactroot]');
+            var bodyReactRoot = isMatch(document.body) || isMatch(document.body.firstElementChild);
+            var hasReactRoot = bodyReactRoot|| document.createTreeWalker(document.body, NodeFilter.SHOW_ELEMENT, nodeFilter).nextNode() != null;
+            if (hasReactRoot || reactRoot && reactRoot.innerText.length > 0 || altHasReact || win.React && win.React.Component) {
+                if (win['React'] && win['React']['version'])
+                    return [true, new Version([win['React']['version']])];
+                else
+                    return [true, new Version([])];
+            }
+            return [false, null];
+        }
+
+        id_angular (win) {
+            var ngVersion = win.document.querySelector('[ng-version]');
+            if (ngVersion) {
+                return [true, new Version([ngVersion.getAttribute('ng-version')])];
+            }
+            else if (win.ng && win.ng.probe instanceof Function) {
+                return [true, new Version([])];
+            }
+            return [false, null];
+        }
+
+        id_preact (win) {
+            var expando = typeof Symbol!='undefined' && Symbol.for && Symbol.for('preactattr');
+            function isMatch(node) {
+                if ('__k' in node && 'props' in node.__k && 'type' in node.__k) {
+                    return true;
+                }
+                return '_component' in node || '__preactattr_' in node || expando && node[expando]!=null;
+            }
+            function getMatch(node) {
+                return node!=null && isMatch(node) && node;
+            }
+            function nodeFilter(node) {
+                return isMatch(node) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+            }
+            var preactRoot = getMatch(document.body) || getMatch(document.body.firstElementChild);
+            if (!preactRoot) {
+                preactRoot = document.createTreeWalker(document.body, NodeFilter.SHOW_ELEMENT, nodeFilter).nextNode();
+            }
+            if (preactRoot || win.preact) {
+                if (preactRoot) {
+                    if ('__k' in preactRoot) {
+                        return [true, new Version(['10'])];
+                    }
+                    if ('__preactattr_' in preactRoot) {
+                        return [true, new Version(['8'])];
+                    }
+                    if (expando && preactRoot[expando]!=null) {
+                        return [true, new Version(['7'])];
+                    }
+                }
+                return [true, new Version([])];
+            }
+            return [false, null];
+        }
+
+        test_bootstrap (root) {       
+            return new Version([root['bootstrap']['Alert']['VERSION']]) 
+        }
+
+        test_next (root) {
+            return new Version([root['next']['version']])
+        }
+
+        test_vue2 (root) {
+            // https://github.com/vuejs/vue/
+            return new Version([root['Vue']['version']])
+        }
+
+        test_emberjs (root) {
+            if (root['Ember'] && root['Ember']['VERSION'])
+                return new Version([root['Ember']['VERSION']])
+            if (root['Em'] && root['Ember']['VERSION'])
+                return new Version([root['Em']['VERSION']])
+            return new Version([])
+        }
+
+        test_foundation (root) {
+            if (root['Foundation'] && root['Foundation']['version'])
+                return new Version([root['Foundation']['version']])
+            return new Version([])
+        }
+
+        test_amplifyjs(root) {
+            return new Version(['1.1.0', '1.1.1', '1.1.2'], '1.1.0~1.1.2')
+        }
+
+        test_polymer (root) {
+            return new Version([root['Polymer']['version']])
+        }
+
+        test_boomerangjs (root) {
+            // https://github.com/akamai/boomerang
+            return new Version([root['BOOMR']['version']])
+        }
+
+        test_datatables(root) {
+            return new Version([root['DataTable']['version']])
+        }
+
+        test_google_maps(root) {
+            // https://developers.google.com/maps/documentation/javascript/versions
+            return new Version([root['google']['maps']['version']])
+        }
+
+        test_extjs (root) {
+            const ext = root['Ext']
+            if (ext['versions'] && ext['versions']['core']) {
+                return new Version([ext['versions']['core']['version']])
+            }
+            return new Version([ext['version']])
+        }
+
+        test_backbonejs(root) {
+            const backbone = root['Backbone']
+            if (!backbone) return new Version([])
+            const version = backbone['VERSION']
+            if (version == '0.9.9' || version == '1.2.3') return new Version([])
+            return new Version([version])
+        }
+
+
+        test_camanjs(root) {
+            if (root['Caman']['version']) {
+                const version = root['Caman']['version']['release']
+                return new Version([version])
+            }
+            else 
+                return new Version([])
+        }
+
+        test_corejs(root) {
+            const shared = root['__core-js_shared__']
+            const core = root.core
+            if (core) {
+                return new Version([core.version])
+            }
+            else if (shared) {
+                const versions = shared.versions
+                if (Array.isArray(versions)) {
+                    const v_str = versions.map(it => `core-js-${ it.mode }@${ it.version }`).join('; ')
+                    return new Version([v_str])
+                }
+                else {
+                    return new Version([])
+                }
+            }
+            return new Version([])
+        }
+
+        test_d3(root) {
+            return new Version([root['d3']['version']])
+        }
+
+        test_dc(root) {
+            const version = root['dc']['version']
+            if (version == '4.0.0-beta.2')
+                return new Version(['4.0.0-beta.2', '4.0.0-beta.3', '4.0.0-beta.4'], '4.0.0-beta.2~4.0.0-beta.4')
+            if (version == '4.0.0-beta.5')
+                return new Version(['4.0.0-beta.5', '4.0.1'])
+            return new Version([version])
+        }
+    
+        test_dojo(root) {
+            if (root['dojo']['version'])
+                return new Version([root['dojo']['version']['revision']])
+            else
+                return new Version([])
+        }
+
+        test_fabricjs(root) {
+            return new Version([root['fabric']['version']])
+        }        
+
+        test_flot(root) {
+            let plot = null
+            if (root['$']) plot = root['$']['plot']
+            if (root['jQuery']) plot = root['jQuery']['plot']
+            if (plot && plot['version']) 
+                return new Version([plot['version']])
+            else
+                return new Version([])
+        }
+
+        test_fusejs(root) {
+            if (root['Fuse']['version'])    return new Version([root['Fuse']['version']])
+            if (root['Fuse']['VERSION'])    return new Version([root['Fuse']['VERSION']])
+            return new Version([])
+        }
+
+        test_hammerjs(root) {
+            const version = root['Hammer']['VERSION']
+            if (version == '2.0.4') return new Version(['2.0.4', '2.0.5'])
+            if (version == '2.0.6') return new Version(['2.0.6', '2.0.7'])
+            return new Version([version])
+        }
+
+        test_micromodal(root) {
+            return new Version([
+                "0.3.0",
+                "0.3.1",
+                "0.3.2",
+                "0.4.0",
+                "0.4.1",
+                "0.4.10",
+                "0.4.2",
+                "0.4.3",
+                "0.4.4",
+                "0.4.5",
+                "0.4.6",
+                "0.4.7",
+                "0.4.8",
+                "0.4.9"
+            ], "0.3.0 ~ 0.4.9")
+        }
+
+        test_handlebarsjs(root) {
+            const version = root['Handlebars']['VERSION']
+            if (version == '3.0.1') return new Version(['3.0.1', '3.0.2', '3.0.3', '3.0.4','3.0.5', '3.0.6', '3.0.7'], '3.0.1~3.0.7')
+            return new Version([version])
+        }
+
+        test_handsontable(root) {
+            const version = root['Handsontable']['version']
+            return new Version([version])
+        }
+
+        test_highcharts(root) {
+            const version = root['Highcharts']['version']
+            return new Version([version])
+        }
+
+        test_jquerymobile(root) {
+            const jq = root.jQuery || root.$
+            if (jq.mobile) return new Version([jq.mobile.version])
+            return new Version([])
+        }
+
+        test_jquerytools(root) {
+            const jq = root.jQuery || root.$
+            if (jq.tools) return new Version([jq.tools.version])
+            return new Version([])
+        }
+
+        test_jquery(root) {
+            const jq = root.jQuery || root.$
+            if (jq.fn) return new Version([jq.fn.jquery])
+        }   
+
+        test_jqueryui(root) {
+            const jq = root.jQuery || root.$
+            if (jq.ui) return new Version([jq.ui.version])
+        }
+
+        test_knockout (root) {
+            return new Version([root.ko.version])
+        }
+
+        test_leaflet (root) {
+            return new Version([root['L']['version']])
+        }
+
+        test_lodashjs(root) {
+            const version = root['_']['VERSION']
+            if (version == '4.16.5') return new Version(['4.16.5', '4.16.6'])
+            return new Version([version])
+        }
+
+        test_mapboxjs (root) {
+            return new Version([root.L.mapbox.VERSION])
+        }
+
+        test_matterjs (root) {
+            const version = root['Matter']['version']
+            if (version == 'master') return new Version(['0.9.0', '0.9.1', '0.9.2', '0.9.3', '0.10.0'], '0.9.0~0.10.0')
+            return new Version([])
+        }
+
+        test_modernizr (root) {
+            return new Version([root.Modernizr._version])
+        }
+
+        test_momenttimezone (root) {
+            return new Version([root.moment.tz.version])
+        }
+
+        test_momentjs (root) {
+            return new Version([root.moment.version])
+        }
+
+        test_mootools (root) {
+            return new Version([root.MooTools.version])
+        }
+
+        test_mustachejs (root) {
+            const version = root['Mustache']['version']
+            if (version == '0.2') return new Version(['0.2', '0.2.1'])
+            if (version == '0.8.1') return new Version(['0.8.1', '0.8.2'])
+            return new Version([version])
+        }
+
+        test_numeraljs (root) {
+            const version = root['numeral']['version']
+            if (version == '1.5.5') return new Version(['1.5.5', '1.5.6'])
+            return new Version([version])
+        }
+
+        test_pixijs (root) {
+            return new Version([root.PIXI.VERSION])
+        }
+
+        test_processingjs (root) {
+            const version = root['Processing']['version']
+            if (version && version != '@VERSION@') return new Version([version])
+            return new Version([])
+        }
+
+        test_prototype (root) {
+            return new Version([root.Prototype.Version])
+        }
+
+        test_pusher (root) {
+            return new Version([root.Pusher.VERSION])
+        }
+
+        test_qooxdoo (root) {
+            if (root.qxWeb && root.qxWeb.$$qx && root.qxWeb.$$qx.$$environment) {
+                const version = root.qxWeb.$$qx.$$environment["qx.version"]
+                return new Version([version])
+            }
+            return new Version([])
+        }
+
+        test_raphael (root) {
+            const version = root.Raphael.version
+            if (version == '2.1.2') return new Version(['2.1.2', '2.1.3', '2.1.4'], '2.1.2~2.1.4')
+            if (version == '@@VERSION') return new Version(['2.2.0'])
+            if (version == '2.2.0') return new Version([])
+            return new Version([version])
+        }
+
+        test_requirejs (root) {
+            const req = root.require || root.requirejs
+            return new Version([req.version])
+        }
+
+        test_riot (root) {
+            if (root.$ && root.$.riot && typeof root.$.riot == 'string')
+                return new Version([root.$.riot])
+            if (root.riot)
+                return new Version([root.riot.version])
+            return new Version([])
+        }
+
+        test_sammyjs (root) {
+            return new Version([root.Sammy.VERSION])
+        }
+
+        test_scrollmagic(root) {
+            return new Version([root.ScrollMagic.version])
+        }
+
+        test_seajs (root) {
+            const version = root.seajs.version
+            if (version == "3.0.1") return new Version(["3.0.1", "3.0.2"])
+            return new Version([version])
+        }
+
+        test_socketio (root) {
+            const version = root.io.version
+            if (version == "0.7.9") return new Version(["0.7.9", "0.7.10"])
+            if (version == "0.8.2") return new Version(["0.8.2", "0.8.3"])
+            return new Version([version])
+        }
+
+        test_sugar (root) {
+            if (root.Sugar) return new Version([root.Sugar.VERSION])
+            return new Version([])
+        }
+
+        test_threejs (root) {
+            return new Version([root.THREE.REVISION])
+        }
+
+        test_pubsubjs (root) {
+            if (root.PubSub.version) return new Version([root.PubSub.version])
+            return new Version([])
+        }
+
+        test_aframe (root) {
+            return new Version([root.AFRAME.version])
+        }
+
+        // test_tweenjs (root) {
+        //     return new Version([root.TWEEN.REVISION])
+        // }
+
+        test_twojs (root) {
+            const version = root.Two.Version
+            if (version == 'v0.7.1') {
+                if (root.Two.PublishDate == '2021-01-13T01:57:28.198Z') return new Version(['v0.7.1'])
+                if (root.Two.PublishDate == '2021-03-26T16:14:37.868Z') return new Version(['v0.7.2', 'v0.7.3'])
+                if (root.Two.PublishDate == '2021-04-02T20:42:48.163Z') return new Version(['v0.7.4'])
+            }
+            if (version == 'v0.8.4') return new Version(['v0.8.4', 'v0.8.5'])
+            return new Version([version])
+        }
+
+        test_underscorejs (root) {
+            return new Version([root._.VERSION])
+        }
+
+        test_velocity (root) {
+            if (root.Velocity) return new Version([root.Velocity.version])
+            return new Version([])
+        }
+
+        test_6to5 (root) {
+            return new Version([root.to5.version])
+        }
+
+        test_acorn (root) {
+            const version = root.acorn.version
+            if (version == "3.1.0") return new Version(["3.1.0", "3.2.0"])
+            if (version == "6.4.0") return new Version(["6.4.0", "6.4.1"])
+            if (version == "7.1.0") return new Version(["7.1.0", "7.1.1"])
+            return new Version([version])
+        }
+
+        test_alasql (root) {
+            const version = root.alasql.version
+            if (version == "0.0.44") return new Version(["0.0.44", "0.0.45"])
+            if (version == "6.4.0") return new Version(["6.4.0", "6.4.1"])
+            return new Version([version])
+        }
+
+        test_alpinejs (root) {
+            const version = root.Alpine.version
+            if (version == "3.0.7") return new Version(["3.0.7", "3.0.8"])
+            if (version == "3.10.0") return new Version([
+                "3.10.0",
+                "3.10.1",
+                "3.10.2"
+            ])
+            return new Version([version])
+        }
+
+        test_analyticsjs (root) {
+            const version = root.analytics.VERSION
+            if (version == "2.3.13") return new Version(["2.3.13", "2.3.14"])
+            if (version == "2.8.19") return new Version(["2.8.19", "2.8.20"])
+            return new Version([version])
+        }
+
+        test_animejs (root) {
+            return new Version([root.anime.version])
+        }
+
+        test_antdesignvue (root) {
+            return new Version([root.antd.version])
+        }
+
+        test_antvg2 (root) {
+            return new Version([root.G2.VERSION])
+        }
+
+        test_antvg6 (root) {
+            if (root.G6 && root.G6.version)    return new Version([root.G6.version])
+            if (root.G6V5 && root.G6V5.default) return new Version([root.G6V5.default.version])
+            return new Version([])
+        }
+
+        test_aspnetsignalr (root) {
+            return new Version([root.signalR.VERSION])
+        }
+
+        test_avalonjs (root) {
+            return new Version([root.avalon.version])
+        }
+
+        test_axios (root) {
+            return new Version([root.axios.VERSION])
+        }
+
+        test_babelcore (root) {
+            return new Version([root.babel.version])
+        }
+
+        test_babelstandalone (root) {
+            return new Version([root.Babel.version])
+        }
+
+        test_barbajs (root) {
+            return new Version([root.Barba.version])
+        }
+
+        test_benchmark (root) {
+            if (root.Benchmark.version) return new Version([root.Benchmark.version])
+            else return new Version(["2.0.0"], "≥ 2.0.0")
+        }
+
+        test_bigjs (root) {
+            return new Version([root.Big.version])
+        }
+
+        test_billboardjs (root) {
+            return new Version([root.bb.version])
+        }
+
+        test_blockly (root) {
+            return new Version(["1.0.0"])
+        }
+
+        test_bluebird (root) {
+            if (root.P.version) return new Version([root.P.version])
+            else return new Version(["0.7.10-1"])
+        }
+
+        test_bodymovin (root) {
+            const version = root.bodymovin.version
+            if (version == "4.1.9") return new Version(["4.2.0", "4.2.1"])
+            if (version == "5.0.1") return new Version(["5.0.1", "5.0.2"])
+            return new Version([version])
+        }
+
+        test_bokeh (root) {
+            return new Version([root.Bokeh.version])
+        }
+
+        test_bootboxjs (root) {
+            return new Version([root.bootbox.VERSION])
+        }
+
+        test_c3 (root) {
+            if (root.c3.version) return new Version([root.c3.version])
+            else return new Version([
+                "0.1.1",
+                "0.1.10",
+                "0.1.11",
+                "0.1.12",
+                "0.1.13",
+                "0.1.14",
+                "0.1.15",
+                "0.1.16",
+                "0.1.17",
+                "0.1.18",
+                "0.1.19",
+                "0.1.2",
+                "0.1.20",
+                "0.1.21",
+                "0.1.22",
+                "0.1.23",
+                "0.1.24",
+                "0.1.3",
+                "0.1.4",
+                "0.1.5",
+                "0.1.6",
+                "0.1.7",
+                "0.1.8",
+                "0.1.9"
+            ], '< 0.1.25')
+        }
+
+        test_cannonjs (root) {
+            if (root.CANNON.version) return new Version([root.CANNON.version])
+            else return new Version(["0.4.0", "0.4.3", "0.5.0"])
+        }
+
+        test_ccxt (root) {
+            if (root.ccxt.Exchange) return new Version([root.ccxt.Exchange.ccxtVersion])
+            else return new Version([])
+        }
+
+        test_cesium (root) {
+            return new Version([root.Cesium.VERSION])
+        }
+
+        test_chai (root) {
+            return new Version([root.chai.version])
+        }
+
+        test_chartist (root) {
+            return new Version([root.Chartist.version])
+        }
+
+        test_chromajs (root) {
+            return new Version([root.chroma.version])
+        }
+
+        test_clmtrackr (root) {
+            return new Version([root.clm.version])
+        }
+
+        test_codemirror (root) {
+            const version = root.CodeMirror.version
+            if (version == "5.19.0") return new Version(["5.18.3", "5.19.0"])
+            return new Version([version])
+        }
+
+        test_coffeescript (root) {
+            return new Version([root.CoffeeScript.VERSION])
+        }
+
+        test_qrcode (root) {
+            return new Version(['1.0.0'])
+        }
+
+        test_highlightjs (root) {
+            if (root.hljs.versionString) return new Version([root.hljs.versionString])
+            else return new Version([])
+        }
+
+        test_crossfilter (root) {
+            return new Version([root.crossfilter.version])
+        }
+
+        test_dashjs (root) {
+            if (root.dashjs) return new Version([root.dashjs.Version])
+            else return new Version([])
+        }
+
+        test_dexie (root) {
+            if (root.Dexie.semVer) return new Version([root.Dexie.semVer])
+            else return new Version([root.Dexie.version])
+        }
+
+        test_docute (root) {
+            return new Version([root["Docute"]["version"]])
+        }
+
+        test_dompurify (root) {
+            return new Version([root.DOMPurify.version])
+        }
+
+        test_dot (root) {
+            return new Version([root.doT.version])
+        }
+
+        test_driverjs (root) {
+            return new Version(["≥ 1.0.0"])
+        }
+
+        test_dropzone (root) {
+            return new Version([root.Dropzone.version])
+        }
+
+        test_dustjslinkedin (root) {
+            return new Version([root.dust.version])
+        }
+
+        test_dygraph (root) {
+            return new Version([root.Dygraph.VERSION])
+        }
+
+        test_EaselJS (root) {
+            return new Version([root.EaselJS.VERSION])
+        }
+
+        test_echarts (root) {
+            const version = root.echarts.version
+            if (version == "3.6.0") return new Version(["3.6.0", "3.6.1"])
+            return new Version([version])
+        }
+
+        test_editorjs (root) {
+            return new Version([root.EditorJS.VERSION])
+        }
+
+        test_epiceditor (root) {
+            return new Version([root.EpicEditor.version])
+        }
+
+        test_eruda (root) {
+            return new Version([root.eruda.version])
+        }
+
+        test_fileuploader (root) {
+            return new Version([root.qq.version])
+        }
+
+        test_fancybox (root) {
+            if (root.$ && root.$.fancybox)
+                return new Version([root.$.fancybox.version])
+            if (root.jQuery && root.jQuery.fancybox.version)
+                return new Version([root.jQuery.fancybox.version])
+        }
+
+        test_fingerprintjs2 (root) {
+            return new Version([root.Fingerprint2.VERSION])
+        }
+
+        test_flvjs (root) {
+            return new Version([root.flvjs.version])
+        }
+
+        test_froalaeditor (root) {
+            if (root.FroalaEditor && root.FroalaEditor.VERSION)
+                return new Version([root.FroalaEditor.VERSION])
+            else
+                return new Version(["1.1.8", "1.2.8"], "1.1.8 ~ 1.2.8")
+        }
+
+        test_fullcalendar (root) {
+            return new Version([root.FullCalendar.VERSION])
+        }
+
+        test_gifshot (root) {
+            return new Version([root.gifshot.VERSION])
+        }
+
+        test_grapesjs (root) {
+            return new Version([root.grapesjs.version])
+        }
+
+        test_gsap (root) {
+            const versions = root.gsapVersions
+            if (versions && Array.isArray(versions)) {
+                const v_str = versions.join('; ')
+                return new Version([v_str])
+            }
+            else {
+                return new Version([])
+            }
+        }
+
+        test_holder (root) {
+            return new Version([root.Holder.version])
+        }
+
+        test_html5shiv (root) {
+            if (root.html5.version)
+                return new Version([root.html5.version])
+            else
+                return new Version(["2.1", "2.2"])
+        }
+
+        test_interactjs (root) {
+            return new Version([root.interact.version])
+        }
+
+        test_introjs (root) {
+            return new Version([root.introJs.version])
+        }
+
+        test_is_js (root) {
+            return new Version([root.is.VERSION])
+        }
+
+        test_jade (root) {
+            return new Version([root.jade.version])
+        }
+
+        test_javascriptstatemachine (root) {
+            if (root.StateMachine.version) return new Version([root.StateMachine.version])
+            return new Version([root.StateMachine.VERSION])
+        }
+
+        test_jointjs (root) {
+            return new Version([root.joint.version])
+        }
+
+        test_jsencrypt (root) {
+            return new Version([root.JSEncrypt.version])
+        }
+
+        test_jsonschemafaker (root) {
+            if (root.jsf) return new Version([root.jsf.version])
+            if (root.JSONSchemaFaker) return new Version([root.JSONSchemaFaker.version])
+            return new Version([])
+        }
+
+        test_jsondiffpatch (root) {
+            return new Version([root.jsondiffpatch.version])
+        }
+
+        test_jspdf (root) {
+            return new Version([root.jsPDF.version])
+        }
+
+        test_jss (root) {
+            if (root.jss.version) return new Version([root.jss.version])
+            if (root.jss.default && root.jss.default.version) return new Version([root.jss.default.version])
+            return new Version([])
+        }
+
+        test_jszip (root) {
+            return new Version([root.JSZip.version])
+        }
+
+        test_KaTeX (root) {
+            return new Version([root.katex.version])
+        }
+
+        test_kineticjs (root) {
+            return new Version([root.Kinetic.version])
+        }
+
+        test_konva (root) {
+            return new Version([root.Konva.version])
+        }
+
+        test_layui (root) {
+            return new Version([root.layui.v])
+        }
+
+        test_lazyjs (root) {
+            if (! root.Lazy.VERSION) return new Version(["0.1.0", "0.1.1"])
+            return new Version([root.Lazy.VERSION])
+        }
+
+        test_lessjs (root) {
+            const version = root.less.version
+            if (version && Array.isArray(version)) {
+                const v_str = version.join('.')
+                return new Version([v_str])
+            }
+            else {
+                return new Version([])
+            }
+        }
+
+        test_lottieweb (root) {
+            return new Version([root.lottie.version])
+        }
+
+        test_lunrjs (root) {
+            return new Version([root.lunr.version])
+        }
+
+        test_mapboxgl (root) {
+            return new Version([root.mapboxgl.version])
+        }
+
+        test_mediaelement (root) {
+            return new Version([root.mejs.version])
+        }
+
+        test_mediumeditor (root) {
+            if (root.MediumEditor.version)
+                return new Version([root.MediumEditor.version.toString()])
+            return new Version([])
+        }
+
+        test_melonjs (root) {
+            return new Version([root.me.version])
+        }
+
+        test_metricsgraphics (root) {
+            return new Version([root.MG.version])
+        }
+
+        test_metro (root) {
+            return new Version([root.Metro.version])
+        }
+
+        test_microsoftsignalr (root) {
+            return new Version([root.signalR.VERSION])
+        }
+
+        test_mithril (root) {
+            return new Version([root.m.version])
+        }
+
+        test_mixitup (root) {
+            return new Version([root.mixitup.CORE_VERSION])
+        }
+
+        test_mojs (root) {
+            return new Version([root.mojs.revision])
+        }
+
+        test_mocha (root) {
+            return new Version([root.mocha.version])
+        }
+
+        test_Mockjs (root) {
+            return new Version([root.Mock.version])
+        }
+
+        test_moonjs (root) {
+            if (root.Moon) return new Version([root.Moon.version])
+            if (root.Moonjs) return new Version([root.Moonjs.version])
+            return new Version([])
+        }
+
+        test_movejs (root) {
+            return new Version([root.move.version])
+        }
+
+        test_nlp_compromise (root) {
+            return new Version([root.nlp_compromise.version])
+        }
+
+        test_noUiSlider (root) {
+            if (root.noUiSlider.version) return new Version([root.noUiSlider.version])
+            return new Version([
+                "8.0.0",
+                "8.0.1",
+                "8.0.2",
+                "8.1.0",
+                "8.2.0",
+                "8.2.1",
+                "8.3.0",
+                "8.4.0",
+                "8.5.0",
+                "8.5.1",
+                "9.0.0",
+                "9.1.0"
+            ], "< 9.2.0")
+        }
+
+        test_nprogress (root) {
+            return new Version([root.NProgress.version])
+        }
+
+        test_ol3 (root) {
+            return new Version([root.ol.VERSION])
+        }
+
+        test_omi (root) {
+            return new Version([root.Omi.version])
+        }
+
+        test_onnxruntimeweb (root) {
+            if (root.ort.env.versions) return new Version([root.ort.env.versions.web || root.ort.env.versions.common])
+            return new Version(["1.10.0", "1.11.0", "1.12.0", "1.12.1", "1.13.1", "1.14.0", "1.15.0", "1.15.1"], "1.16.0")
+        }
+
+        test_openpgp (root) {
+            const version_str = root.openpgp.config.version_string
+            if (version_str) {
+                if (version_str.length > 11 && version_str[0] == 'O') version_str = version_str.substring(11)    //e.g. "OpenPGP.js v4.10.3"
+                return new Version([version_str])
+            }
+            return new Version([])
+        }
+
+        test_phasertest_phaser (root) {
+            return new Version([root.Phaser.VERSION])
+        }
+
+        test_pica (root) {
+            return new Version(["1.0.0", "2.0.8"], "< 3.0.0")
+        }
+
+        test_picturefill (root) {
+            return new Version(["3.0.0"], "≥ 3.0.0")
+        }
+
+        test_placesjs (root) {
+            return new Version([root.places.version])
+        }
+
+        test_playcanvas (root) {
+            return new Version([root.pc.version])
+        }
+
+        test_plottablejs (root) {
+            if (root.Plottable.version)  return new Version([root.Plottable.version])
+            return new Version(["0.19.0"], "< 0.20.0")
+        }
+
+        test_polyglotjs (root) {
+            return new Version([root.Polyglot.VERSION])
+        }
+
+        test_pouchdb (root) {
+            return new Version([root.PouchDB.version])
+        }
+
+        test_prettier (root) {
+            return new Version([root.prettier.version])
+        }
+
+        test_pubsubjs (root) {
+            return new Version([root.PubSub.version])
+        }
+
+        test_quill (root) {
+            return new Version([root.quill.version])
+        }
+
+        test_qunit (root) {
+            return new Version([root.QUnit.version])
+        }
+
+        test_ractivejs (root) {
+            return new Version([root.Ractive.VERSION])
+        }
+
+        test_ramda (root) {
+            if (root.ramda && root.ramda.version)  return new Version([root.ramda.version])
+            if (root.R && root.R.version)  return new Version([root.R.version])
+            return new Version([])
+        }
+
+        test_ravenjs (root) {
+            return new Version([root.Raven.VERSION])
+        }
+
+        test_rax (root) {
+            return new Version([root.Rax.version])
+        }
+
+        test_reactace (root) {
+            return new Version([root.ace.version])
+        }
+
+        test_RecordRTC (root) {
+            return new Version([root.RecordRTC.version])
+        }
+
+        test_remarkable (root) {
+            if (root.remarkable.Remarkable) return new Version(["2.0.0"], "≥ 2.0.0")
+            else return new Version(["1.4.2", "1.4.7"], "< 2.0.0")
+        }
+
+        test_reselect (root) {
+            if (root.Reselect.defaultEqualityCheck) return new Version(["4.1.0"], "≥ 4.1.0")
+            else return new Version(["2.4.0", "4.0.0"], "< 4.1.0")
+        }
+
+        test_revealjs (root) {
+            return new Version([root.Reveal.VERSION])
+        }
+
+        test_rollup (root) {
+            return new Version([root.rollup.VERSION])
+        }
+
+        test_san (root) {
+            return new Version([root.san.version])
+        }
+
+        test_scrollRevealjs (root) {
+            return new Version(["4.0.0"], "≥ 4.0.0")
+        }
+
+        test_ScrollTrigger (root) {
+            return new Version(["1.0.0"], "≥ 1.0.0")
+        }
+
+        test_sentrybrowser (root) {
+            return new Version([root.Sentry.SDK_VERSION])
+        }
+
+        test_skrollr (root) {
+            return new Version([root.skrollr.VERSION])
+        }
+
+        test_smoothscrollbar (root) {
+            return new Version([root.Scrollbar.version])
+        }
+
+        test_snabbtjs (root) {
+            return new Version(["0.6.1", "0.6.2"], "≥ 0.6.1")
+        }
+
+        test_snapsvg (root) {
+            return new Version([root.Snap.version])
+        }
+
+        test_sockjsclient (root) {
+            return new Version([root.SockJS.version])
+        }
+
+        test_Sortable (root) {
+            const version = root.Sortable.version
+            if (version == '1.3.0') return new Version(['1.3.0', '1.4.0'])
+            return new Version([version])
+        }
+
+        test_SoundJS (root) {
+            return new Version([root.createjs.SoundJS.version])
+        }
+
+        test_soundmanager2 (root) {
+            return new Version([root.soundManager.version])
+        }
+
+        test_spinejs (root) {
+            return new Version([root.Spine.version])
+        }
+
+        test_spritejs (root) {
+            const version = root.spritejs.version
+            if (version) return new Version([version])
+            return new Version(["3.7.21"], "< 3.7.22")
+        }
+
+        test_storejs (root) {
+            return new Version([root.store.version])
+        }
+
+        test_superagent (root) {
+            return new Version([root.superagent.version])
+        }
+
+        test_sweetalert2 (root) {
+            return new Version([root.Sweetalert2.version])
+        }
+
+        test_swig (root) {
+            return new Version([root.swig.version])
+        }
+
+        test_tempusdominus (root) {
+            return new Version([root.tempusDominus.version])
+        }
+
+        test_tensorflow (root) {
+            if (root.tf.data && root.tf.data.version_data)
+                return new Version([root.tf.data.version_data])
+            if (typeof root.version == "string")
+                return new Version([root.version])
+            if (root.version.tfjs-core)
+                return new Version([root.version.tfjs-core])
+            if (root.version.tfjs)
+                return new Version([root.version.tfjs])
+            return new Version([])
+        }
+
+        test_tippyjs (root) {
+            return new Version([root.tippy.version])
+        }
+
+        test_toastrjs (root) {
+            return new Version([root.toastr.version])
+        }
+
+        test_topojson (root) {
+            return new Version([root.topojson.version])
+        }
+
+        test_tweenjs (root) {
+            return new Version([root.createjs.TweenJS.version])
+        }
+
+        test_UAParserjs (root) {
+            return new Version([root.UAParser.VERSION])
+        }
+
+        test_underscorestring (root) {
+            if (root.s && root.s.VERSION) return new Version([root.s.VERSION])
+            if (root._ && root._.string && root._.string.VERSION) return new Version([root._.string.VERSION])
+            if (root._ && root._.str && root._.str.VERSION) return new Version([root._.str.VERSION])
+            return new Version([])
+        }
+
+        test_vanta (root) {
+            return new Version([root.VANTA.version])
+        }
+
+        test_vConsole (root) {
+            if (root.vConsole && root.vConsole.version) return new Version([root.vConsole.version])
+            return new Version(["3.0.0"], "≥ 3.0.0")
+        }
+
+        test_vanta (root) {
+            return new Version([root.vega.version])
+        }
+
+        test_vibrantjs (root) {
+            return new Version(["1.0.0"])
+        }
+
+        test_vivagraphjs (root) {
+            return new Version([root.Viva.Graph.version])
+        }
+
+        test_voca (root) {
+            return new Version([root.v.version])
+        }
+
+        test_vuechartjs (root) {
+            if (root.VueChartJs.VueCharts && root.VueChartJs.VueCharts.version)
+                return new Version([root.VueChartJs.VueCharts.version])
+            return new Version([])
+        }
+
+        test_vuex (root) {
+            return new Version([root.Vuex.version])
+        }
+
+        test_wade (root) {
+            return new Version([root.Wade.version])
+        }
+
+        test_wretch (root) {
+            return new Version(["2.0.0"], "≥ 2.0.0")
+        }
+
+        test_wysihtml (root) {
+            return new Version([root.wysihtml5.version])
+        }
+
+        test_xls (root) {
+            return new Version([root.XLS.version])
+        }
+
+        test_xlsx (root) {
+            return new Version([root.XLSX.version])
+        }
+
+        test_xregexp (root) {
+            return new Version([root.XRegExp.version])
+        }
+
+        test_zeroclipboard (root) {
+            return new Version([root.ZeroClipboard.version])
+        }
+
+        test_zrender (root) {
+            return new Version([root.zrender.version])
+        }
+
+    }
+})();

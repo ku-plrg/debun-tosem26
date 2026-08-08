@@ -1,0 +1,548 @@
+{
+ "definition": "PTV ICSE26 5.4.3: click button -> results displayed",
+ "settleMs": 5000,
+ "rows": [
+  {
+   "rank": 1,
+   "site": "google.com",
+   "ptdetector": {
+    "tool": "ptdetector",
+    "kind": "ondemand",
+    "pageLoadMs": 2078,
+    "buttonToResultMs": 4117,
+    "popupOpenToResultMs": 4154,
+    "resultText": "Detect #Lib: 0 []"
+   },
+   "ldc": {
+    "tool": "ldc",
+    "kind": "precomputed",
+    "pageLoadMs": 632,
+    "buttonToResultMs": 33,
+    "resultAvailableAfterLoadMs": 5094,
+    "resultText": "Boq Wiz"
+   },
+   "ptv": {
+    "tool": "ptv",
+    "kind": "ondemand",
+    "pageLoadMs": 711,
+    "buttonToResultMs": 6970,
+    "popupOpenToResultMs": 7011,
+    "resultText": "DETECT AGAIN co"
+   }
+  },
+  {
+   "rank": 2,
+   "site": "gtld-servers.net",
+   "ptdetector": {
+    "tool": "ptdetector",
+    "kind": "ondemand",
+    "error": "net::ERR_NAME_NOT_RESOLVED at https://gtld-servers.net"
+   },
+   "ldc": {
+    "tool": "ldc",
+    "kind": "precomputed",
+    "error": "net::ERR_NAME_NOT_RESOLVED at https://gtld-servers.net"
+   },
+   "ptv": {
+    "tool": "ptv",
+    "kind": "ondemand",
+    "error": "net::ERR_NAME_NOT_RESOLVED at https://gtld-servers.net"
+   }
+  },
+  {
+   "rank": 3,
+   "site": "microsoft.com",
+   "ptdetector": {
+    "tool": "ptdetector",
+    "kind": "ondemand",
+    "pageLoadMs": 3174,
+    "buttonToResultMs": 1482,
+    "popupOpenToResultMs": 1514,
+    "resultText": "Detect #Lib: 2 [\"jQuery:99.92!1\",\"core-js:96.02!1\"]"
+   },
+   "ldc": {
+    "tool": "ldc",
+    "kind": "precomputed",
+    "pageLoadMs": 2584,
+    "buttonToResultMs": 25,
+    "resultAvailableAfterLoadMs": 5046,
+    "resultText": "LitElement 4.2.2 lit-html 3.3.2 jQuery 3.5.1 jQuery (Fast path) core-js core-js-global@3.6.4"
+   },
+   "ptv": {
+    "tool": "ptv",
+    "kind": "ondemand",
+    "pageLoadMs": 2472,
+    "buttonToResultMs": 3234,
+    "popupOpenToResultMs": 3268,
+    "resultText": "DETECT AGAIN core-js jquery picturefill"
+   }
+  },
+  {
+   "rank": 4,
+   "site": "facebook.com",
+   "ptdetector": {
+    "tool": "ptdetector",
+    "kind": "ondemand",
+    "pageLoadMs": 752,
+    "buttonToResultMs": 69,
+    "popupOpenToResultMs": 106,
+    "resultText": "Detect #Lib: 0 []"
+   },
+   "ldc": {
+    "tool": "ldc",
+    "kind": "precomputed",
+    "pageLoadMs": 780,
+    "buttonToResultMs": 16,
+    "resultAvailableAfterLoadMs": 5044,
+    "resultText": ""
+   },
+   "ptv": {
+    "tool": "ptv",
+    "kind": "ondemand",
+    "pageLoadMs": 738,
+    "buttonToResultMs": 514,
+    "popupOpenToResultMs": 561,
+    "resultText": "DETECT AGAIN No library is detected."
+   }
+  },
+  {
+   "rank": 5,
+   "site": "cloudflare.com",
+   "ptdetector": {
+    "tool": "ptdetector",
+    "kind": "ondemand",
+    "pageLoadMs": 528,
+    "buttonToResultMs": 768,
+    "popupOpenToResultMs": 806,
+    "resultText": "Detect #Lib: 0 []"
+   },
+   "ldc": {
+    "tool": "ldc",
+    "kind": "precomputed",
+    "pageLoadMs": 580,
+    "buttonToResultMs": 25,
+    "resultAvailableAfterLoadMs": 5072,
+    "resultText": ""
+   },
+   "ptv": {
+    "tool": "ptv",
+    "kind": "ondemand",
+    "pageLoadMs": 444,
+    "buttonToResultMs": 1268,
+    "popupOpenToResultMs": 1309,
+    "resultText": "DETECT AGAIN No library is detected."
+   }
+  },
+  {
+   "rank": 6,
+   "site": "googleapis.com",
+   "ptdetector": {
+    "tool": "ptdetector",
+    "kind": "ondemand",
+    "pageLoadMs": 276,
+    "buttonToResultMs": 215,
+    "popupOpenToResultMs": 262,
+    "resultText": "Detect #Lib: 0 []"
+   },
+   "ldc": {
+    "tool": "ldc",
+    "kind": "precomputed",
+    "pageLoadMs": 260,
+    "buttonToResultMs": 28,
+    "resultAvailableAfterLoadMs": 5545,
+    "resultText": ""
+   },
+   "ptv": {
+    "tool": "ptv",
+    "kind": "ondemand",
+    "pageLoadMs": 715,
+    "buttonToResultMs": 174,
+    "popupOpenToResultMs": 211,
+    "resultText": "DETECT AGAIN No library is detected."
+   }
+  },
+  {
+   "rank": 7,
+   "site": "mail.ru",
+   "ptdetector": {
+    "tool": "ptdetector",
+    "kind": "ondemand",
+    "pageLoadMs": 11220,
+    "buttonToResultMs": 268,
+    "popupOpenToResultMs": 300,
+    "resultText": "Detect #Lib: 1 [\"core-js:89.84!1\"]"
+   },
+   "ldc": {
+    "tool": "ldc",
+    "kind": "precomputed",
+    "pageLoadMs": 8708,
+    "buttonToResultMs": 22,
+    "resultAvailableAfterLoadMs": 5047,
+    "resultText": "core-js core-js-global@3.26.1; core-js-global@3.49.0; core-js-global@3.49.0 Svelte 4"
+   },
+   "ptv": {
+    "tool": "ptv",
+    "kind": "ondemand",
+    "pageLoadMs": 8028,
+    "buttonToResultMs": 520,
+    "popupOpenToResultMs": 558,
+    "resultText": "DETECT AGAIN core-js svelte"
+   }
+  },
+  {
+   "rank": 8,
+   "site": "youtube.com",
+   "ptdetector": {
+    "tool": "ptdetector",
+    "kind": "ondemand",
+    "pageLoadMs": 1868,
+    "buttonToResultMs": 71,
+    "popupOpenToResultMs": 104,
+    "resultText": "Detect #Lib: 0 []"
+   },
+   "ldc": {
+    "tool": "ldc",
+    "kind": "precomputed",
+    "pageLoadMs": 2183,
+    "buttonToResultMs": 20,
+    "resultAvailableAfterLoadMs": 5055,
+    "resultText": "Polymer 3.5.0 Hammer.js 2.0.2 SPF Boq"
+   },
+   "ptv": {
+    "tool": "ptv",
+    "kind": "ondemand",
+    "pageLoadMs": 2552,
+    "buttonToResultMs": 522,
+    "popupOpenToResultMs": 554,
+    "resultText": "DETECT AGAIN co hammer.js polymer spf webcomponentsjs xregexp"
+   }
+  },
+  {
+   "rank": 9,
+   "site": "apple.com",
+   "ptdetector": {
+    "tool": "ptdetector",
+    "kind": "ondemand",
+    "pageLoadMs": 898,
+    "buttonToResultMs": 421,
+    "popupOpenToResultMs": 454,
+    "resultText": "Detect #Lib: 0 []"
+   },
+   "ldc": {
+    "tool": "ldc",
+    "kind": "precomputed",
+    "pageLoadMs": 1839,
+    "buttonToResultMs": 34,
+    "resultAvailableAfterLoadMs": 5062,
+    "resultText": "Preact 10"
+   },
+   "ptv": {
+    "tool": "ptv",
+    "kind": "ondemand",
+    "pageLoadMs": 653,
+    "buttonToResultMs": 668,
+    "popupOpenToResultMs": 703,
+    "resultText": "DETECT AGAIN preact"
+   }
+  },
+  {
+   "rank": 10,
+   "site": "amazonaws.com",
+   "ptdetector": {
+    "tool": "ptdetector",
+    "kind": "ondemand",
+    "pageLoadMs": 4286,
+    "buttonToResultMs": 81,
+    "popupOpenToResultMs": 126,
+    "resultText": "Detect #Lib: 0 []"
+   },
+   "ldc": {
+    "tool": "ldc",
+    "kind": "precomputed",
+    "pageLoadMs": 3967,
+    "buttonToResultMs": 19,
+    "resultAvailableAfterLoadMs": 5044,
+    "resultText": "jQuery 3.7.1 jQuery (Fast path) React React (Fast path)"
+   },
+   "ptv": {
+    "tool": "ptv",
+    "kind": "ondemand",
+    "pageLoadMs": 3120,
+    "buttonToResultMs": 1567,
+    "popupOpenToResultMs": 1607,
+    "resultText": "DETECT AGAIN jquery react"
+   }
+  },
+  {
+   "rank": 11,
+   "site": "instagram.com",
+   "ptdetector": {
+    "tool": "ptdetector",
+    "kind": "ondemand",
+    "pageLoadMs": 1089,
+    "buttonToResultMs": 63,
+    "popupOpenToResultMs": 96,
+    "resultText": "Detect #Lib: 0 []"
+   },
+   "ldc": {
+    "tool": "ldc",
+    "kind": "precomputed",
+    "pageLoadMs": 1411,
+    "buttonToResultMs": 19,
+    "resultAvailableAfterLoadMs": 5044,
+    "resultText": ""
+   },
+   "ptv": {
+    "tool": "ptv",
+    "kind": "ondemand",
+    "pageLoadMs": 1414,
+    "buttonToResultMs": 374,
+    "popupOpenToResultMs": 405,
+    "resultText": "DETECT AGAIN No library is detected."
+   }
+  },
+  {
+   "rank": 12,
+   "site": "dzen.ru",
+   "ptdetector": {
+    "tool": "ptdetector",
+    "kind": "ondemand",
+    "pageLoadMs": 13441,
+    "buttonToResultMs": 823,
+    "popupOpenToResultMs": 856,
+    "resultText": "Detect #Lib: 2 [\"React:95.10!1\",\"core-js:87.64!1\"]"
+   },
+   "ldc": {
+    "tool": "ldc",
+    "kind": "precomputed",
+    "pageLoadMs": 9796,
+    "buttonToResultMs": 38,
+    "resultAvailableAfterLoadMs": 5054,
+    "resultText": "React 17.0.2 React (Fast path) 17.0.2 core-js core-js-global@2.5.7; core-js-global@2.5.7; core-js-global@2.5.7; core-js-global@2.5.7"
+   },
+   "ptv": {
+    "tool": "ptv",
+    "kind": "ondemand",
+    "pageLoadMs": 14016,
+    "buttonToResultMs": 929,
+    "popupOpenToResultMs": 965,
+    "resultText": "DETECT AGAIN core-js"
+   }
+  },
+  {
+   "rank": 13,
+   "site": "gstatic.com",
+   "ptdetector": {
+    "tool": "ptdetector",
+    "kind": "ondemand",
+    "pageLoadMs": 1423,
+    "buttonToResultMs": 222,
+    "popupOpenToResultMs": 260,
+    "resultText": "Detect #Lib: 0 []"
+   },
+   "ldc": {
+    "tool": "ldc",
+    "kind": "precomputed",
+    "pageLoadMs": 981,
+    "buttonToResultMs": 21,
+    "resultAvailableAfterLoadMs": 5055,
+    "resultText": ""
+   },
+   "ptv": {
+    "tool": "ptv",
+    "kind": "ondemand",
+    "pageLoadMs": 225,
+    "buttonToResultMs": 268,
+    "popupOpenToResultMs": 306,
+    "resultText": "DETECT AGAIN No library is detected."
+   }
+  },
+  {
+   "rank": 14,
+   "site": "twitter.com",
+   "ptdetector": {
+    "tool": "ptdetector",
+    "kind": "ondemand",
+    "pageLoadMs": 2646,
+    "buttonToResultMs": 80,
+    "popupOpenToResultMs": 112,
+    "resultText": "Detect #Lib: 0 []"
+   },
+   "ldc": {
+    "tool": "ldc",
+    "kind": "precomputed",
+    "pageLoadMs": 2268,
+    "buttonToResultMs": 17,
+    "resultAvailableAfterLoadMs": 5039,
+    "resultText": ""
+   },
+   "ptv": {
+    "tool": "ptv",
+    "kind": "ondemand",
+    "pageLoadMs": 2350,
+    "buttonToResultMs": 1668,
+    "popupOpenToResultMs": 1702,
+    "resultText": "DETECT AGAIN No library is detected."
+   }
+  },
+  {
+   "rank": 15,
+   "site": "office.com",
+   "ptdetector": {
+    "tool": "ptdetector",
+    "kind": "ondemand",
+    "pageLoadMs": 1258,
+    "buttonToResultMs": 74,
+    "popupOpenToResultMs": 112,
+    "resultText": "Detect #Lib: 0 []"
+   },
+   "ldc": {
+    "tool": "ldc",
+    "kind": "precomputed",
+    "pageLoadMs": 1743,
+    "buttonToResultMs": 29,
+    "resultAvailableAfterLoadMs": 5069,
+    "resultText": "jQuery 3.6.1 jQuery (Fast path) Preact 8 core-js core-js-global@3.33.0"
+   },
+   "ptv": {
+    "tool": "ptv",
+    "kind": "ondemand",
+    "pageLoadMs": 1178,
+    "buttonToResultMs": 1319,
+    "popupOpenToResultMs": 1355,
+    "resultText": "DETECT AGAIN core-js jquery preact"
+   }
+  },
+  {
+   "rank": 16,
+   "site": "akamai.net",
+   "ptdetector": {
+    "tool": "ptdetector",
+    "kind": "ondemand",
+    "error": "net::ERR_NAME_NOT_RESOLVED at https://akamai.net"
+   },
+   "ldc": {
+    "tool": "ldc",
+    "kind": "precomputed",
+    "error": "net::ERR_NAME_NOT_RESOLVED at https://akamai.net"
+   },
+   "ptv": {
+    "tool": "ptv",
+    "kind": "ondemand",
+    "error": "net::ERR_NAME_NOT_RESOLVED at https://akamai.net"
+   }
+  },
+  {
+   "rank": 17,
+   "site": "linkedin.com",
+   "ptdetector": {
+    "tool": "ptdetector",
+    "kind": "ondemand",
+    "pageLoadMs": 697,
+    "buttonToResultMs": 71,
+    "popupOpenToResultMs": 105,
+    "resultText": "Detect #Lib: 0 []"
+   },
+   "ldc": {
+    "tool": "ldc",
+    "kind": "precomputed",
+    "pageLoadMs": 582,
+    "buttonToResultMs": 32,
+    "resultAvailableAfterLoadMs": 5067,
+    "resultText": ""
+   },
+   "ptv": {
+    "tool": "ptv",
+    "kind": "ondemand",
+    "pageLoadMs": 825,
+    "buttonToResultMs": 2222,
+    "popupOpenToResultMs": 2262,
+    "resultText": "DETECT AGAIN No library is detected."
+   }
+  },
+  {
+   "rank": 18,
+   "site": "googlevideo.com",
+   "ptdetector": {
+    "tool": "ptdetector",
+    "kind": "ondemand",
+    "pageLoadMs": 604,
+    "buttonToResultMs": 3819,
+    "popupOpenToResultMs": 3849,
+    "resultText": "Detect #Lib: 0 []"
+   },
+   "ldc": {
+    "tool": "ldc",
+    "kind": "precomputed",
+    "pageLoadMs": 2803,
+    "buttonToResultMs": 20,
+    "resultAvailableAfterLoadMs": 5056,
+    "resultText": "Boq Wiz"
+   },
+   "ptv": {
+    "tool": "ptv",
+    "kind": "ondemand",
+    "pageLoadMs": 931,
+    "buttonToResultMs": 5926,
+    "popupOpenToResultMs": 5966,
+    "resultText": "DETECT AGAIN co"
+   }
+  },
+  {
+   "rank": 19,
+   "site": "live.com",
+   "ptdetector": {
+    "tool": "ptdetector",
+    "kind": "ondemand",
+    "pageLoadMs": 2816,
+    "buttonToResultMs": 28072,
+    "popupOpenToResultMs": 28101,
+    "resultText": "Detect #Lib: 5 [\"Lo-Dash:100.01!1\",\"jQuery:99.87!1\",\"Handlebars:99.59!1\",\"core-js:96.02!1\",\"Underscore:91.97!1\"]"
+   },
+   "ldc": {
+    "tool": "ldc",
+    "kind": "precomputed",
+    "pageLoadMs": 501,
+    "buttonToResultMs": 30,
+    "resultAvailableAfterLoadMs": 5049,
+    "resultText": ""
+   },
+   "ptv": {
+    "tool": "ptv",
+    "kind": "ondemand",
+    "pageLoadMs": 936,
+    "buttonToResultMs": 14632,
+    "popupOpenToResultMs": 14660,
+    "resultText": "DETECT AGAIN core-js handlebars.js jquery lodash.js picturefill underscore.js"
+   }
+  },
+  {
+   "rank": 20,
+   "site": "googletagmanager.com",
+   "ptdetector": {
+    "tool": "ptdetector",
+    "kind": "ondemand",
+    "pageLoadMs": 165,
+    "buttonToResultMs": 180,
+    "popupOpenToResultMs": 210,
+    "resultText": "Detect #Lib: 0 []"
+   },
+   "ldc": {
+    "tool": "ldc",
+    "kind": "precomputed",
+    "pageLoadMs": 140,
+    "buttonToResultMs": 22,
+    "resultAvailableAfterLoadMs": 5050,
+    "resultText": ""
+   },
+   "ptv": {
+    "tool": "ptv",
+    "kind": "ondemand",
+    "pageLoadMs": 196,
+    "buttonToResultMs": 227,
+    "popupOpenToResultMs": 262,
+    "resultText": "DETECT AGAIN No library is detected."
+   }
+  }
+ ]
+}

@@ -1,0 +1,605 @@
+{
+ "rows": [
+  {
+   "rank": 1,
+   "site": "google.com",
+   "skipped": true,
+   "files": 18
+  },
+  {
+   "rank": 2,
+   "site": "gtld-servers.net",
+   "skipped": true,
+   "files": 2
+  },
+  {
+   "rank": 3,
+   "site": "microsoft.com",
+   "skipped": true,
+   "files": 180
+  },
+  {
+   "rank": 4,
+   "site": "facebook.com",
+   "skipped": true,
+   "files": 81
+  },
+  {
+   "rank": 5,
+   "site": "cloudflare.com",
+   "skipped": true,
+   "files": 111
+  },
+  {
+   "rank": 6,
+   "site": "googleapis.com",
+   "crawlMs": 2206,
+   "files": 0
+  },
+  {
+   "rank": 7,
+   "site": "mail.ru",
+   "skipped": true,
+   "files": 103
+  },
+  {
+   "rank": 8,
+   "site": "youtube.com",
+   "skipped": true,
+   "files": 53
+  },
+  {
+   "rank": 9,
+   "site": "apple.com",
+   "skipped": true,
+   "files": 24
+  },
+  {
+   "rank": 10,
+   "site": "amazonaws.com",
+   "skipped": true,
+   "files": 61
+  },
+  {
+   "rank": 11,
+   "site": "instagram.com",
+   "skipped": true,
+   "files": 72
+  },
+  {
+   "rank": 12,
+   "site": "dzen.ru",
+   "skipped": true,
+   "files": 60
+  },
+  {
+   "rank": 13,
+   "site": "gstatic.com",
+   "crawlMs": 2290,
+   "files": 0
+  },
+  {
+   "rank": 14,
+   "site": "twitter.com",
+   "skipped": true,
+   "files": 417
+  },
+  {
+   "rank": 15,
+   "site": "office.com",
+   "skipped": true,
+   "files": 30
+  },
+  {
+   "rank": 16,
+   "site": "akamai.net",
+   "skipped": true,
+   "files": 2
+  },
+  {
+   "rank": 17,
+   "site": "linkedin.com",
+   "skipped": true,
+   "files": 11
+  },
+  {
+   "rank": 18,
+   "site": "googlevideo.com",
+   "skipped": true,
+   "files": 2
+  },
+  {
+   "rank": 19,
+   "site": "live.com",
+   "skipped": true,
+   "files": 10
+  },
+  {
+   "rank": 20,
+   "site": "googletagmanager.com",
+   "crawlMs": 2118,
+   "files": 0
+  },
+  {
+   "rank": 21,
+   "site": "fbcdn.net",
+   "crawlMs": 3769,
+   "files": 22
+  },
+  {
+   "rank": 22,
+   "site": "akamaiedge.net",
+   "crawlMs": 447,
+   "files": 0
+  },
+  {
+   "rank": 23,
+   "site": "amazon.com",
+   "crawlMs": 5755,
+   "files": 19
+  },
+  {
+   "rank": 24,
+   "site": "akadns.net",
+   "crawlMs": 472,
+   "files": 0
+  },
+  {
+   "rank": 25,
+   "site": "workers.dev",
+   "crawlMs": 93918,
+   "crawlError": "uncaught: ENOTDIR: not a directory, unlink '<repo>/src/src/data/crawled/workers.dev/www.cloudflare.com/go9u/caTNWlTOY52mUaPrM2gED3nxCMLr_BUdsxjGrRSy6-jYSt3f'",
+   "files": 0
+  },
+  {
+   "rank": 26,
+   "site": "e2ro.com",
+   "crawlMs": 632,
+   "files": 0
+  },
+  {
+   "rank": 27,
+   "site": "windowsupdate.com",
+   "crawlMs": 426,
+   "files": 0
+  },
+  {
+   "rank": 28,
+   "site": "wikipedia.org",
+   "crawlMs": 2902,
+   "files": 2
+  },
+  {
+   "rank": 29,
+   "site": "azure.com",
+   "crawlMs": 12108,
+   "files": 78
+  },
+  {
+   "rank": 30,
+   "site": "microsoftonline.com",
+   "crawlMs": 507,
+   "files": 0
+  },
+  {
+   "rank": 31,
+   "site": "github.com",
+   "crawlMs": 2816,
+   "files": 104
+  },
+  {
+   "rank": 32,
+   "site": "doubleclick.net",
+   "crawlMs": 10414,
+   "files": 8
+  },
+  {
+   "rank": 33,
+   "site": "netflix.com",
+   "crawlMs": 15600,
+   "files": 17
+  },
+  {
+   "rank": 34,
+   "site": "domaincontrol.com",
+   "crawlMs": 612,
+   "files": 0
+  },
+  {
+   "rank": 35,
+   "site": "googleusercontent.com",
+   "crawlMs": 1637,
+   "files": 0
+  },
+  {
+   "rank": 36,
+   "site": "bing.com",
+   "crawlMs": 8701,
+   "files": 108
+  },
+  {
+   "rank": 37,
+   "site": "ax-msedge.net",
+   "crawlMs": 477,
+   "files": 0
+  },
+  {
+   "rank": 38,
+   "site": "whatsapp.net",
+   "crawlMs": 3412,
+   "files": 9
+  },
+  {
+   "rank": 39,
+   "site": "digicert.com",
+   "crawlMs": 2397,
+   "files": 2
+  },
+  {
+   "rank": 40,
+   "site": "fastly.net",
+   "crawlMs": 23102,
+   "files": 35
+  },
+  {
+   "rank": 41,
+   "site": "wordpress.org",
+   "crawlMs": 6571,
+   "files": 8
+  },
+  {
+   "rank": 42,
+   "site": "apple-dns.net",
+   "crawlMs": 507,
+   "files": 0
+  },
+  {
+   "rank": 43,
+   "site": "aaplimg.com",
+   "crawlMs": 595,
+   "files": 0
+  },
+  {
+   "rank": 44,
+   "site": "youtu.be",
+   "crawlMs": 9227,
+   "files": 19
+  },
+  {
+   "rank": 45,
+   "site": "t-msedge.net",
+   "crawlMs": 553,
+   "files": 0
+  },
+  {
+   "rank": 46,
+   "site": "googlesyndication.com",
+   "crawlMs": 5435,
+   "files": 8
+  },
+  {
+   "rank": 47,
+   "site": "office.net",
+   "crawlMs": 1300,
+   "files": 0
+  },
+  {
+   "rank": 48,
+   "site": "appsflyersdk.com",
+   "crawlMs": 1054,
+   "files": 0
+  },
+  {
+   "rank": 49,
+   "site": "pinterest.com",
+   "crawlMs": 10089,
+   "files": 74
+  },
+  {
+   "rank": 50,
+   "site": "icloud.com",
+   "crawlMs": 2475,
+   "files": 4
+  },
+  {
+   "rank": 51,
+   "site": "akam.net",
+   "crawlMs": 674,
+   "files": 0
+  },
+  {
+   "rank": 52,
+   "site": "yahoo.com",
+   "crawlMs": 116934,
+   "files": 109
+  },
+  {
+   "rank": 53,
+   "site": "windows.net",
+   "crawlMs": 1381,
+   "files": 0
+  },
+  {
+   "rank": 54,
+   "site": "ripn.net",
+   "crawlMs": 509,
+   "files": 0
+  },
+  {
+   "rank": 55,
+   "site": "sharepoint.com",
+   "crawlMs": 24656,
+   "files": 78
+  },
+  {
+   "rank": 56,
+   "site": "whatsapp.com",
+   "crawlMs": 3070,
+   "files": 9
+  },
+  {
+   "rank": 57,
+   "site": "trafficmanager.net",
+   "crawlMs": 418,
+   "files": 0
+  },
+  {
+   "rank": 58,
+   "site": "goo.gl",
+   "crawlMs": 2276,
+   "files": 0
+  },
+  {
+   "rank": 59,
+   "site": "skype.com",
+   "crawlMs": 2395,
+   "files": 4
+  },
+  {
+   "rank": 60,
+   "site": "x.com",
+   "crawlMs": 26311,
+   "files": 427
+  },
+  {
+   "rank": 61,
+   "site": "ntp.org",
+   "crawlMs": 11683,
+   "files": 7
+  },
+  {
+   "rank": 62,
+   "site": "cloudfront.net",
+   "crawlMs": 446,
+   "files": 0
+  },
+  {
+   "rank": 63,
+   "site": "msn.com",
+   "crawlMs": 6306,
+   "files": 91
+  },
+  {
+   "rank": 64,
+   "site": "spotify.com",
+   "crawlMs": 16660,
+   "files": 51
+  },
+  {
+   "rank": 65,
+   "site": "tiktok.com",
+   "crawlMs": 19942,
+   "files": 208
+  },
+  {
+   "rank": 66,
+   "site": "tiktokcdn.com",
+   "crawlMs": 459,
+   "files": 0
+  },
+  {
+   "rank": 67,
+   "site": "vimeo.com",
+   "crawlMs": 25827,
+   "files": 45
+  },
+  {
+   "rank": 68,
+   "site": "gandi.net",
+   "crawlMs": 5635,
+   "files": 5
+  },
+  {
+   "rank": 69,
+   "site": "adobe.com",
+   "crawlMs": 926,
+   "files": 0
+  },
+  {
+   "rank": 70,
+   "site": "roblox.com",
+   "crawlMs": 19155,
+   "files": 170
+  },
+  {
+   "rank": 71,
+   "site": "dual-s-msedge.net",
+   "crawlMs": 505,
+   "files": 0
+  },
+  {
+   "rank": 72,
+   "site": "pv-cdn.net",
+   "crawlMs": 467,
+   "files": 0
+  },
+  {
+   "rank": 73,
+   "site": "ytimg.com",
+   "crawlMs": 517,
+   "files": 0
+  },
+  {
+   "rank": 74,
+   "site": "tiktokv.com",
+   "crawlMs": 1304,
+   "files": 0
+  },
+  {
+   "rank": 75,
+   "site": "gvt2.com",
+   "crawlMs": 543,
+   "files": 0
+  },
+  {
+   "rank": 76,
+   "site": "ln-msedge.net",
+   "crawlMs": 564,
+   "files": 0
+  },
+  {
+   "rank": 77,
+   "site": "gvt1.com",
+   "crawlMs": 490,
+   "files": 0
+  },
+  {
+   "rank": 78,
+   "site": "yandex.net",
+   "crawlMs": 14804,
+   "files": 7
+  },
+  {
+   "rank": 79,
+   "site": "qq.com",
+   "crawlMs": 7274,
+   "files": 16
+  },
+  {
+   "rank": 80,
+   "site": "cloudflare.net",
+   "crawlMs": 2922,
+   "files": 2
+  },
+  {
+   "rank": 81,
+   "site": "wa.me",
+   "crawlMs": 4014,
+   "files": 8
+  },
+  {
+   "rank": 82,
+   "site": "googledomains.com",
+   "crawlMs": 1683,
+   "files": 0
+  },
+  {
+   "rank": 83,
+   "site": "zoom.us",
+   "crawlMs": 9766,
+   "files": 57
+  },
+  {
+   "rank": 84,
+   "site": "nginx.org",
+   "crawlMs": 2870,
+   "files": 0
+  },
+  {
+   "rank": 85,
+   "site": "google-analytics.com",
+   "crawlMs": 10331,
+   "files": 8
+  },
+  {
+   "rank": 86,
+   "site": "samsung.com",
+   "crawlMs": 23971,
+   "files": 177
+  },
+  {
+   "rank": 87,
+   "site": "behindmlm.com",
+   "crawlMs": 25078,
+   "files": 29
+  },
+  {
+   "rank": 88,
+   "site": "nic.ru",
+   "crawlMs": 2444,
+   "files": 0
+  },
+  {
+   "rank": 89,
+   "site": "baidu.com",
+   "crawlMs": 11605,
+   "files": 38
+  },
+  {
+   "rank": 90,
+   "site": "office365.com",
+   "crawlMs": 2372,
+   "files": 0
+  },
+  {
+   "rank": 91,
+   "site": "bit.ly",
+   "crawlMs": 15331,
+   "files": 40
+  },
+  {
+   "rank": 92,
+   "site": "opera.com",
+   "crawlMs": 7161,
+   "files": 26
+  },
+  {
+   "rank": 93,
+   "site": "edgekey.net",
+   "crawlMs": 549,
+   "files": 0
+  },
+  {
+   "rank": 94,
+   "site": "cloudflare-dns.com",
+   "crawlMs": 3057,
+   "files": 5
+  },
+  {
+   "rank": 95,
+   "site": "wordpress.com",
+   "crawlMs": 7868,
+   "files": 24
+  },
+  {
+   "rank": 96,
+   "site": "edgesuite.net",
+   "crawlMs": 457,
+   "files": 0
+  },
+  {
+   "rank": 97,
+   "site": "nginx.com",
+   "crawlMs": 109490,
+   "files": 113
+  },
+  {
+   "rank": 98,
+   "site": "ui.com",
+   "crawlMs": 7452,
+   "files": 93
+  },
+  {
+   "rank": 99,
+   "site": "windows.com",
+   "crawlMs": 11457,
+   "files": 40
+  },
+  {
+   "rank": 100,
+   "site": "cdninstagram.com",
+   "crawlMs": 524,
+   "files": 0
+  }
+ ]
+}

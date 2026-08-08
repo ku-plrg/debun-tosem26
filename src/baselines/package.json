@@ -1,0 +1,6 @@
+{
+  "name": "debun-baselines",
+  "private": true,
+  "type": "module",
+  "description": "Scopes ESM to baselines/ so the vendored LDC/PTDetector detector scripts (which use `export default`) load without reparsing. The artifact root stays CommonJS."
+}

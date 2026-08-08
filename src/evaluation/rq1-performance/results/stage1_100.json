@@ -1,0 +1,1006 @@
+{
+ "coldEvaluateMs": 255,
+ "warmEvaluateMs": 256,
+ "rows": [
+  {
+   "rank": 1,
+   "site": "google.com",
+   "files": 18,
+   "fingerprintMs": 753,
+   "bytes": 2659481,
+   "hashes": 9194,
+   "detected": 0,
+   "scoreMs": 176
+  },
+  {
+   "rank": 2,
+   "site": "gtld-servers.net",
+   "files": 2,
+   "fingerprintMs": 17,
+   "bytes": 149128,
+   "hashes": 221,
+   "detected": 0,
+   "scoreMs": 170
+  },
+  {
+   "rank": 3,
+   "site": "microsoft.com",
+   "files": 180,
+   "fingerprintMs": 883,
+   "bytes": 6892170,
+   "hashes": 11584,
+   "detected": 5,
+   "scoreMs": 215
+  },
+  {
+   "rank": 4,
+   "site": "facebook.com",
+   "files": 81,
+   "fingerprintMs": 1852,
+   "bytes": 10362520,
+   "hashes": 13303,
+   "detected": 1,
+   "scoreMs": 186
+  },
+  {
+   "rank": 5,
+   "site": "cloudflare.com",
+   "files": 111,
+   "fingerprintMs": 512,
+   "bytes": 3350098,
+   "hashes": 7485,
+   "detected": 2,
+   "scoreMs": 249
+  },
+  {
+   "rank": 6,
+   "site": "googleapis.com",
+   "files": 0,
+   "fingerprintMs": 0,
+   "bytes": 0,
+   "hashes": 0,
+   "detected": 0,
+   "scoreMs": 177
+  },
+  {
+   "rank": 7,
+   "site": "mail.ru",
+   "files": 103,
+   "fingerprintMs": 2912,
+   "bytes": 17240714,
+   "hashes": 41395,
+   "detected": 4,
+   "scoreMs": 249
+  },
+  {
+   "rank": 8,
+   "site": "youtube.com",
+   "files": 53,
+   "fingerprintMs": 2009,
+   "bytes": 15099902,
+   "hashes": 38932,
+   "detected": 3,
+   "scoreMs": 207
+  },
+  {
+   "rank": 9,
+   "site": "apple.com",
+   "files": 24,
+   "fingerprintMs": 188,
+   "bytes": 1166966,
+   "hashes": 3676,
+   "detected": 2,
+   "scoreMs": 183
+  },
+  {
+   "rank": 10,
+   "site": "amazonaws.com",
+   "files": 61,
+   "fingerprintMs": 1834,
+   "bytes": 18571105,
+   "hashes": 11327,
+   "detected": 3,
+   "scoreMs": 219
+  },
+  {
+   "rank": 11,
+   "site": "instagram.com",
+   "files": 72,
+   "fingerprintMs": 1329,
+   "bytes": 8324560,
+   "hashes": 18156,
+   "detected": 1,
+   "scoreMs": 203
+  },
+  {
+   "rank": 12,
+   "site": "dzen.ru",
+   "files": 60,
+   "fingerprintMs": 1643,
+   "bytes": 10827117,
+   "hashes": 18858,
+   "detected": 3,
+   "scoreMs": 309
+  },
+  {
+   "rank": 13,
+   "site": "gstatic.com",
+   "files": 0,
+   "fingerprintMs": 0,
+   "bytes": 0,
+   "hashes": 0,
+   "detected": 0,
+   "scoreMs": 175
+  },
+  {
+   "rank": 14,
+   "site": "twitter.com",
+   "files": 417,
+   "fingerprintMs": 732,
+   "bytes": 4734066,
+   "hashes": 7953,
+   "detected": 1,
+   "scoreMs": 180
+  },
+  {
+   "rank": 15,
+   "site": "office.com",
+   "files": 30,
+   "fingerprintMs": 573,
+   "bytes": 3503833,
+   "hashes": 9304,
+   "detected": 4,
+   "scoreMs": 183
+  },
+  {
+   "rank": 16,
+   "site": "akamai.net",
+   "files": 2,
+   "fingerprintMs": 13,
+   "bytes": 149098,
+   "hashes": 221,
+   "detected": 0,
+   "scoreMs": 215
+  },
+  {
+   "rank": 17,
+   "site": "linkedin.com",
+   "files": 11,
+   "fingerprintMs": 319,
+   "bytes": 1943001,
+   "hashes": 4808,
+   "detected": 0,
+   "scoreMs": 207
+  },
+  {
+   "rank": 18,
+   "site": "googlevideo.com",
+   "files": 2,
+   "fingerprintMs": 9,
+   "bytes": 37460,
+   "hashes": 40,
+   "detected": 0,
+   "scoreMs": 175
+  },
+  {
+   "rank": 19,
+   "site": "live.com",
+   "files": 10,
+   "fingerprintMs": 1063,
+   "bytes": 6217602,
+   "hashes": 22053,
+   "detected": 2,
+   "scoreMs": 187
+  },
+  {
+   "rank": 20,
+   "site": "googletagmanager.com",
+   "files": 0,
+   "fingerprintMs": 0,
+   "bytes": 0,
+   "hashes": 0,
+   "detected": 0,
+   "scoreMs": 259
+  },
+  {
+   "rank": 21,
+   "site": "fbcdn.net",
+   "files": 72,
+   "fingerprintMs": 806,
+   "bytes": 5749617,
+   "hashes": 13290,
+   "detected": 1,
+   "scoreMs": 174
+  },
+  {
+   "rank": 22,
+   "site": "akamaiedge.net",
+   "files": 2,
+   "fingerprintMs": 11,
+   "bytes": 149118,
+   "hashes": 221,
+   "detected": 0,
+   "scoreMs": 182
+  },
+  {
+   "rank": 23,
+   "site": "amazon.com",
+   "files": 146,
+   "fingerprintMs": 376,
+   "bytes": 2833615,
+   "hashes": 7554,
+   "detected": 2,
+   "scoreMs": 179
+  },
+  {
+   "rank": 24,
+   "site": "akadns.net",
+   "files": 2,
+   "fingerprintMs": 12,
+   "bytes": 149098,
+   "hashes": 221,
+   "detected": 0,
+   "scoreMs": 279
+  },
+  {
+   "rank": 25,
+   "site": "workers.dev",
+   "files": 126,
+   "fingerprintMs": 517,
+   "bytes": 4104596,
+   "hashes": 8195,
+   "detected": 2,
+   "scoreMs": 175
+  },
+  {
+   "rank": 26,
+   "site": "e2ro.com",
+   "files": 2,
+   "fingerprintMs": 10,
+   "bytes": 149088,
+   "hashes": 221,
+   "detected": 0,
+   "scoreMs": 170
+  },
+  {
+   "rank": 27,
+   "site": "windowsupdate.com",
+   "files": 2,
+   "fingerprintMs": 11,
+   "bytes": 149133,
+   "hashes": 221,
+   "detected": 0,
+   "scoreMs": 175
+  },
+  {
+   "rank": 28,
+   "site": "wikipedia.org",
+   "files": 2,
+   "fingerprintMs": 1,
+   "bytes": 1675,
+   "hashes": 1,
+   "detected": 0,
+   "scoreMs": 185
+  },
+  {
+   "rank": 29,
+   "site": "azure.com",
+   "files": 93,
+   "fingerprintMs": 1659,
+   "bytes": 12423333,
+   "hashes": 22493,
+   "detected": 5,
+   "scoreMs": 197
+  },
+  {
+   "rank": 30,
+   "site": "microsoftonline.com",
+   "files": 2,
+   "fingerprintMs": 13,
+   "bytes": 149143,
+   "hashes": 221,
+   "detected": 0,
+   "scoreMs": 172
+  },
+  {
+   "rank": 31,
+   "site": "github.com",
+   "files": 110,
+   "fingerprintMs": 1076,
+   "bytes": 8308399,
+   "hashes": 13520,
+   "detected": 3,
+   "scoreMs": 196
+  },
+  {
+   "rank": 32,
+   "site": "doubleclick.net",
+   "files": 11,
+   "fingerprintMs": 196,
+   "bytes": 1131993,
+   "hashes": 4298,
+   "detected": 2,
+   "scoreMs": 178
+  },
+  {
+   "rank": 33,
+   "site": "netflix.com",
+   "files": 25,
+   "fingerprintMs": 1224,
+   "bytes": 7703645,
+   "hashes": 14929,
+   "detected": 3,
+   "scoreMs": 194
+  },
+  {
+   "rank": 34,
+   "site": "domaincontrol.com",
+   "files": 2,
+   "fingerprintMs": 11,
+   "bytes": 150280,
+   "hashes": 221,
+   "detected": 0,
+   "scoreMs": 182
+  },
+  {
+   "rank": 35,
+   "site": "googleusercontent.com",
+   "files": 0,
+   "fingerprintMs": 0,
+   "bytes": 0,
+   "hashes": 0,
+   "detected": 0,
+   "scoreMs": 214
+  },
+  {
+   "rank": 36,
+   "site": "bing.com",
+   "files": 135,
+   "fingerprintMs": 1234,
+   "bytes": 9189075,
+   "hashes": 23800,
+   "detected": 1,
+   "scoreMs": 197
+  },
+  {
+   "rank": 37,
+   "site": "ax-msedge.net",
+   "files": 2,
+   "fingerprintMs": 12,
+   "bytes": 149113,
+   "hashes": 221,
+   "detected": 0,
+   "scoreMs": 181
+  },
+  {
+   "rank": 38,
+   "site": "whatsapp.net",
+   "files": 26,
+   "fingerprintMs": 274,
+   "bytes": 1497959,
+   "hashes": 5199,
+   "detected": 1,
+   "scoreMs": 175
+  },
+  {
+   "rank": 39,
+   "site": "digicert.com",
+   "files": 2,
+   "fingerprintMs": 30,
+   "bytes": 927778,
+   "hashes": 203,
+   "detected": 0,
+   "scoreMs": 234
+  },
+  {
+   "rank": 40,
+   "site": "fastly.net",
+   "files": 46,
+   "fingerprintMs": 607,
+   "bytes": 3795798,
+   "hashes": 7670,
+   "detected": 0,
+   "scoreMs": 174
+  },
+  {
+   "rank": 41,
+   "site": "wordpress.org",
+   "files": 18,
+   "fingerprintMs": 90,
+   "bytes": 487907,
+   "hashes": 1680,
+   "detected": 0,
+   "scoreMs": 173
+  },
+  {
+   "rank": 42,
+   "site": "apple-dns.net",
+   "files": 2,
+   "fingerprintMs": 11,
+   "bytes": 149113,
+   "hashes": 221,
+   "detected": 0,
+   "scoreMs": 172
+  },
+  {
+   "rank": 43,
+   "site": "aaplimg.com",
+   "files": 2,
+   "fingerprintMs": 12,
+   "bytes": 149103,
+   "hashes": 221,
+   "detected": 0,
+   "scoreMs": 244
+  },
+  {
+   "rank": 44,
+   "site": "youtu.be",
+   "files": 53,
+   "fingerprintMs": 1962,
+   "bytes": 15103925,
+   "hashes": 38932,
+   "detected": 3,
+   "scoreMs": 196
+  },
+  {
+   "rank": 45,
+   "site": "t-msedge.net",
+   "files": 2,
+   "fingerprintMs": 12,
+   "bytes": 149108,
+   "hashes": 221,
+   "detected": 0,
+   "scoreMs": 237
+  },
+  {
+   "rank": 46,
+   "site": "googlesyndication.com",
+   "files": 15,
+   "fingerprintMs": 335,
+   "bytes": 1494309,
+   "hashes": 6779,
+   "detected": 0,
+   "scoreMs": 174
+  },
+  {
+   "rank": 47,
+   "site": "office.net",
+   "files": 2,
+   "fingerprintMs": 11,
+   "bytes": 149098,
+   "hashes": 221,
+   "detected": 0,
+   "scoreMs": 181
+  },
+  {
+   "rank": 48,
+   "site": "appsflyersdk.com",
+   "files": 0,
+   "fingerprintMs": 0,
+   "bytes": 0,
+   "hashes": 0,
+   "detected": 0,
+   "scoreMs": 193
+  },
+  {
+   "rank": 49,
+   "site": "pinterest.com",
+   "files": 87,
+   "fingerprintMs": 1576,
+   "bytes": 11240491,
+   "hashes": 16941,
+   "detected": 2,
+   "scoreMs": 192
+  },
+  {
+   "rank": 50,
+   "site": "icloud.com",
+   "files": 11,
+   "fingerprintMs": 660,
+   "bytes": 4920755,
+   "hashes": 12186,
+   "detected": 3,
+   "scoreMs": 207
+  },
+  {
+   "rank": 51,
+   "site": "akam.net",
+   "files": 2,
+   "fingerprintMs": 13,
+   "bytes": 149088,
+   "hashes": 221,
+   "detected": 0,
+   "scoreMs": 227
+  },
+  {
+   "rank": 52,
+   "site": "yahoo.com",
+   "files": 207,
+   "fingerprintMs": 1465,
+   "bytes": 9913471,
+   "hashes": 23569,
+   "detected": 1,
+   "scoreMs": 192
+  },
+  {
+   "rank": 53,
+   "site": "windows.net",
+   "files": 2,
+   "fingerprintMs": 2,
+   "bytes": 41099,
+   "hashes": 40,
+   "detected": 0,
+   "scoreMs": 176
+  },
+  {
+   "rank": 54,
+   "site": "ripn.net",
+   "files": 2,
+   "fingerprintMs": 12,
+   "bytes": 149088,
+   "hashes": 221,
+   "detected": 0,
+   "scoreMs": 270
+  },
+  {
+   "rank": 55,
+   "site": "sharepoint.com",
+   "files": 93,
+   "fingerprintMs": 1119,
+   "bytes": 9950137,
+   "hashes": 14363,
+   "detected": 6,
+   "scoreMs": 203
+  },
+  {
+   "rank": 56,
+   "site": "whatsapp.com",
+   "files": 26,
+   "fingerprintMs": 237,
+   "bytes": 1497996,
+   "hashes": 5199,
+   "detected": 1,
+   "scoreMs": 188
+  },
+  {
+   "rank": 57,
+   "site": "trafficmanager.net",
+   "files": 2,
+   "fingerprintMs": 12,
+   "bytes": 149138,
+   "hashes": 221,
+   "detected": 0,
+   "scoreMs": 254
+  },
+  {
+   "rank": 58,
+   "site": "goo.gl",
+   "files": 0,
+   "fingerprintMs": 0,
+   "bytes": 0,
+   "hashes": 0,
+   "detected": 0,
+   "scoreMs": 179
+  },
+  {
+   "rank": 59,
+   "site": "skype.com",
+   "files": 6,
+   "fingerprintMs": 103,
+   "bytes": 380765,
+   "hashes": 1469,
+   "detected": 0,
+   "scoreMs": 175
+  },
+  {
+   "rank": 60,
+   "site": "x.com",
+   "files": 426,
+   "fingerprintMs": 663,
+   "bytes": 4810421,
+   "hashes": 7999,
+   "detected": 1,
+   "scoreMs": 184
+  },
+  {
+   "rank": 61,
+   "site": "ntp.org",
+   "files": 10,
+   "fingerprintMs": 213,
+   "bytes": 1037626,
+   "hashes": 3734,
+   "detected": 0,
+   "scoreMs": 305
+  },
+  {
+   "rank": 62,
+   "site": "cloudfront.net",
+   "files": 2,
+   "fingerprintMs": 35,
+   "bytes": 149118,
+   "hashes": 221,
+   "detected": 0,
+   "scoreMs": 188
+  },
+  {
+   "rank": 63,
+   "site": "msn.com",
+   "files": 96,
+   "fingerprintMs": 1223,
+   "bytes": 9138799,
+   "hashes": 24234,
+   "detected": 2,
+   "scoreMs": 186
+  },
+  {
+   "rank": 64,
+   "site": "spotify.com",
+   "files": 56,
+   "fingerprintMs": 2055,
+   "bytes": 10843927,
+   "hashes": 28873,
+   "detected": 2,
+   "scoreMs": 220
+  },
+  {
+   "rank": 65,
+   "site": "tiktok.com",
+   "files": 218,
+   "fingerprintMs": 3564,
+   "bytes": 21387298,
+   "hashes": 40491,
+   "detected": 4,
+   "scoreMs": 231
+  },
+  {
+   "rank": 66,
+   "site": "tiktokcdn.com",
+   "files": 2,
+   "fingerprintMs": 14,
+   "bytes": 149113,
+   "hashes": 221,
+   "detected": 0,
+   "scoreMs": 195
+  },
+  {
+   "rank": 67,
+   "site": "vimeo.com",
+   "files": 117,
+   "fingerprintMs": 2942,
+   "bytes": 16141765,
+   "hashes": 31180,
+   "detected": 6,
+   "scoreMs": 359
+  },
+  {
+   "rank": 68,
+   "site": "gandi.net",
+   "files": 12,
+   "fingerprintMs": 403,
+   "bytes": 526892,
+   "hashes": 1281,
+   "detected": 0,
+   "scoreMs": 187
+  },
+  {
+   "rank": 69,
+   "site": "adobe.com",
+   "files": 2,
+   "fingerprintMs": 12,
+   "bytes": 149035,
+   "hashes": 221,
+   "detected": 0,
+   "scoreMs": 187
+  },
+  {
+   "rank": 70,
+   "site": "roblox.com",
+   "files": 182,
+   "fingerprintMs": 2039,
+   "bytes": 12976256,
+   "hashes": 17618,
+   "detected": 7,
+   "scoreMs": 214
+  },
+  {
+   "rank": 71,
+   "site": "dual-s-msedge.net",
+   "files": 2,
+   "fingerprintMs": 15,
+   "bytes": 149133,
+   "hashes": 221,
+   "detected": 0,
+   "scoreMs": 200
+  },
+  {
+   "rank": 72,
+   "site": "pv-cdn.net",
+   "files": 2,
+   "fingerprintMs": 13,
+   "bytes": 149098,
+   "hashes": 221,
+   "detected": 0,
+   "scoreMs": 193
+  },
+  {
+   "rank": 73,
+   "site": "ytimg.com",
+   "files": 2,
+   "fingerprintMs": 13,
+   "bytes": 149093,
+   "hashes": 221,
+   "detected": 0,
+   "scoreMs": 280
+  },
+  {
+   "rank": 74,
+   "site": "tiktokv.com",
+   "files": 0,
+   "fingerprintMs": 0,
+   "bytes": 0,
+   "hashes": 0,
+   "detected": 0,
+   "scoreMs": 191
+  },
+  {
+   "rank": 75,
+   "site": "gvt2.com",
+   "files": 2,
+   "fingerprintMs": 27,
+   "bytes": 149088,
+   "hashes": 221,
+   "detected": 0,
+   "scoreMs": 175
+  },
+  {
+   "rank": 76,
+   "site": "ln-msedge.net",
+   "files": 2,
+   "fingerprintMs": 14,
+   "bytes": 149113,
+   "hashes": 221,
+   "detected": 0,
+   "scoreMs": 187
+  },
+  {
+   "rank": 77,
+   "site": "gvt1.com",
+   "files": 2,
+   "fingerprintMs": 12,
+   "bytes": 149088,
+   "hashes": 221,
+   "detected": 0,
+   "scoreMs": 182
+  },
+  {
+   "rank": 78,
+   "site": "yandex.net",
+   "files": 42,
+   "fingerprintMs": 164,
+   "bytes": 1055316,
+   "hashes": 3146,
+   "detected": 1,
+   "scoreMs": 181
+  },
+  {
+   "rank": 79,
+   "site": "qq.com",
+   "files": 22,
+   "fingerprintMs": 1008,
+   "bytes": 5828184,
+   "hashes": 13045,
+   "detected": 4,
+   "scoreMs": 193
+  },
+  {
+   "rank": 80,
+   "site": "cloudflare.net",
+   "files": 3,
+   "fingerprintMs": 49,
+   "bytes": 311671,
+   "hashes": 320,
+   "detected": 0,
+   "scoreMs": 274
+  },
+  {
+   "rank": 81,
+   "site": "wa.me",
+   "files": 25,
+   "fingerprintMs": 262,
+   "bytes": 1371055,
+   "hashes": 4949,
+   "detected": 1,
+   "scoreMs": 182
+  },
+  {
+   "rank": 82,
+   "site": "googledomains.com",
+   "files": 0,
+   "fingerprintMs": 0,
+   "bytes": 0,
+   "hashes": 0,
+   "detected": 0,
+   "scoreMs": 171
+  },
+  {
+   "rank": 83,
+   "site": "zoom.us",
+   "files": 77,
+   "fingerprintMs": 672,
+   "bytes": 4861229,
+   "hashes": 7719,
+   "detected": 3,
+   "scoreMs": 197
+  },
+  {
+   "rank": 84,
+   "site": "nginx.org",
+   "files": 0,
+   "fingerprintMs": 0,
+   "bytes": 0,
+   "hashes": 0,
+   "detected": 0,
+   "scoreMs": 196
+  },
+  {
+   "rank": 85,
+   "site": "google-analytics.com",
+   "files": 11,
+   "fingerprintMs": 277,
+   "bytes": 1132052,
+   "hashes": 4298,
+   "detected": 2,
+   "scoreMs": 188
+  },
+  {
+   "rank": 86,
+   "site": "samsung.com",
+   "files": 268,
+   "fingerprintMs": 3179,
+   "bytes": 21421196,
+   "hashes": 35324,
+   "detected": 10,
+   "scoreMs": 362
+  },
+  {
+   "rank": 87,
+   "site": "behindmlm.com",
+   "files": 46,
+   "fingerprintMs": 638,
+   "bytes": 3024963,
+   "hashes": 10883,
+   "detected": 0,
+   "scoreMs": 179
+  },
+  {
+   "rank": 88,
+   "site": "nic.ru",
+   "files": 1,
+   "fingerprintMs": 0,
+   "bytes": 4185,
+   "hashes": 9,
+   "detected": 0,
+   "scoreMs": 176
+  },
+  {
+   "rank": 89,
+   "site": "baidu.com",
+   "files": 60,
+   "fingerprintMs": 393,
+   "bytes": 2948067,
+   "hashes": 6336,
+   "detected": 2,
+   "scoreMs": 193
+  },
+  {
+   "rank": 90,
+   "site": "office365.com",
+   "files": 0,
+   "fingerprintMs": 0,
+   "bytes": 0,
+   "hashes": 0,
+   "detected": 0,
+   "scoreMs": 184
+  },
+  {
+   "rank": 91,
+   "site": "bit.ly",
+   "files": 59,
+   "fingerprintMs": 872,
+   "bytes": 4943510,
+   "hashes": 8666,
+   "detected": 2,
+   "scoreMs": 183
+  },
+  {
+   "rank": 92,
+   "site": "opera.com",
+   "files": 30,
+   "fingerprintMs": 141,
+   "bytes": 837148,
+   "hashes": 2231,
+   "detected": 1,
+   "scoreMs": 208
+  },
+  {
+   "rank": 93,
+   "site": "edgekey.net",
+   "files": 2,
+   "fingerprintMs": 35,
+   "bytes": 149103,
+   "hashes": 221,
+   "detected": 0,
+   "scoreMs": 172
+  },
+  {
+   "rank": 94,
+   "site": "cloudflare-dns.com",
+   "files": 5,
+   "fingerprintMs": 275,
+   "bytes": 1365362,
+   "hashes": 4626,
+   "detected": 3,
+   "scoreMs": 276
+  },
+  {
+   "rank": 95,
+   "site": "wordpress.com",
+   "files": 45,
+   "fingerprintMs": 339,
+   "bytes": 1923079,
+   "hashes": 4774,
+   "detected": 3,
+   "scoreMs": 208
+  },
+  {
+   "rank": 96,
+   "site": "edgesuite.net",
+   "files": 2,
+   "fingerprintMs": 12,
+   "bytes": 149113,
+   "hashes": 221,
+   "detected": 0,
+   "scoreMs": 192
+  },
+  {
+   "rank": 97,
+   "site": "nginx.com",
+   "files": 189,
+   "fingerprintMs": 1581,
+   "bytes": 15034701,
+   "hashes": 19867,
+   "detected": 3,
+   "scoreMs": 303
+  },
+  {
+   "rank": 98,
+   "site": "ui.com",
+   "files": 99,
+   "fingerprintMs": 488,
+   "bytes": 3434046,
+   "hashes": 6978,
+   "detected": 2,
+   "scoreMs": 178
+  },
+  {
+   "rank": 99,
+   "site": "windows.com",
+   "files": 64,
+   "fingerprintMs": 794,
+   "bytes": 5518103,
+   "hashes": 11756,
+   "detected": 4,
+   "scoreMs": 205
+  },
+  {
+   "rank": 100,
+   "site": "cdninstagram.com",
+   "files": 2,
+   "fingerprintMs": 13,
+   "bytes": 149128,
+   "hashes": 221,
+   "detected": 0,
+   "scoreMs": 199
+  }
+ ]
+}

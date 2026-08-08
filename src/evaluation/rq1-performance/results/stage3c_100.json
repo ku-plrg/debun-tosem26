@@ -1,0 +1,1221 @@
+{
+ "settleMs": 5000,
+ "seed": 20260801,
+ "coldPerMeasurement": true,
+ "rows": [
+  {
+   "rank": 1,
+   "site": "google.com",
+   "order": "ptv>ptdetector>ldc",
+   "ptv": {
+    "pageLoadMs": 1017,
+    "wallMs": 858,
+    "computeMs": 852,
+    "detected": 1
+   },
+   "ptdetector": {
+    "pageLoadMs": 988,
+    "computeMs": 85,
+    "detected": 0
+   },
+   "ldc": {
+    "pageLoadMs": 991,
+    "computeMs": 8,
+    "detected": 2
+   }
+  },
+  {
+   "rank": 3,
+   "site": "microsoft.com",
+   "order": "ptv>ldc>ptdetector",
+   "ptv": {
+    "pageLoadMs": 2030,
+    "wallMs": 688,
+    "computeMs": 501,
+    "detected": 3
+   },
+   "ldc": {
+    "pageLoadMs": 2055,
+    "computeMs": 9,
+    "detected": 5
+   },
+   "ptdetector": {
+    "pageLoadMs": 2031,
+    "computeMs": 663,
+    "detected": 2
+   }
+  },
+  {
+   "rank": 4,
+   "site": "facebook.com",
+   "order": "ptdetector>ldc>ptv",
+   "ptdetector": {
+    "pageLoadMs": 746,
+    "computeMs": 26,
+    "detected": 0
+   },
+   "ldc": {
+    "pageLoadMs": 912,
+    "computeMs": 7,
+    "detected": 0
+   },
+   "ptv": {
+    "pageLoadMs": 892,
+    "wallMs": 94,
+    "computeMs": 86,
+    "detected": 0
+   }
+  },
+  {
+   "rank": 5,
+   "site": "cloudflare.com",
+   "order": "ldc>ptdetector>ptv",
+   "ldc": {
+    "pageLoadMs": 545,
+    "computeMs": 20,
+    "detected": 0
+   },
+   "ptdetector": {
+    "pageLoadMs": 536,
+    "computeMs": 36,
+    "detected": 0
+   },
+   "ptv": {
+    "pageLoadMs": 462,
+    "wallMs": 181,
+    "computeMs": 170,
+    "detected": 0
+   }
+  },
+  {
+   "rank": 7,
+   "site": "mail.ru",
+   "order": "ptdetector>ptv>ldc",
+   "ptdetector": {
+    "pageLoadMs": 7691,
+    "computeMs": 31,
+    "detected": 1
+   },
+   "ptv": {
+    "pageLoadMs": 7516,
+    "wallMs": 101,
+    "computeMs": 92,
+    "detected": 2
+   },
+   "ldc": {
+    "pageLoadMs": 10089,
+    "computeMs": 7,
+    "detected": 2
+   }
+  },
+  {
+   "rank": 8,
+   "site": "youtube.com",
+   "order": "ldc>ptdetector>ptv",
+   "ldc": {
+    "pageLoadMs": 3081,
+    "computeMs": 127,
+    "detected": 4
+   },
+   "ptdetector": {
+    "pageLoadMs": 2477,
+    "computeMs": 63,
+    "detected": 2
+   },
+   "ptv": {
+    "pageLoadMs": 2870,
+    "wallMs": 591,
+    "computeMs": 478,
+    "detected": 6
+   }
+  },
+  {
+   "rank": 9,
+   "site": "apple.com",
+   "order": "ptv>ldc>ptdetector",
+   "ptv": {
+    "pageLoadMs": 328,
+    "wallMs": 103,
+    "computeMs": 93,
+    "detected": 1
+   },
+   "ldc": {
+    "pageLoadMs": 684,
+    "computeMs": 21,
+    "detected": 1
+   },
+   "ptdetector": {
+    "pageLoadMs": 461,
+    "computeMs": 28,
+    "detected": 0
+   }
+  },
+  {
+   "rank": 10,
+   "site": "amazonaws.com",
+   "order": "ptv>ptdetector>ldc",
+   "ptv": {
+    "pageLoadMs": 2106,
+    "wallMs": 195,
+    "computeMs": 188,
+    "detected": 2
+   },
+   "ptdetector": {
+    "pageLoadMs": 1225,
+    "computeMs": 37,
+    "detected": 1
+   },
+   "ldc": {
+    "pageLoadMs": 1362,
+    "computeMs": 24,
+    "detected": 4
+   }
+  },
+  {
+   "rank": 11,
+   "site": "instagram.com",
+   "order": "ldc>ptdetector>ptv",
+   "ldc": {
+    "pageLoadMs": 920,
+    "computeMs": 13,
+    "detected": 0
+   },
+   "ptdetector": {
+    "pageLoadMs": 1039,
+    "computeMs": 31,
+    "detected": 0
+   },
+   "ptv": {
+    "pageLoadMs": 849,
+    "wallMs": 88,
+    "computeMs": 83,
+    "detected": 0
+   }
+  },
+  {
+   "rank": 12,
+   "site": "dzen.ru",
+   "order": "ldc>ptv>ptdetector",
+   "ldc": {
+    "pageLoadMs": 15772,
+    "computeMs": 19,
+    "detected": 3
+   },
+   "ptv": {
+    "pageLoadMs": 8495,
+    "wallMs": 101,
+    "computeMs": 96,
+    "detected": 1
+   },
+   "ptdetector": {
+    "pageLoadMs": 8591,
+    "computeMs": 39,
+    "detected": 2
+   }
+  },
+  {
+   "rank": 14,
+   "site": "twitter.com",
+   "order": "ptv>ldc>ptdetector",
+   "ptv": {
+    "pageLoadMs": 1197,
+    "wallMs": 229,
+    "computeMs": 223,
+    "detected": 0
+   },
+   "ldc": {
+    "pageLoadMs": 1203,
+    "computeMs": 14,
+    "detected": 0
+   },
+   "ptdetector": {
+    "pageLoadMs": 1272,
+    "computeMs": 35,
+    "detected": 0
+   }
+  },
+  {
+   "rank": 15,
+   "site": "office.com",
+   "order": "ldc>ptv>ptdetector",
+   "ldc": {
+    "pageLoadMs": 1446,
+    "computeMs": 17,
+    "detected": 4
+   },
+   "ptv": {
+    "pageLoadMs": 1374,
+    "wallMs": 170,
+    "computeMs": 162,
+    "detected": 3
+   },
+   "ptdetector": {
+    "pageLoadMs": 1629,
+    "computeMs": 38,
+    "detected": 2
+   }
+  },
+  {
+   "rank": 17,
+   "site": "linkedin.com",
+   "order": "ldc>ptdetector>ptv",
+   "ldc": {
+    "pageLoadMs": 684,
+    "computeMs": 9,
+    "detected": 0
+   },
+   "ptdetector": {
+    "pageLoadMs": 626,
+    "computeMs": 37,
+    "detected": 0
+   },
+   "ptv": {
+    "pageLoadMs": 725,
+    "wallMs": 241,
+    "computeMs": 231,
+    "detected": 0
+   }
+  },
+  {
+   "rank": 19,
+   "site": "live.com",
+   "order": "ldc>ptv>ptdetector",
+   "ldc": {
+    "pageLoadMs": 681,
+    "computeMs": 23,
+    "detected": 7
+   },
+   "ptv": {
+    "pageLoadMs": 651,
+    "wallMs": 255,
+    "computeMs": 244,
+    "detected": 6
+   },
+   "ptdetector": {
+    "pageLoadMs": 684,
+    "computeMs": 35,
+    "detected": 5
+   }
+  },
+  {
+   "rank": 21,
+   "site": "fbcdn.net",
+   "order": "ptdetector>ldc>ptv",
+   "ptdetector": {
+    "pageLoadMs": 1493,
+    "computeMs": 29,
+    "detected": 0
+   },
+   "ldc": {
+    "pageLoadMs": 1054,
+    "computeMs": 14,
+    "detected": 0
+   },
+   "ptv": {
+    "pageLoadMs": 1197,
+    "wallMs": 95,
+    "computeMs": 85,
+    "detected": 0
+   }
+  },
+  {
+   "rank": 23,
+   "site": "amazon.com",
+   "order": "ldc>ptv>ptdetector",
+   "ldc": {
+    "pageLoadMs": 829,
+    "computeMs": 17,
+    "detected": 1
+   },
+   "ptv": {
+    "pageLoadMs": 1038,
+    "wallMs": 163,
+    "computeMs": 155,
+    "detected": 2
+   },
+   "ptdetector": {
+    "pageLoadMs": 802,
+    "computeMs": 32,
+    "detected": 1
+   }
+  },
+  {
+   "rank": 25,
+   "site": "workers.dev",
+   "order": "ldc>ptdetector>ptv",
+   "ldc": {
+    "pageLoadMs": 1148,
+    "computeMs": 19,
+    "detected": 0
+   },
+   "ptdetector": {
+    "pageLoadMs": 576,
+    "computeMs": 38,
+    "detected": 0
+   },
+   "ptv": {
+    "pageLoadMs": 607,
+    "wallMs": 187,
+    "computeMs": 176,
+    "detected": 0
+   }
+  },
+  {
+   "rank": 29,
+   "site": "azure.com",
+   "order": "ldc>ptv>ptdetector",
+   "ldc": {
+    "pageLoadMs": 2780,
+    "computeMs": 27,
+    "detected": 7
+   },
+   "ptv": {
+    "pageLoadMs": 3258,
+    "wallMs": 289,
+    "computeMs": 279,
+    "detected": 5
+   },
+   "ptdetector": {
+    "pageLoadMs": 2587,
+    "computeMs": 47,
+    "detected": 3
+   }
+  },
+  {
+   "rank": 31,
+   "site": "github.com",
+   "order": "ptdetector>ldc>ptv",
+   "ptdetector": {
+    "pageLoadMs": 460,
+    "computeMs": 31,
+    "detected": 0
+   },
+   "ldc": {
+    "pageLoadMs": 425,
+    "computeMs": 15,
+    "detected": 1
+   },
+   "ptv": {
+    "pageLoadMs": 373,
+    "wallMs": 139,
+    "computeMs": 124,
+    "detected": 0
+   }
+  },
+  {
+   "rank": 32,
+   "site": "doubleclick.net",
+   "order": "ldc>ptv>ptdetector",
+   "ldc": {
+    "pageLoadMs": 3195,
+    "computeMs": 16,
+    "detected": 1
+   },
+   "ptv": {
+    "pageLoadMs": 4085,
+    "wallMs": 80,
+    "computeMs": 72,
+    "detected": 1
+   },
+   "ptdetector": {
+    "pageLoadMs": 3205,
+    "computeMs": 30,
+    "detected": 1
+   }
+  },
+  {
+   "rank": 33,
+   "site": "netflix.com",
+   "order": "ldc>ptv>ptdetector",
+   "ldc": {
+    "pageLoadMs": 1907,
+    "computeMs": 7,
+    "detected": 1
+   },
+   "ptv": {
+    "pageLoadMs": 1997,
+    "wallMs": 113,
+    "computeMs": 105,
+    "detected": 2
+   },
+   "ptdetector": {
+    "pageLoadMs": 1821,
+    "computeMs": 32,
+    "detected": 2
+   }
+  },
+  {
+   "rank": 36,
+   "site": "bing.com",
+   "order": "ptdetector>ldc>ptv",
+   "ptdetector": {
+    "pageLoadMs": 661,
+    "computeMs": 43,
+    "detected": 2
+   },
+   "ldc": {
+    "pageLoadMs": 699,
+    "computeMs": 15,
+    "detected": 3
+   },
+   "ptv": {
+    "pageLoadMs": 711,
+    "wallMs": 355,
+    "computeMs": 345,
+    "detected": 2
+   }
+  },
+  {
+   "rank": 38,
+   "site": "whatsapp.net",
+   "order": "ptv>ldc>ptdetector",
+   "ptv": {
+    "pageLoadMs": 1485,
+    "wallMs": 113,
+    "computeMs": 104,
+    "detected": 0
+   },
+   "ldc": {
+    "pageLoadMs": 1157,
+    "computeMs": 16,
+    "detected": 0
+   },
+   "ptdetector": {
+    "pageLoadMs": 1252,
+    "computeMs": 30,
+    "detected": 0
+   }
+  },
+  {
+   "rank": 39,
+   "site": "digicert.com",
+   "order": "ldc>ptv>ptdetector",
+   "ldc": {
+    "pageLoadMs": 795,
+    "computeMs": 6,
+    "detected": 0
+   },
+   "ptv": {
+    "pageLoadMs": 655,
+    "wallMs": 185,
+    "computeMs": 176,
+    "detected": 0
+   },
+   "ptdetector": {
+    "pageLoadMs": 599,
+    "computeMs": 26,
+    "detected": 0
+   }
+  },
+  {
+   "rank": 40,
+   "site": "fastly.net",
+   "order": "ptdetector>ldc>ptv",
+   "ptdetector": {
+    "pageLoadMs": 282,
+    "computeMs": 32,
+    "detected": 1
+   },
+   "ldc": {
+    "pageLoadMs": 119,
+    "computeMs": 18,
+    "detected": 2
+   },
+   "ptv": {
+    "pageLoadMs": 162,
+    "wallMs": 210,
+    "computeMs": 201,
+    "detected": 1
+   }
+  },
+  {
+   "rank": 41,
+   "site": "wordpress.org",
+   "order": "ptv>ldc>ptdetector",
+   "ptv": {
+    "pageLoadMs": 1903,
+    "wallMs": 67,
+    "computeMs": 60,
+    "detected": 0
+   },
+   "ldc": {
+    "pageLoadMs": 2450,
+    "computeMs": 16,
+    "detected": 1
+   },
+   "ptdetector": {
+    "pageLoadMs": 2621,
+    "computeMs": 28,
+    "detected": 0
+   }
+  },
+  {
+   "rank": 44,
+   "site": "youtu.be",
+   "order": "ldc>ptv>ptdetector",
+   "ldc": {
+    "pageLoadMs": 3057,
+    "computeMs": 131,
+    "detected": 4
+   },
+   "ptv": {
+    "pageLoadMs": 2850,
+    "wallMs": 607,
+    "computeMs": 494,
+    "detected": 6
+   },
+   "ptdetector": {
+    "pageLoadMs": 3080,
+    "computeMs": 63,
+    "detected": 2
+   }
+  },
+  {
+   "rank": 46,
+   "site": "googlesyndication.com",
+   "order": "ldc>ptv>ptdetector",
+   "ldc": {
+    "pageLoadMs": 1244,
+    "computeMs": 13,
+    "detected": 2
+   },
+   "ptv": {
+    "pageLoadMs": 1239,
+    "wallMs": 948,
+    "computeMs": 836,
+    "detected": 1
+   },
+   "ptdetector": {
+    "pageLoadMs": 1180,
+    "computeMs": 85,
+    "detected": 0
+   }
+  },
+  {
+   "rank": 49,
+   "site": "pinterest.com",
+   "order": "ldc>ptv>ptdetector",
+   "ldc": {
+    "pageLoadMs": 1243,
+    "computeMs": 16,
+    "detected": 1
+   },
+   "ptv": {
+    "pageLoadMs": 1337,
+    "wallMs": 115,
+    "computeMs": 111,
+    "detected": 1
+   },
+   "ptdetector": {
+    "pageLoadMs": 1121,
+    "computeMs": 30,
+    "detected": 1
+   }
+  },
+  {
+   "rank": 50,
+   "site": "icloud.com",
+   "order": "ptdetector>ldc>ptv",
+   "ptdetector": {
+    "pageLoadMs": 439,
+    "computeMs": 29,
+    "detected": 1
+   },
+   "ldc": {
+    "pageLoadMs": 385,
+    "computeMs": 11,
+    "detected": 3
+   },
+   "ptv": {
+    "pageLoadMs": 303,
+    "wallMs": 114,
+    "computeMs": 104,
+    "detected": 2
+   }
+  },
+  {
+   "rank": 52,
+   "site": "yahoo.com",
+   "order": "ldc>ptv>ptdetector",
+   "ldc": {
+    "pageLoadMs": 2168,
+    "computeMs": 20,
+    "detected": 0
+   },
+   "ptv": {
+    "pageLoadMs": 1923,
+    "wallMs": 659,
+    "computeMs": 565,
+    "detected": 1
+   },
+   "ptdetector": {
+    "pageLoadMs": 2141,
+    "computeMs": 128,
+    "detected": 0
+   }
+  },
+  {
+   "rank": 55,
+   "site": "sharepoint.com",
+   "order": "ptv>ptdetector>ldc",
+   "ptv": {
+    "pageLoadMs": 3583,
+    "wallMs": 193,
+    "computeMs": 186,
+    "detected": 4
+   },
+   "ptdetector": {
+    "pageLoadMs": 3521,
+    "computeMs": 42,
+    "detected": 3
+   },
+   "ldc": {
+    "pageLoadMs": 3346,
+    "computeMs": 21,
+    "detected": 6
+   }
+  },
+  {
+   "rank": 56,
+   "site": "whatsapp.com",
+   "order": "ptv>ldc>ptdetector",
+   "ptv": {
+    "pageLoadMs": 1677,
+    "wallMs": 112,
+    "computeMs": 103,
+    "detected": 0
+   },
+   "ldc": {
+    "pageLoadMs": 1121,
+    "computeMs": 17,
+    "detected": 0
+   },
+   "ptdetector": {
+    "pageLoadMs": 1936,
+    "computeMs": 34,
+    "detected": 0
+   }
+  },
+  {
+   "rank": 59,
+   "site": "skype.com",
+   "order": "ldc>ptv>ptdetector",
+   "ldc": {
+    "pageLoadMs": 815,
+    "computeMs": 9,
+    "detected": 0
+   },
+   "ptv": {
+    "pageLoadMs": 987,
+    "wallMs": 65,
+    "computeMs": 56,
+    "detected": 0
+   },
+   "ptdetector": {
+    "pageLoadMs": 843,
+    "computeMs": 27,
+    "detected": 0
+   }
+  },
+  {
+   "rank": 60,
+   "site": "x.com",
+   "order": "ptdetector>ptv>ldc",
+   "ptdetector": {
+    "pageLoadMs": 1103,
+    "computeMs": 37,
+    "detected": 0
+   },
+   "ptv": {
+    "pageLoadMs": 1088,
+    "wallMs": 236,
+    "computeMs": 226,
+    "detected": 0
+   },
+   "ldc": {
+    "pageLoadMs": 1010,
+    "computeMs": 13,
+    "detected": 0
+   }
+  },
+  {
+   "rank": 61,
+   "site": "ntp.org",
+   "order": "ptv>ptdetector>ldc",
+   "ptv": {
+    "pageLoadMs": 1918,
+    "wallMs": 56,
+    "computeMs": 52,
+    "detected": 0
+   },
+   "ptdetector": {
+    "pageLoadMs": 2155,
+    "computeMs": 28,
+    "detected": 0
+   },
+   "ldc": {
+    "pageLoadMs": 1572,
+    "computeMs": 8,
+    "detected": 0
+   }
+  },
+  {
+   "rank": 63,
+   "site": "msn.com",
+   "order": "ptv>ldc>ptdetector",
+   "ptv": {
+    "pageLoadMs": 598,
+    "wallMs": 147,
+    "computeMs": 142,
+    "detected": 0
+   },
+   "ldc": {
+    "pageLoadMs": 545,
+    "computeMs": 9,
+    "detected": 0
+   },
+   "ptdetector": {
+    "pageLoadMs": 430,
+    "computeMs": 32,
+    "detected": 0
+   }
+  },
+  {
+   "rank": 64,
+   "site": "spotify.com",
+   "order": "ldc>ptv>ptdetector",
+   "ldc": {
+    "pageLoadMs": 1472,
+    "computeMs": 19,
+    "detected": 1
+   },
+   "ptv": {
+    "pageLoadMs": 1315,
+    "wallMs": 200,
+    "computeMs": 87,
+    "detected": 2
+   },
+   "ptdetector": {
+    "pageLoadMs": 1180,
+    "computeMs": 30,
+    "detected": 1
+   }
+  },
+  {
+   "rank": 65,
+   "site": "tiktok.com",
+   "order": "ptdetector>ldc>ptv",
+   "ptdetector": {
+    "pageLoadMs": 676,
+    "computeMs": 39,
+    "detected": 1
+   },
+   "ldc": {
+    "pageLoadMs": 535,
+    "computeMs": 84,
+    "detected": 4
+   },
+   "ptv": {
+    "pageLoadMs": 521,
+    "wallMs": 212,
+    "computeMs": 187,
+    "detected": 2
+   }
+  },
+  {
+   "rank": 67,
+   "site": "vimeo.com",
+   "order": "ptv>ptdetector>ldc",
+   "ptv": {
+    "pageLoadMs": 1984,
+    "wallMs": 187,
+    "computeMs": 176,
+    "detected": 3
+   },
+   "ptdetector": {
+    "pageLoadMs": 1949,
+    "computeMs": 34,
+    "detected": 1
+   },
+   "ldc": {
+    "pageLoadMs": 1814,
+    "computeMs": 30,
+    "detected": 1
+   }
+  },
+  {
+   "rank": 68,
+   "site": "gandi.net",
+   "order": "ptdetector>ptv>ldc",
+   "ptdetector": {
+    "pageLoadMs": 1340,
+    "computeMs": 33,
+    "detected": 1
+   },
+   "ptv": {
+    "pageLoadMs": 928,
+    "wallMs": 168,
+    "computeMs": 155,
+    "detected": 3
+   },
+   "ldc": {
+    "pageLoadMs": 946,
+    "computeMs": 18,
+    "detected": 3
+   }
+  },
+  {
+   "rank": 70,
+   "site": "roblox.com",
+   "order": "ptv>ldc>ptdetector",
+   "ptv": {
+    "pageLoadMs": 3173,
+    "wallMs": 573,
+    "computeMs": 464,
+    "detected": 8
+   },
+   "ldc": {
+    "pageLoadMs": 2483,
+    "computeMs": 7,
+    "detected": 8
+   },
+   "ptdetector": {
+    "pageLoadMs": 2729,
+    "computeMs": 51,
+    "detected": 6
+   }
+  },
+  {
+   "rank": 78,
+   "site": "yandex.net",
+   "order": "ptv>ptdetector>ldc",
+   "ptv": {
+    "pageLoadMs": 4665,
+    "wallMs": 79,
+    "computeMs": 64,
+    "detected": 0
+   },
+   "ptdetector": {
+    "pageLoadMs": 4548,
+    "computeMs": 30,
+    "detected": 1
+   },
+   "ldc": {
+    "pageLoadMs": 4313,
+    "computeMs": 13,
+    "detected": 2
+   }
+  },
+  {
+   "rank": 79,
+   "site": "qq.com",
+   "order": "ptdetector>ldc>ptv",
+   "ptdetector": {
+    "pageLoadMs": 1814,
+    "computeMs": 42,
+    "detected": 4
+   },
+   "ldc": {
+    "pageLoadMs": 2184,
+    "computeMs": 18,
+    "detected": 4
+   },
+   "ptv": {
+    "pageLoadMs": 966,
+    "wallMs": 201,
+    "computeMs": 190,
+    "detected": 3
+   }
+  },
+  {
+   "rank": 80,
+   "site": "cloudflare.net",
+   "order": "ptv>ptdetector>ldc",
+   "ptv": {
+    "pageLoadMs": 152,
+    "wallMs": 89,
+    "computeMs": 82,
+    "detected": 0
+   },
+   "ptdetector": {
+    "pageLoadMs": 181,
+    "computeMs": 29,
+    "detected": 0
+   },
+   "ldc": {
+    "pageLoadMs": 83,
+    "computeMs": 16,
+    "detected": 0
+   }
+  },
+  {
+   "rank": 81,
+   "site": "wa.me",
+   "order": "ldc>ptdetector>ptv",
+   "ldc": {
+    "pageLoadMs": 1359,
+    "computeMs": 15,
+    "detected": 0
+   },
+   "ptdetector": {
+    "pageLoadMs": 1989,
+    "computeMs": 32,
+    "detected": 0
+   },
+   "ptv": {
+    "pageLoadMs": 1920,
+    "wallMs": 109,
+    "computeMs": 100,
+    "detected": 0
+   }
+  },
+  {
+   "rank": 83,
+   "site": "zoom.us",
+   "order": "ptdetector>ldc>ptv",
+   "ptdetector": {
+    "pageLoadMs": 1847,
+    "computeMs": 30,
+    "detected": 0
+   },
+   "ldc": {
+    "pageLoadMs": 1873,
+    "computeMs": 18,
+    "detected": 0
+   },
+   "ptv": {
+    "pageLoadMs": 1423,
+    "wallMs": 126,
+    "computeMs": 106,
+    "detected": 0
+   }
+  },
+  {
+   "rank": 85,
+   "site": "google-analytics.com",
+   "order": "ptv>ptdetector>ldc",
+   "ptv": {
+    "pageLoadMs": 3520,
+    "wallMs": 67,
+    "computeMs": 61,
+    "detected": 1
+   },
+   "ptdetector": {
+    "pageLoadMs": 4270,
+    "computeMs": 29,
+    "detected": 1
+   },
+   "ldc": {
+    "pageLoadMs": 3278,
+    "computeMs": 14,
+    "detected": 1
+   }
+  },
+  {
+   "rank": 86,
+   "site": "samsung.com",
+   "order": "ptv>ptdetector>ldc",
+   "ptv": {
+    "pageLoadMs": 2081,
+    "wallMs": 1084,
+    "computeMs": 971,
+    "detected": 8
+   },
+   "ptdetector": {
+    "pageLoadMs": 1928,
+    "error": "no output within detect timeout"
+   },
+   "ldc": {
+    "pageLoadMs": 2030,
+    "error": "no output within detect timeout"
+   }
+  },
+  {
+   "rank": 87,
+   "site": "behindmlm.com",
+   "order": "ptv>ldc>ptdetector",
+   "ptv": {
+    "pageLoadMs": 1092,
+    "wallMs": 742,
+    "computeMs": 664,
+    "detected": 1
+   },
+   "ldc": {
+    "pageLoadMs": 222,
+    "computeMs": 21,
+    "detected": 1
+   },
+   "ptdetector": {
+    "pageLoadMs": 252,
+    "computeMs": 615,
+    "detected": 0
+   }
+  },
+  {
+   "rank": 89,
+   "site": "baidu.com",
+   "order": "ptdetector>ldc>ptv",
+   "ptdetector": {
+    "pageLoadMs": 3123,
+    "computeMs": 39,
+    "detected": 2
+   },
+   "ldc": {
+    "pageLoadMs": 2396,
+    "computeMs": 15,
+    "detected": 3
+   },
+   "ptv": {
+    "pageLoadMs": 2159,
+    "wallMs": 305,
+    "computeMs": 196,
+    "detected": 3
+   }
+  },
+  {
+   "rank": 91,
+   "site": "bit.ly",
+   "order": "ldc>ptv>ptdetector",
+   "ldc": {
+    "pageLoadMs": 1245,
+    "computeMs": 16,
+    "detected": 5
+   },
+   "ptv": {
+    "pageLoadMs": 886,
+    "wallMs": 305,
+    "computeMs": 297,
+    "detected": 3
+   },
+   "ptdetector": {
+    "pageLoadMs": 970,
+    "computeMs": 45,
+    "detected": 2
+   }
+  },
+  {
+   "rank": 92,
+   "site": "opera.com",
+   "order": "ldc>ptdetector>ptv",
+   "ldc": {
+    "pageLoadMs": 3130,
+    "computeMs": 16,
+    "detected": 0
+   },
+   "ptdetector": {
+    "pageLoadMs": 2665,
+    "computeMs": 35,
+    "detected": 0
+   },
+   "ptv": {
+    "pageLoadMs": 2657,
+    "wallMs": 134,
+    "computeMs": 126,
+    "detected": 0
+   }
+  },
+  {
+   "rank": 94,
+   "site": "cloudflare-dns.com",
+   "order": "ptdetector>ldc>ptv",
+   "ptdetector": {
+    "pageLoadMs": 165,
+    "computeMs": 27,
+    "detected": 0
+   },
+   "ldc": {
+    "pageLoadMs": 202,
+    "computeMs": 9,
+    "detected": 0
+   },
+   "ptv": {
+    "pageLoadMs": 135,
+    "wallMs": 55,
+    "computeMs": 46,
+    "detected": 0
+   }
+  },
+  {
+   "rank": 95,
+   "site": "wordpress.com",
+   "order": "ptdetector>ptv>ldc",
+   "ptdetector": {
+    "pageLoadMs": 783,
+    "computeMs": 44,
+    "detected": 4
+   },
+   "ptv": {
+    "pageLoadMs": 806,
+    "wallMs": 241,
+    "computeMs": 234,
+    "detected": 4
+   },
+   "ldc": {
+    "pageLoadMs": 778,
+    "computeMs": 18,
+    "detected": 6
+   }
+  },
+  {
+   "rank": 97,
+   "site": "nginx.com",
+   "order": "ptdetector>ptv>ldc",
+   "ptdetector": {
+    "pageLoadMs": 2351,
+    "computeMs": 32,
+    "detected": 0
+   },
+   "ptv": {
+    "pageLoadMs": 1870,
+    "error": "Waiting failed: 60000ms exceeded"
+   },
+   "ldc": {
+    "pageLoadMs": 2271,
+    "computeMs": 13,
+    "detected": 1
+   }
+  },
+  {
+   "rank": 98,
+   "site": "ui.com",
+   "order": "ldc>ptdetector>ptv",
+   "ldc": {
+    "pageLoadMs": 572,
+    "computeMs": 8,
+    "detected": 1
+   },
+   "ptdetector": {
+    "pageLoadMs": 232,
+    "computeMs": 25,
+    "detected": 0
+   },
+   "ptv": {
+    "pageLoadMs": 563,
+    "wallMs": 76,
+    "computeMs": 70,
+    "detected": 0
+   }
+  },
+  {
+   "rank": 99,
+   "site": "windows.com",
+   "order": "ptdetector>ldc>ptv",
+   "ptdetector": {
+    "pageLoadMs": 1793,
+    "computeMs": 46,
+    "detected": 4
+   },
+   "ldc": {
+    "pageLoadMs": 1884,
+    "computeMs": 7,
+    "detected": 6
+   },
+   "ptv": {
+    "pageLoadMs": 2114,
+    "wallMs": 377,
+    "computeMs": 373,
+    "detected": 6
+   }
+  }
+ ]
+}

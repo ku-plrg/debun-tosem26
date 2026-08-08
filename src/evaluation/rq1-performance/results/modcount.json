@@ -1,0 +1,450 @@
+[
+ {
+  "rank": 1,
+  "site": "google.com",
+  "extractMs": 740,
+  "modules": 6423,
+  "chars": 969621,
+  "median": 74
+ },
+ {
+  "rank": 3,
+  "site": "microsoft.com",
+  "extractMs": 689,
+  "modules": 5177,
+  "chars": 3159884,
+  "median": 125
+ },
+ {
+  "rank": 4,
+  "site": "facebook.com",
+  "extractMs": 1290,
+  "modules": 5478,
+  "chars": 9581610,
+  "median": 524.0
+ },
+ {
+  "rank": 5,
+  "site": "cloudflare.com",
+  "extractMs": 378,
+  "modules": 5845,
+  "chars": 2860112,
+  "median": 125
+ },
+ {
+  "rank": 7,
+  "site": "mail.ru",
+  "extractMs": 1826,
+  "modules": 15828,
+  "chars": 15363778,
+  "median": 202.0
+ },
+ {
+  "rank": 8,
+  "site": "youtube.com",
+  "extractMs": 2275,
+  "modules": 28196,
+  "chars": 7249417,
+  "median": 96.0
+ },
+ {
+  "rank": 9,
+  "site": "apple.com",
+  "extractMs": 120,
+  "modules": 993,
+  "chars": 1007954,
+  "median": 336
+ },
+ {
+  "rank": 10,
+  "site": "amazonaws.com",
+  "extractMs": 1180,
+  "modules": 12498,
+  "chars": 15886380,
+  "median": 297.0
+ },
+ {
+  "rank": 11,
+  "site": "instagram.com",
+  "extractMs": 988,
+  "modules": 4288,
+  "chars": 7682865,
+  "median": 486.0
+ },
+ {
+  "rank": 12,
+  "site": "dzen.ru",
+  "extractMs": 1415,
+  "modules": 5829,
+  "chars": 9426604,
+  "median": 194
+ },
+ {
+  "rank": 14,
+  "site": "twitter.com",
+  "extractMs": 686,
+  "modules": 6364,
+  "chars": 3230179,
+  "median": 160.0
+ },
+ {
+  "rank": 15,
+  "site": "office.com",
+  "extractMs": 332,
+  "modules": 1299,
+  "chars": 2336672,
+  "median": 196
+ },
+ {
+  "rank": 17,
+  "site": "linkedin.com",
+  "extractMs": 212,
+  "modules": 1239,
+  "chars": 1696089,
+  "median": 166
+ },
+ {
+  "rank": 19,
+  "site": "live.com",
+  "extractMs": 675,
+  "modules": 311,
+  "chars": 467216,
+  "median": 155
+ },
+ {
+  "rank": 21,
+  "site": "fbcdn.net",
+  "extractMs": 729,
+  "modules": 2862,
+  "chars": 5263719,
+  "median": 526.0
+ },
+ {
+  "rank": 23,
+  "site": "amazon.com",
+  "extractMs": 320,
+  "modules": 372,
+  "chars": 2605783,
+  "median": 243.0
+ },
+ {
+  "rank": 25,
+  "site": "workers.dev",
+  "extractMs": 372,
+  "modules": 6548,
+  "chars": 3645298,
+  "median": 124.0
+ },
+ {
+  "rank": 29,
+  "site": "azure.com",
+  "extractMs": 1067,
+  "modules": 8252,
+  "chars": 8717573,
+  "median": 159.0
+ },
+ {
+  "rank": 31,
+  "site": "github.com",
+  "extractMs": 814,
+  "modules": 2135,
+  "chars": 7783114,
+  "median": 114
+ },
+ {
+  "rank": 32,
+  "site": "doubleclick.net",
+  "extractMs": 152,
+  "modules": 4222,
+  "chars": 895930,
+  "median": 92.0
+ },
+ {
+  "rank": 33,
+  "site": "netflix.com",
+  "extractMs": 974,
+  "modules": 5664,
+  "chars": 6690496,
+  "median": 144.0
+ },
+ {
+  "rank": 36,
+  "site": "bing.com",
+  "extractMs": 734,
+  "modules": 2864,
+  "chars": 9005867,
+  "median": 644.0
+ },
+ {
+  "rank": 38,
+  "site": "whatsapp.net",
+  "extractMs": 214,
+  "modules": 819,
+  "chars": 1307641,
+  "median": 456
+ },
+ {
+  "rank": 39,
+  "site": "digicert.com",
+  "extractMs": 33,
+  "modules": 8,
+  "chars": 890190,
+  "median": 7688.5
+ },
+ {
+  "rank": 40,
+  "site": "fastly.net",
+  "extractMs": 471,
+  "modules": 8773,
+  "chars": 3046298,
+  "median": 109
+ },
+ {
+  "rank": 41,
+  "site": "wordpress.org",
+  "extractMs": 70,
+  "modules": 2061,
+  "chars": 422427,
+  "median": 83
+ },
+ {
+  "rank": 44,
+  "site": "youtu.be",
+  "extractMs": 2257,
+  "modules": 28196,
+  "chars": 7249775,
+  "median": 96.0
+ },
+ {
+  "rank": 46,
+  "site": "googlesyndication.com",
+  "extractMs": 407,
+  "modules": 3446,
+  "chars": 525593,
+  "median": 74.0
+ },
+ {
+  "rank": 49,
+  "site": "pinterest.com",
+  "extractMs": 1097,
+  "modules": 2459,
+  "chars": 1816831,
+  "median": 93
+ },
+ {
+  "rank": 50,
+  "site": "icloud.com",
+  "extractMs": 400,
+  "modules": 138,
+  "chars": 938044,
+  "median": 1846.0
+ },
+ {
+  "rank": 52,
+  "site": "yahoo.com",
+  "extractMs": 1221,
+  "modules": 11140,
+  "chars": 7621239,
+  "median": 119.0
+ },
+ {
+  "rank": 55,
+  "site": "sharepoint.com",
+  "extractMs": 722,
+  "modules": 7078,
+  "chars": 6649773,
+  "median": 157.0
+ },
+ {
+  "rank": 56,
+  "site": "whatsapp.com",
+  "extractMs": 214,
+  "modules": 819,
+  "chars": 1307641,
+  "median": 456
+ },
+ {
+  "rank": 59,
+  "site": "skype.com",
+  "extractMs": 47,
+  "modules": 733,
+  "chars": 306058,
+  "median": 110
+ },
+ {
+  "rank": 60,
+  "site": "x.com",
+  "extractMs": 693,
+  "modules": 6402,
+  "chars": 3278088,
+  "median": 159.0
+ },
+ {
+  "rank": 61,
+  "site": "ntp.org",
+  "extractMs": 143,
+  "modules": 4547,
+  "chars": 877668,
+  "median": 85
+ },
+ {
+  "rank": 63,
+  "site": "msn.com",
+  "extractMs": 823,
+  "modules": 3262,
+  "chars": 2130357,
+  "median": 75.0
+ },
+ {
+  "rank": 64,
+  "site": "spotify.com",
+  "extractMs": 1315,
+  "modules": 9167,
+  "chars": 7341065,
+  "median": 94
+ },
+ {
+  "rank": 65,
+  "site": "tiktok.com",
+  "extractMs": 2044,
+  "modules": 8120,
+  "chars": 20902364,
+  "median": 356.0
+ },
+ {
+  "rank": 67,
+  "site": "vimeo.com",
+  "extractMs": 1887,
+  "modules": 17667,
+  "chars": 13802800,
+  "median": 125
+ },
+ {
+  "rank": 68,
+  "site": "gandi.net",
+  "extractMs": 64,
+  "modules": 439,
+  "chars": 302905,
+  "median": 122
+ },
+ {
+  "rank": 70,
+  "site": "roblox.com",
+  "extractMs": 1324,
+  "modules": 3024,
+  "chars": 10543825,
+  "median": 184.0
+ },
+ {
+  "rank": 78,
+  "site": "yandex.net",
+  "extractMs": 322,
+  "modules": 720,
+  "chars": 682285,
+  "median": 159.5
+ },
+ {
+  "rank": 79,
+  "site": "qq.com",
+  "extractMs": 565,
+  "modules": 1744,
+  "chars": 5437407,
+  "median": 241.5
+ },
+ {
+  "rank": 80,
+  "site": "cloudflare.net",
+  "extractMs": 33,
+  "modules": 373,
+  "chars": 278667,
+  "median": 196
+ },
+ {
+  "rank": 81,
+  "site": "wa.me",
+  "extractMs": 200,
+  "modules": 737,
+  "chars": 1199003,
+  "median": 424
+ },
+ {
+  "rank": 83,
+  "site": "zoom.us",
+  "extractMs": 558,
+  "modules": 5972,
+  "chars": 3967093,
+  "median": 149.0
+ },
+ {
+  "rank": 85,
+  "site": "google-analytics.com",
+  "extractMs": 149,
+  "modules": 4222,
+  "chars": 895930,
+  "median": 92.0
+ },
+ {
+  "rank": 87,
+  "site": "behindmlm.com",
+  "extractMs": 505,
+  "modules": 12342,
+  "chars": 2553880,
+  "median": 85.0
+ },
+ {
+  "rank": 89,
+  "site": "baidu.com",
+  "extractMs": 293,
+  "modules": 945,
+  "chars": 2660659,
+  "median": 451
+ },
+ {
+  "rank": 91,
+  "site": "bit.ly",
+  "extractMs": 637,
+  "modules": 12632,
+  "chars": 4230442,
+  "median": 96.0
+ },
+ {
+  "rank": 92,
+  "site": "opera.com",
+  "extractMs": 133,
+  "modules": 2275,
+  "chars": 600088,
+  "median": 84
+ },
+ {
+  "rank": 94,
+  "site": "cloudflare-dns.com",
+  "extractMs": 154,
+  "modules": 158,
+  "chars": 1278114,
+  "median": 42.0
+ },
+ {
+  "rank": 95,
+  "site": "wordpress.com",
+  "extractMs": 278,
+  "modules": 3040,
+  "chars": 1526926,
+  "median": 106.0
+ },
+ {
+  "rank": 98,
+  "site": "ui.com",
+  "extractMs": 497,
+  "modules": 5578,
+  "chars": 2304845,
+  "median": 120.0
+ },
+ {
+  "rank": 99,
+  "site": "windows.com",
+  "extractMs": 703,
+  "modules": 2940,
+  "chars": 3644085,
+  "median": 149.0
+ }
+]
