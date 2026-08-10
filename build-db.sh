@@ -87,10 +87,11 @@ for M in $MODELS; do
     MODEL=$M FP_CACHE_DIR="$MC" $TS src/cmd/gen-web-blacklist.ts
   fi
 
-  # DETECT_RULE: the full model is called with the strict rule, the five ablation models with
-  # the Beta-posterior one, which is how the paper's Table 3 columns were produced. Reproducing
-  # the table requires reproducing that split — under one rule for all six, half its cells move.
-  RULE=$([ "$M" = "pog" ] && echo strict || echo posterior)
+  # DETECT_RULE: strict for every model on this branch — one gate, the ψ consistency test, for
+  # all six columns of Table 3. main instead reproduces the published table, which mixes the
+  # rules (strict for POG+FBCI, Beta-posterior for the other five). See the branch's first
+  # commit for what moves.
+  RULE=strict
   banner "B[$M]. score_m detections @ ψ=84% ($RULE rule) → $OUT/summary.csv"
   if have "$OUT/summary.csv"; then echo "skip (exists)"; else
     DETECT_RULE=$RULE MODEL=$M MATCH_THRESHOLD=84 FP_CACHE_DIR="$MC" EVAL_OUTPUT_DIR="$OUT" \

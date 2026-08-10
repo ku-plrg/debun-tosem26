@@ -174,7 +174,7 @@ apnews.com,kendo-ui-core,false,,0,,false,,TN
 apnews.com,knockout,false,,0,,false,,TN
 apnews.com,labjs,false,,0,,false,,TN
 apnews.com,leaflet,false,,0,,false,,TN
-apnews.com,lodash.js,true,,0,,true,,TP
+apnews.com,lodash.js,false,,0,,true,,FN
 apnews.com,mapbox-gl,false,,0,,false,,TN
 apnews.com,material-design-lite,false,,0,,false,,TN
 apnews.com,matter-js,false,,0,,false,,TN
@@ -460,7 +460,7 @@ britannica.com,material-design-lite,false,,0,,false,,TN
 britannica.com,matter-js,false,,0,,false,,TN
 britannica.com,modernizr,false,,0,,false,,TN
 britannica.com,moment-timezone,false,,0,,false,,TN
-britannica.com,moment.js,true,,0,,true,2.24.0,TP
+britannica.com,moment.js,false,,0,,true,2.24.0,FN
 britannica.com,mootools,false,,0,,false,,TN
 britannica.com,move.js,false,,0,,false,,TN
 britannica.com,numeral.js,false,,0,,false,,TN
@@ -1434,7 +1434,7 @@ fandom.com,kendo-ui-core,false,,0,,false,,TN
 fandom.com,knockout,false,,0,,false,,TN
 fandom.com,labjs,false,,0,,false,,TN
 fandom.com,leaflet,false,,0,,false,,TN
-fandom.com,lodash.js,true,,0,,true,,TP
+fandom.com,lodash.js,false,,0,,true,,FN
 fandom.com,mapbox-gl,false,,0,,false,,TN
 fandom.com,material-design-lite,false,,0,,false,,TN
 fandom.com,matter-js,false,,0,,false,,TN
@@ -3358,7 +3358,7 @@ rottentomatoes.com,vue,false,,0,,false,,TN
 rottentomatoes.com,webfont,false,,0,,false,,TN
 rottentomatoes.com,yepnope,false,,0,,false,,TN
 rottentomatoes.com,yui,false,,0,,false,,TN
-rottentomatoes.com,zepto,false,1.1.6..1.2.0,1,1.1.6;1.1.7;1.2.0,true,,FN
+rottentomatoes.com,zepto,true,1.1.6..1.2.0,1,1.1.6;1.1.7;1.2.0,true,,TP
 screenrant.com,ScrollMagic,false,,0,,false,,UNKNOWN
 screenrant.com,amplifyjs,false,,0,,false,,UNKNOWN
 screenrant.com,angular,false,,0,,false,,UNKNOWN
@@ -4128,7 +4128,7 @@ walgreens.com,vue,false,,0,,false,,TN
 walgreens.com,webfont,false,,0,,false,,TN
 walgreens.com,yepnope,false,,0,,false,,TN
 walgreens.com,yui,false,,0,,false,,TN
-walgreens.com,zepto,false,1.1.6..1.2.0,1,1.1.6;1.1.7;1.2.0,true,,FN
+walgreens.com,zepto,true,1.1.6..1.2.0,1,1.1.6;1.1.7;1.2.0,true,,TP
 walmart.com,ScrollMagic,false,,0,,false,,TN
 walmart.com,amplifyjs,false,,0,,false,,TN
 walmart.com,angular,false,,0,,false,,TN

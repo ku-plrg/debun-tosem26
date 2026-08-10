@@ -594,7 +594,7 @@ cbsnews.com,kendo-ui-core,false,,0,,false,,TN
 cbsnews.com,knockout,false,,0,,false,,TN
 cbsnews.com,labjs,false,,0,,false,,TN
 cbsnews.com,leaflet,false,,0,,false,,TN
-cbsnews.com,lodash.js,true,,0,,false,,FP
+cbsnews.com,lodash.js,false,,0,,false,,TN
 cbsnews.com,mapbox-gl,false,,0,,false,,TN
 cbsnews.com,material-design-lite,false,,0,,false,,TN
 cbsnews.com,matter-js,false,,0,,false,,TN
@@ -2566,7 +2566,7 @@ microsoft.com,move.js,false,,0,,false,,TN
 microsoft.com,numeral.js,false,,0,,false,,TN
 microsoft.com,paper.js,false,,0,,false,,TN
 microsoft.com,pixi.js,false,,0,,false,,TN
-microsoft.com,preact,true,,0,,true,,TP
+microsoft.com,preact,false,,0,,true,,FN
 microsoft.com,pusher,false,,0,,false,,TN
 microsoft.com,qooxdoo,false,,0,,false,,TN
 microsoft.com,raphael,false,,0,,false,,TN
@@ -2630,7 +2630,7 @@ mlb.com,material-design-lite,false,,0,,false,,TN
 mlb.com,matter-js,false,,0,,false,,TN
 mlb.com,modernizr,false,,0,,false,,TN
 mlb.com,moment-timezone,true,0.5.44..0.5.46,10,0.5.44;0.5.45;0.5.46,true,0.5.45,TP
-mlb.com,moment.js,true,,0,,true,2.30.1,TP
+mlb.com,moment.js,false,,0,,true,2.30.1,FN
 mlb.com,mootools,false,,0,,false,,TN
 mlb.com,move.js,false,,0,,false,,TN
 mlb.com,numeral.js,false,,0,,false,,TN
@@ -2706,7 +2706,7 @@ msn.com,move.js,false,,0,,false,,TN
 msn.com,numeral.js,false,,0,,false,,TN
 msn.com,paper.js,false,,0,,false,,TN
 msn.com,pixi.js,false,,0,,false,,TN
-msn.com,preact,true,,0,,true,,TP
+msn.com,preact,false,,0,,true,,FN
 msn.com,pusher,false,,0,,false,,TN
 msn.com,qooxdoo,false,,0,,false,,TN
 msn.com,raphael,false,,0,,false,,TN

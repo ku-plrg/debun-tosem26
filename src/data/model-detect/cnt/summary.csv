@@ -1160,7 +1160,7 @@ eightsleep.com,material-design-lite,false,,0,,false,,TN
 eightsleep.com,matter-js,false,,0,,false,,TN
 eightsleep.com,modernizr,false,,0,,false,,TN
 eightsleep.com,moment-timezone,false,,0,,false,,TN
-eightsleep.com,moment.js,true,,0,,true,2.30.1,TP
+eightsleep.com,moment.js,false,,0,,true,2.30.1,FN
 eightsleep.com,mootools,false,,0,,false,,TN
 eightsleep.com,move.js,false,,0,,false,,TN
 eightsleep.com,numeral.js,false,,0,,false,,TN
@@ -1870,7 +1870,7 @@ instagram.com,preact,false,,0,,false,,TN
 instagram.com,pusher,false,,0,,false,,TN
 instagram.com,qooxdoo,false,,0,,false,,TN
 instagram.com,raphael,false,,0,,false,,TN
-instagram.com,react,false,15.0.0..15.1.0,1,15.0.0;15.0.1;15.0.2;15.1.0,true,,FN
+instagram.com,react,true,15.0.0..15.1.0,1,15.0.0;15.0.1;15.0.2;15.1.0,true,,TP
 instagram.com,require.js,false,,0,,false,,TN
 instagram.com,riot,false,,0,,false,,TN
 instagram.com,sammy.js,false,,0,,false,,TN
@@ -2630,7 +2630,7 @@ mlb.com,material-design-lite,false,,0,,false,,TN
 mlb.com,matter-js,false,,0,,false,,TN
 mlb.com,modernizr,false,,0,,false,,TN
 mlb.com,moment-timezone,true,0.5.44..0.5.46,10,0.5.44;0.5.45;0.5.46,true,0.5.45,TP
-mlb.com,moment.js,true,,0,,true,2.30.1,TP
+mlb.com,moment.js,false,,0,,true,2.30.1,FN
 mlb.com,mootools,false,,0,,false,,TN
 mlb.com,move.js,false,,0,,false,,TN
 mlb.com,numeral.js,false,,0,,false,,TN
