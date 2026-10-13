@@ -18,6 +18,15 @@ DOLOSPY_SRC=${DOLOSPY_SRC:-$ART/src/baselines/upstream-repos/AletheiaJSVersionDe
 GRAMMAR=0.23.1     # pinned: dolospy tokenises with raw ts_node_symbol() ids
 TSCORE=0.23.2      # matching ABI-14 parser.h for that grammar
 
+# The versions Table 1 was measured at. The two client pins are not housekeeping: D-Bundlr's
+# own dbundlr_eval.py parses each bundle with this tree-sitter to split it into modules, and
+# the module count is what it then runs the model over, so an unpinned upgrade moves the
+# Detection column without touching any code here. The static GRAMMAR above is a separate
+# thing — it is linked into dolospy, not used by this venv.
+TORCH=${TORCH:-2.13.0}
+TS_CLIENT=${TS_CLIENT:-0.26.0}
+TSJS_CLIENT=${TSJS_CLIENT:-0.25.0}
+
 # Pin the interpreter explicitly. The interactive shell aliases python3 to 3.12, but a
 # non-interactive bash script does not see that alias and picks up the system default,
 # which is now 3.14 — and transformers' `tokenizers` has no 3.14 wheel, so pip falls
@@ -31,15 +40,26 @@ echo "==> [1/4] server venv (tree-sitter 0.21.3 for codepredict's old Language A
 if [ ! -x "$ENVD/venv-server/bin/gunicorn" ]; then
   "$PY" -m venv --clear "$ENVD/venv-server"
   "$ENVD/venv-server/bin/pip" install -q --upgrade pip
+  # torch is installed on its own so the index below applies to it alone. D-Bundlr runs on
+  # CPU here (DBUNDLR_DEVICE=cpu, OMP_NUM_THREADS=1, gunicorn -w 1) so that its column is
+  # comparable with DEBUN's, and on Linux the default PyPI wheel is the CUDA build: ~2.5 GB
+  # of nvidia-* dependencies for a device this never touches, which also initialises CUDA on
+  # a machine that has a GPU. The CPU index gives the same version without any of that.
+  TORCH_ARGS=("torch==$TORCH")
+  if [ "$(uname -s)" = "Linux" ]; then   # not && — set -e would take the false branch as failure
+    TORCH_ARGS+=(--index-url https://download.pytorch.org/whl/cpu)
+  fi
+  "$ENVD/venv-server/bin/pip" install -q "${TORCH_ARGS[@]}"
   "$ENVD/venv-server/bin/pip" install -q \
-    torch "transformers==4.45.2" sentencepiece flask gunicorn numpy tqdm "tree-sitter==0.21.3"
+    "transformers==4.45.2" sentencepiece flask gunicorn numpy tqdm "tree-sitter==0.21.3"
 fi
 
 echo "==> [2/4] client venv (tree-sitter 0.26 for dbundlr_eval's new Language API)"
 if [ ! -x "$ENVD/venv-client/bin/pip" ]; then
   "$PY" -m venv --clear "$ENVD/venv-client"
   "$ENVD/venv-client/bin/pip" install -q --upgrade pip
-  "$ENVD/venv-client/bin/pip" install -q tree-sitter tree-sitter-javascript requests pybind11
+  "$ENVD/venv-client/bin/pip" install -q \
+    "tree-sitter==$TS_CLIENT" "tree-sitter-javascript==$TSJS_CLIENT" requests pybind11
 fi
 
 echo "==> [3/4] tree-sitter-javascript $GRAMMAR static lib"

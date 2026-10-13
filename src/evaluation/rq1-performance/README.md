@@ -104,6 +104,21 @@ pinned to **0.23.1** — dolospy tokenizes with raw `ts_node_symbol()` ids, so t
 version is baked into the prebuilt Aletheia indices, and any other version silently produces
 near-zero overlap. `src/baselines/README.md` has the evidence for that pin.
 
+Three more versions are pinned, to what Table 1 was measured at: `torch` **2.13.0**,
+`transformers` **4.45.2**, and the client venv's `tree-sitter` **0.26.0** +
+`tree-sitter-javascript` **0.25.0**. The last two are the ones that are easy to miss — they
+are a different thing from the 0.23.1 static grammar above, which is linked into dolospy and
+not used by this venv. D-Bundlr's own `dbundlr_eval.py` parses each bundle with the client
+venv's tree-sitter to split it into modules, and the module count is what the model then runs
+over, so an unpinned upgrade moves the Detection column without any code here changing.
+Override with `TORCH=`, `TS_CLIENT=`, `TSJS_CLIENT=` if you mean to.
+
+On Linux `torch` comes from `https://download.pytorch.org/whl/cpu`, because the default PyPI
+wheel is the CUDA build: ~2.5 GB of `nvidia-*` dependencies for a device this never uses, and
+it initializes CUDA on a machine that has a GPU. D-Bundlr is measured on CPU
+(`DBUNDLR_DEVICE=cpu`, `OMP_NUM_THREADS=1`, `gunicorn -w 1`) so that its column is comparable
+with DEBUN's, so a GPU must not enter the measurement even when one is available.
+
 Then the D-Bundlr server, single-threaded so its column is comparable:
 
 ```bash
