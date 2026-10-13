@@ -124,6 +124,50 @@ PYTHONPATH=src/evaluation/rq1-performance/env/dolospy-build \
   --out src/evaluation/rq1-performance/work/stage2.json
 ```
 
+### Repeating every cell
+
+`results/` is a single pass: one measurement per site per tool, and the table is the mean over
+the 56 sites. `scripts/repeat-rq1.sh` runs the same four harnesses N times each into separate
+outputs, so the table can carry a spread as well as a mean. It changes no measurement code.
+
+```bash
+bash src/evaluation/rq1-performance/scripts/repeat-rq1.sh                      # N=3, ~25 h
+N=1 SITES=digicert.com,wordpress.org \
+  bash src/evaluation/rq1-performance/scripts/repeat-rq1.sh                    # a smoke test
+```
+
+| env | default | |
+| :-- | :------ | :-- |
+| `N` | 3 | Detection passes |
+| `CRAWL_N` | 1 | Setup passes. The crawl is a network cost and every Detection pass reads the corpus it produces, so repeating it re-downloads 56 sites for a column that already carries 56 per-site measurements |
+| `SITES` | the 56 | comma-separated, for a smoke test |
+| `STAGES` | `crawl,debun,runtime,static` | |
+| `OUTDIR` | `work/repeat-n$N` | must be under `src/`; the corpus is crawled inside it |
+| `PORT` | 3446 | one gunicorn at a time |
+
+Three things it is built around:
+
+- **Warm-up.** A cold process inflates its first site — D-Bundlr's first inference after a
+  server boot took 19,377 ms against 2,471 ms warm. Every stage measures a warm-up site first
+  and the aggregator drops it; the prediction server stays up across all N passes.
+- **Corpus.** Pass 1 of the crawl is kept and every Detection pass reads it, so Setup and
+  Detection describe the same crawl. Later crawl passes are timed and deleted. Nothing touches
+  `src/data/crawled` or `src/data/data-never-remove`.
+- **Resume.** A pass is skipped when its output holds every site — row count, not file
+  existence, so an interrupted pass is continued rather than folded into the table as a whole
+  one. Delete the output to force a pass again.
+
+`scripts/aggregate-repeats.py` rolls the passes up, and the driver calls it at the end. It
+separates the two kinds of variation, because they answer different questions: **between
+passes** is the measurement's own repeatability, **between sites** is the spread the mean
+hides. It also writes the measurements behind the summary — `raw-timings.csv`
+(tool, site, pass, phase, ms) and `raw-debun-phases.csv`, which is what Fig. 14 is drawn from.
+
+Run it alone. These are timings: a browser, a build or a second measurement sharing the
+machine moves them by an order of magnitude, and the harnesses spend effort on isolation — a
+fresh browser per measurement, a seeded tool-order shuffle, D-Bundlr pinned to one worker and
+one thread — that sharing the machine throws away.
+
 ## Results
 
 Means over the 56 sites unless noted.
@@ -158,11 +202,20 @@ across both. Reproduce with:
 SITE_FILTER=<68 GT urls> FP_CACHE_DIR=src/data/fingerprint-cache \
 MATCH_THRESHOLD=84 BENCH_OUTPUT=src/evaluation/rq1-performance/work/bench-rerun.csv BENCH_FORCE_GC=1 \
 NODE_OPTIONS='--max-old-space-size=12288 --expose-gc' \
-  npx ts-node --transpile-only src/evaluation/web-detect-bench.ts
+  node -r ts-node/register/transpile-only src/evaluation/web-detect-bench.ts
 
-SITE_SRC_DIR=src/src/data/crawled SITE_FILTER=<56 common urls> ... \
+SITE_SRC_DIR=src/data/crawled SITE_FILTER=<56 common urls> ... \
   BENCH_OUTPUT=src/evaluation/rq1-performance/work/bench-56.csv ...
 ```
+
+`node -r`, not `npx ts-node`: the bench extracts each site in a worker thread, and the worker
+resolves its own `.ts` entry only if the register hook is in the parent's `execArgv` for it to
+inherit. Launched through npx that array is empty and the first site dies with
+`ERR_UNKNOWN_FILE_EXTENSION`. The heap flag has to stay in `NODE_OPTIONS` for the same
+reason read the other way: a command-line `--max-old-space-size` *does* land in `execArgv`,
+and the worker rejects it with `invalid execArgv flags`. `./debun.sh run RQ1` spawns the
+working form itself (`rq1-performance/index.ts`), so it is the shorter way to re-measure
+this column.
 
 Medians: Setup 1.22 / 1.24 / 1.22 / 8.54 / 8.54 / 8.54 s; Detection 16.0 / 34.0 / 158.5 ms
 and 251.1 / 125.8 / 1.54 s. Debun's body figure is **1.7 s**.

@@ -24,9 +24,21 @@ function arg(n: string, d: string): string {
   return i >= 0 ? process.argv[i + 1] : d;
 }
 const OUT = arg('out', path.join(OUTDIR, 'crawl_timing.json'));
+// Empty means crawl_timing_one.ts picks its own default root. It is resolved against src/,
+// not the repo root, because crawler.ts joins it onto __dirname/'../'.
+const ROOT = arg('root', '');
+// --all re-measures every site in the common set, not only the ones results/ has no time for.
+// Repeated Setup measurement needs the whole set each pass; the default stays incremental.
+const ALL = process.argv.includes('--all');
 fs.mkdirSync(path.dirname(OUT), { recursive: true });
 
-const common: string[] = JSON.parse(fs.readFileSync(path.join(RESULTS, 'common_set.json'), 'utf-8'));
+// --sites narrows the set to a JSON list of site names; without it, the whole common set.
+// A repeated Setup measurement has to crawl the same sites the Detection stages measure, and
+// a smoke test has to be able to crawl two of them.
+const SITES_FILE = arg('sites', '');
+const common: string[] = JSON.parse(
+  fs.readFileSync(SITES_FILE || path.join(RESULTS, 'common_set.json'), 'utf-8')
+);
 const prior: Record<string, number> = {};
 for (const r of JSON.parse(fs.readFileSync(path.join(RESULTS, 'crawl100.json'), 'utf-8')).rows) {
   if (typeof r.crawlMs === 'number') prior[r.site] = r.crawlMs;
@@ -35,8 +47,8 @@ for (const r of JSON.parse(fs.readFileSync(path.join(RESULTS, 'crawl100.json'), 
 type Row = { site: string; crawlMs?: number; files?: number; crawlError?: string; error?: string };
 const rows: Row[] = fs.existsSync(OUT) ? JSON.parse(fs.readFileSync(OUT, 'utf-8')).rows : [];
 const done = new Set(rows.map((r) => r.site));
-const todo = common.filter((s) => !(s in prior) && !done.has(s));
-console.log(`common set ${common.length}; already timed ${common.filter((s) => s in prior).length}; to crawl ${todo.length}`);
+const todo = common.filter((s) => (ALL || !(s in prior)) && !done.has(s));
+console.log(`common set ${common.length}; already timed ${common.filter((s) => s in prior).length}; to crawl ${todo.length}${ALL ? ' (--all)' : ''}${ROOT ? ` into src/${ROOT}` : ''}`);
 
 for (let i = 0; i < todo.length; i++) {
   const site = todo[i];
@@ -44,7 +56,8 @@ for (let i = 0; i < todo.length; i++) {
   try {
     const stdout = execFileSync(
       'npx',
-      ['ts-node', '--transpile-only', path.join(__dirname, 'crawl_timing_one.ts'), site],
+      ['ts-node', '--transpile-only', path.join(__dirname, 'crawl_timing_one.ts'), site,
+        ...(ROOT ? [ROOT] : [])],
       { encoding: 'utf-8', cwd: ART, timeout: 240000, maxBuffer: 64 * 1024 * 1024,
         env: { ...process.env, TS_NODE_COMPILER_OPTIONS: TSNODE_OPTS } }
     );
