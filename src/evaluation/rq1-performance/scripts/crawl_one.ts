@@ -1,11 +1,11 @@
 /**
  * Crawl ONE site and print {crawlMs, filePaths} as JSON on stdout.
  *
- * Runs as a child process because DEBUN's crawler can die in a way no caller can catch:
- * src/cmd/crawler.ts:80 handles a WriteStream error by calling unlinkSync, which itself
- * throws ENOTDIR when the path collides with an existing directory (seen on
- * cloudflare.com). That escapes the await chain as an uncaught exception, so isolating
- * each crawl keeps one bad site from ending a 100-site run.
+ * Runs as a child process so that one site cannot end a 100-site run. That isolation was
+ * added for a crawler crash — a WriteStream error was handled by an unlinkSync that threw
+ * ENOTDIR inside the event handler and escaped the await chain, which is how cloudflare.com
+ * and workers.dev recorded zero files. The crash is fixed in src/cmd/crawler.ts; the
+ * uncaughtException handler below stays as the backstop for whatever the next one is.
  *
  * stdout is flushed before exit — calling process.exit() straight after write()
  * truncates a piped stdout, which silently cut the JSON for sites with many files.

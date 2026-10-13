@@ -77,8 +77,21 @@ async function downloadFile(url: string, filePath: string) {
             });
           });
           file.on('error', (err) => {
-            fs.unlinkSync(filePath);
-            throw new Error(err as any);
+            // Both the throw and the unlink run inside a stream event handler, so neither is
+            // catchable by the promise around them: they take the whole crawl down. A path
+            // whose parent is itself a file (.../go9u/caTNW...) fails createWriteStream with
+            // ENOTDIR and then fails this unlink with ENOTDIR again, which is how
+            // cloudflare.com and workers.dev ended their crawl with zero files. Report the
+            // file and let the rest of the site continue.
+            try {
+              fs.unlinkSync(filePath);
+            } catch {
+              // Nothing to clean up: the stream never created the file.
+            }
+            logError(
+              `Error writing file "${filePath}": ${(err as any)?.message ?? err}`
+            );
+            resolve(false);
           });
         } else throw new Error(`[${response.status}] ${response.statusText}`);
       })

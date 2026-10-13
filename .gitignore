@@ -75,6 +75,9 @@ src/data/*.log
 # The pipeline scripts + vendored libs_data under src/other-tool/ptv-repro/ ARE committed.
 tmp/
 
+# The crawler appends every failed download next to itself (src/cmd/crawler.ts logError).
+src/cmd/error-log.txt
+
 # Committed fixtures & small reference outputs are NOT ignored:
 #   src/data/birth_sanitized.json
 #   src/data/other-tool/*.json

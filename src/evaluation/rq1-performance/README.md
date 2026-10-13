@@ -49,7 +49,7 @@ loss is not zero.
 
 | Table 1 row | script | notes |
 | :---------- | :----- | :---- |
-| Setup, static 3 | `scripts/crawl_sites.ts` → `crawl_one.ts` | one child process per site; DEBUN's crawler can die uncatchably (`src/cmd/crawler.ts:80` `unlinkSync` throws ENOTDIR) |
+| Setup, static 3 | `scripts/crawl_sites.ts` → `crawl_one.ts` | one child process per site, so one bad site cannot end the run |
 | Setup, runtime 3 | `scripts/stage3c_runtime_tools.mjs` (`pageLoadMs`) | fresh browser per measurement, tool order shuffled with a fixed seed |
 | Detection, DEBUN | `src/evaluation/web-detect-bench.ts`, driven by `run RQ1` | `hashTotalMs` + `detectTotalMs` |
 | Detection, runtime 3 | `scripts/stage3c_runtime_tools.mjs` (`computeMs`) | common 5 s settle before triggering |
@@ -174,6 +174,13 @@ Two caveats on this column:
 - **Two crawls are excluded**: `cloudflare.com` and `workers.dev` each spent ~94 s and returned
   zero files, so their duration measures the failure, not the cost. `run RQ1` drops any crawl
   with no file and prints which ones it dropped.
+
+  Both were a crawler crash, not the sites: a WriteStream error was handled by an
+  `unlinkSync` that itself threw ENOTDIR inside the event handler, which no caller could
+  catch. That is fixed in `src/cmd/crawler.ts`, and `cloudflare.com` now completes with 91
+  files in 208 s. This column is still the measurement taken before the fix, so re-measuring
+  Setup would recover both sites and raise the static mean — neither it nor Table 1 has been
+  re-run.
 - **The re-crawled content is not the content that was analyzed.** google.com returned 8 files
   where the measured corpus holds 18; twitter.com returned 427. Setup is therefore a
   representative crawl cost for the same site, not the crawl that produced the Detection input.
