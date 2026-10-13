@@ -14,20 +14,26 @@ import sys
 
 import torch
 
-CODEPREDICT = os.environ["CODEPREDICT"]  # <D-Bundlr checkout>/codepredict
+# Resolve relative paths against the repository root, not the working directory: gunicorn is
+# started with `--chdir src/baselines`, so a repo-relative path is otherwise looked up under
+# src/baselines/. Every other path in this artifact is repo-relative.
+_REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+
+def _from_repo(p: str) -> str:
+    return p if os.path.isabs(p) else os.path.join(_REPO, p)
+
+
+# Unresolved, this is the import below dying with ModuleNotFoundError: No module named
+# 'settings' rather than anything that names the path it failed on.
+CODEPREDICT = _from_repo(os.environ["CODEPREDICT"])  # <D-Bundlr checkout>/codepredict
 sys.path.insert(0, CODEPREDICT)
 
 import settings  # noqa: E402
 
-# Resolve a relative MODEL_DIR against the repository root, not the working directory:
-# gunicorn is started with `--chdir src/baselines`, so a repo-relative path like
-# src/data/baselines/debun-model would otherwise be looked up under src/baselines/ and the
-# worker dies on a missing labelMap.pkl. Every other path in this artifact is repo-relative.
-_REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Unresolved, the worker dies on a missing labelMap.pkl.
 _model_dir = os.environ["MODEL_DIR"]
-if not os.path.isabs(_model_dir):
-    _model_dir = os.path.join(_REPO, _model_dir)
-settings.output_dir = _model_dir  # dir with labelMap.pkl + checkpoint-best-f1/
+settings.output_dir = _from_repo(_model_dir)  # dir with labelMap.pkl + checkpoint-best-f1/
 _dev = os.environ.get("DBUNDLR_DEVICE")
 if _dev:
     settings.device = torch.device(_dev)
