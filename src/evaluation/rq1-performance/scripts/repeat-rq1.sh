@@ -49,6 +49,26 @@ WARM_MEASURED="${WARM_MEASURED:-digicert.com}"
 WARM_OUTSIDE="${WARM_OUTSIDE:-wikipedia.org}"
 
 mkdir -p "$OUTDIR/logs" || exit 1
+
+# One browser for the whole run. Two stages drive one: the crawl (Setup for the static tools)
+# and stage3c (Setup for the runtime ones). The crawler asks for /usr/bin/chromium — the
+# Docker image's browser — and falls back to puppeteer's own when that launch throws, while
+# stage3c always takes puppeteer's. On a machine carrying both, the two halves of the Setup
+# column would be measured against different browsers, and which one the crawl got would
+# depend on whether a distribution package happened to be installed. Pin both, and stop here
+# rather than 25 hours in if the browser is missing.
+if [ -z "${PUPPETEER_EXECUTABLE_PATH:-}" ]; then
+  CHROME="$(node -p "try{require('puppeteer').executablePath()}catch(e){''}" 2>/dev/null)"
+  if [ -n "$CHROME" ] && [ -x "$CHROME" ]; then
+    export PUPPETEER_EXECUTABLE_PATH="$CHROME"
+  else
+    echo "puppeteer's Chrome is not installed${CHROME:+ at $CHROME}."
+    echo "  npx puppeteer browsers install chrome"
+    exit 1
+  fi
+fi
+echo "browser: $PUPPETEER_EXECUTABLE_PATH"
+
 stage_wanted() { case ",$STAGES," in *",$1,"*) return 0;; *) return 1;; esac; }
 say() { printf '\n=== %s ===\n' "$1"; }
 
@@ -143,9 +163,15 @@ if stage_wanted debun; then
     out="$OUTDIR/debun-r$r.csv"
     if pass_done "$out" "$((NSITES + 1))"; then say "DEBUN pass $r/$N — already complete, skipping"; continue; fi
     say "DEBUN pass $r/$N"
+    # --expose-gc but NOT BENCH_FORCE_GC: the flag's collections run inside the two timed
+    # windows, so they land in hashTotalMs and detectTotalMs. results/bench-56.csv was
+    # measured without it and reproduces here (detectTotalMs minus its three sub-phases is
+    # 1.4 / 6.5 / 7.5 ms stored against 1.6 / 6.3 / 10.4 ms off, and 218 / 359 / 185 ms on).
+    # --expose-gc on its own only lets the bench collect once before reading the index's
+    # resident baseline, which is what `run RQ1` passes too.
     SITE_SRC_DIR="$CORPUS_REL" SITE_FILTER="$WARM_MEASURED,$SITE_LIST" \
     FP_CACHE_DIR=src/data/fingerprint-cache MATCH_THRESHOLD=84 \
-    BENCH_OUTPUT="$out" BENCH_FORCE_GC=1 \
+    BENCH_OUTPUT="$out" \
     NODE_OPTIONS='--max-old-space-size=12288 --expose-gc' \
       node -r ts-node/register/transpile-only src/evaluation/web-detect-bench.ts \
       2>&1 | tee "$OUTDIR/logs/debun-r$r.log"

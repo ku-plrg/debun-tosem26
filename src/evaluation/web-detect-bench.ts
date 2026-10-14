@@ -18,7 +18,13 @@
  *   MATCH_THRESHOLD     default 85 (percent)
  *   MIN_POG_NODES       default 0 (LoC≥6 cache build already drops short fns)
  *   MIN_CANDIDATE       default 5
- *   BENCH_FORCE_GC       set to 1 to run gc() between phases (requires --expose-gc)
+ *   BENCH_FORCE_GC      set to 1 to run gc() between phases (requires --expose-gc).
+ *                       NOT for timing: the collections sit inside the windows t0..t1 and
+ *                       t1..t2, so they are counted as hashTotalMs and detectTotalMs. On a
+ *                       600 MB heap that is +200..350 ms of detectTotalMs, against ~7 ms
+ *                       without it. It is a memory-profiling switch. results/bench-56.csv
+ *                       and the paper's numbers were measured with it off; `run RQ1` passes
+ *                       --expose-gc but never this.
  *   SITE_SRC_DIR        crawled-script root (default src/data/data-never-remove)
  *   SITE_FILTER         comma-separated site names (default: all sites
  *                       under data-never-remove with non-zero JS files)

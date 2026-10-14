@@ -215,13 +215,25 @@ across both. Reproduce with:
 
 ```
 SITE_FILTER=<68 GT urls> FP_CACHE_DIR=src/data/fingerprint-cache \
-MATCH_THRESHOLD=84 BENCH_OUTPUT=src/evaluation/rq1-performance/work/bench-rerun.csv BENCH_FORCE_GC=1 \
+MATCH_THRESHOLD=84 BENCH_OUTPUT=src/evaluation/rq1-performance/work/bench-rerun.csv \
 NODE_OPTIONS='--max-old-space-size=12288 --expose-gc' \
   node -r ts-node/register/transpile-only src/evaluation/web-detect-bench.ts
 
 SITE_SRC_DIR=src/data/crawled SITE_FILTER=<56 common urls> ... \
   BENCH_OUTPUT=src/evaluation/rq1-performance/work/bench-56.csv ...
 ```
+
+`--expose-gc` but **not** `BENCH_FORCE_GC=1`, which this block used to carry. That flag's
+collections run inside the two timed windows — `forceGc()` sits between `t0` and the extract
+worker, and between `t1` and `detect()` — so they are charged to `hashTotalMs` and
+`detectTotalMs`. `--expose-gc` on its own only lets the bench collect once before reading the
+index's resident baseline, which is what `run RQ1` passes and all it passes.
+
+The stored CSVs were measured with it off, and say so themselves: `detectTotalMs` minus its
+three sub-phases is the span that holds the collection, and it is a median **7.7 ms** in
+`bench-56.csv` and 8.7 ms in `bench-rerun.csv`. Re-measuring three of those sites here gives
+1.6 / 6.3 / 10.4 ms with the flag off against 218 / 359 / 185 ms with it on, and the stored
+rows read 1.4 / 6.5 / 7.5 ms. Turning it on inflates `detectTotalMs` four- to fivefold.
 
 `node -r`, not `npx ts-node`: the bench extracts each site in a worker thread, and the worker
 resolves its own `.ts` entry only if the register hook is in the parent's `execArgv` for it to

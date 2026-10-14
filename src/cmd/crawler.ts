@@ -157,12 +157,18 @@ async function downloadScripts(
   rootFolder: string = 'data/crawled'
 ) {
   console.time(`Download-${targetUrl}`);
+  // /usr/bin/chromium is the Docker image's browser; off the image the launch throws and the
+  // fallback takes puppeteer's own. That silently picks a different browser per machine, and
+  // the crawl is a measured cell of Table 1 (Setup, static tools) while the runtime tools are
+  // measured against puppeteer's Chrome either way. PUPPETEER_EXECUTABLE_PATH — puppeteer's
+  // own variable — pins both to one browser; unset, nothing changes.
+  const chromePath = process.env['PUPPETEER_EXECUTABLE_PATH'] || '/usr/bin/chromium';
   let browser: Browser;
   try {
     browser = await puppeteer.launch({
       headless,
       args: ['--no-sandbox'],
-      executablePath: '/usr/bin/chromium',
+      executablePath: chromePath,
     });
   } catch (error) {
     browser = await puppeteer.launch({
