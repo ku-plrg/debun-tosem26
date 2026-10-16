@@ -63,10 +63,23 @@ const benchOut = process.env['BENCH_OUTPUT'] ?? 'data/bench-per-site.csv';
 type GlobalWithGc = typeof globalThis & { gc?: () => void };
 const exposedGlobal = global as GlobalWithGc;
 
+// BENCH_WORKER_JS names the extract worker compiled to JavaScript (repeat-rq1.sh builds it).
+// Each worker is a fresh isolate, so a .ts worker loads ts-node and transpiles DEBUN anew on
+// every site, ~170 ms that a deployment, which loads its code once, would never pay. The
+// compiled worker skips that and leaves the phase timings unchanged.
+const workerJs = process.env['BENCH_WORKER_JS'];
+
 function getWorkerExecArgv(): string[] {
   const args = [...process.execArgv].filter(
     (a) => a !== '--expose-gc' && !a.startsWith('--expose-gc=') && a !== '--expose_wasm'
   );
+  if (workerJs) {
+    // Drop the ts-node hook the bench itself was started with, or the worker loads it anyway.
+    return args.filter((a, i) =>
+      !((a === '-r' || a === '--require') && args[i + 1]?.includes('ts-node/register')) &&
+      !((args[i - 1] === '-r' || args[i - 1] === '--require') && a.includes('ts-node/register')) &&
+      !((a.startsWith('-r=') || a.startsWith('--require=')) && a.includes('ts-node/register')));
+  }
   const hasTsNodeRegister = args.some((a, i) => {
     if (a === '-r' || a === '--require') {
       return args[i + 1]?.includes('ts-node/register/transpile-only') ?? false;
@@ -111,7 +124,9 @@ function runExtractInWorker(site: string): Promise<{
   failCount: number;
   timings: Required<FingerprintTimings>;
 }> {
-  const workerPath = path.join(__dirname, 'web-detect-bench-extract-worker.ts');
+  const workerPath = workerJs
+    ? path.resolve(workerJs)
+    : path.join(__dirname, 'web-detect-bench-extract-worker.ts');
   const workerExecArgv = getWorkerExecArgv();
   return new Promise((resolve, reject) => {
     const worker = new Worker(workerPath, {

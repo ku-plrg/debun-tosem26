@@ -159,6 +159,12 @@ fi
 # drops, and once in its own place in rank order.
 if stage_wanted debun; then
   [ -d "$CORPUS_REL" ] || { echo "no corpus at $CORPUS_REL — run the crawl stage first"; exit 1; }
+  # The bench analyzes each site in a fresh Worker. Compile that worker once, so no worker
+  # loads ts-node and transpiles DEBUN again before its site (web-detect-bench.ts).
+  WORKER_JS_DIR="$OUTDIR/bench-js"
+  npx tsc src/evaluation/web-detect-bench-extract-worker.ts --outDir "$WORKER_JS_DIR" \
+    --rootDir src --target ES2020 --module commonjs --esModuleInterop --skipLibCheck \
+    || { echo "could not compile the extract worker — stopping"; exit 1; }
   for r in $(seq 1 "$N"); do
     out="$OUTDIR/debun-r$r.csv"
     if pass_done "$out" "$((NSITES + 1))"; then say "DEBUN pass $r/$N — already complete, skipping"; continue; fi
@@ -172,6 +178,7 @@ if stage_wanted debun; then
     SITE_SRC_DIR="$CORPUS_REL" SITE_FILTER="$WARM_MEASURED,$SITE_LIST" \
     FP_CACHE_DIR=src/data/fingerprint-cache MATCH_THRESHOLD=84 \
     BENCH_OUTPUT="$out" \
+    BENCH_WORKER_JS="$WORKER_JS_DIR/evaluation/web-detect-bench-extract-worker.js" \
     NODE_OPTIONS='--max-old-space-size=12288 --expose-gc' \
       node -r ts-node/register/transpile-only src/evaluation/web-detect-bench.ts \
       2>&1 | tee "$OUTDIR/logs/debun-r$r.log"
